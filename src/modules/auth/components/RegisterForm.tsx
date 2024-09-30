@@ -2,20 +2,24 @@
 
 import { useFormik } from 'formik';
 import { useTranslations } from 'next-intl';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
-import zxcvbn from 'zxcvbn';
 
-import { passwordClasses } from '@/modules/auth/constants/password';
+import PasswordValidator from '@/modules/auth/components/PasswordValidator';
+import {
+  PasswordValidation,
+  validatePassword,
+} from '@/modules/auth/utils/validatePassword';
 import { Button } from '@/modules/common/ui/components/button';
 import { Checkbox } from '@/modules/common/ui/components/checkbox';
 import HintText from '@/modules/common/ui/components/hintText';
 import { Input } from '@/modules/common/ui/components/input';
 import { Label } from '@/modules/common/ui/components/label';
-import { cn } from '@/modules/common/ui/lib/utils';
 
 const RegisterForm = () => {
-  const [passwordTest, setPasswordTest] = useState<zxcvbn.ZXCVBNResult>();
+  const passRef = useRef<HTMLInputElement>(null);
+  const [passFocused, setPassFocused] = useState<boolean>(false);
+  const [validations, setValidations] = useState<PasswordValidation>();
   const t = useTranslations('Register');
   const {
     handleSubmit,
@@ -37,7 +41,12 @@ const RegisterForm = () => {
   });
 
   useEffect(() => {
-    setPasswordTest(zxcvbn(values.password, [values.email, 'Satoshi']));
+    if (values.password !== '') {
+      setTimeout(() => {
+        passRef.current?.focus();
+      }, 1);
+    }
+    setValidations(validatePassword(values.password));
   }, [values.password]);
 
   return (
@@ -52,13 +61,15 @@ const RegisterForm = () => {
           value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
+          autoComplete='off'
         />
         {touched.email && errors.email && (
           <HintText variant='error'>{errors.email}</HintText>
         )}
       </span>
-      <span>
+      <span className='relative'>
         <Label htmlFor='password'>{t('password')}</Label>
+
         <Input
           type='password'
           id='password'
@@ -66,41 +77,20 @@ const RegisterForm = () => {
           placeholder={t('passwordPlaceholder')}
           value={values.password}
           onChange={handleChange}
-          onBlur={handleBlur}
-          autoComplete='new-password'
+          onBlur={(e) => {
+            handleBlur(e);
+            setPassFocused(false);
+          }}
+          autoComplete='current-password'
+          ref={passRef}
+          onFocus={() => setPassFocused(true)}
         />
-        <HintText
-          className={cn([
-            'opacity-0',
-            touched.password &&
-              (errors.password ?? passwordTest?.feedback.warning) &&
-              'opacity-100',
-          ])}
-          variant='error'
-        >
-          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing*/}
-          {errors.password || passwordTest?.feedback.warning || '.'}
-        </HintText>
-        <div className='flex gap-2 items-center'>
-          <p className='text-sm text-zinc-200'>{t('passwordStrengthLabel')}:</p>
-          {/*eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
-          <p
-            className={cn(
-              [passwordClasses[passwordTest?.score ?? 1]],
-              values.password.length === 0 && 'text-zinc-200',
-              'text-base font-bold',
-            )}
-          >
-            {t(
-              `passwordStrength${values.password.length > 0 ? (passwordTest?.score ?? '0') : 'None'}`,
-            )}
-          </p>
-        </div>
+        <PasswordValidator open={passFocused} validations={validations} />
       </span>
-      <span className='flex items-center space-x-2 pt-6'>
+      <span className='flex items-center space-x-2 '>
         <Checkbox id='terms' />
-        <Label htmlFor='terms' className='text-base'>
-          Si acepto tilín
+        <Label htmlFor='terms' className='text-sm'>
+          {t('terms')}
         </Label>
       </span>
 
@@ -109,7 +99,9 @@ const RegisterForm = () => {
           size='lg'
           className='w-full'
           loading={isSubmitting}
-          disabled={(passwordTest?.score ?? 0) < 2}
+          disabled={Object.values(validations ?? { a: false })
+            .map((v) => v)
+            .includes(false)}
         >
           Register
         </Button>

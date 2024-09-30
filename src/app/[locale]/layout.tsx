@@ -33,10 +33,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html
-      lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} antialiased dark h-full`}
-    >
+    <html lang={locale} className={`${geistSans.className} antialiased dark h-full`}>
       <head>
         <link rel='icon' href='/favicon.ico' sizes='any' />
       </head>

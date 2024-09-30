@@ -40,13 +40,11 @@
     "forgotPassword": "I forgot my password",
     "mainAction": "Log In",
     "registerLabel": "Create a Satoshi account",
-    "passwordStrengthLabel": "Security",
-    "passwordStrengthNone": "None",
-    "passwordStrength0": "Very Weak",
-    "passwordStrength1": "Weak",
-    "passwordStrength2": "Acceptable",
-    "passwordStrength3": "Good",
-    "passwordStrength4": "Excellent"
+    "terms": "I accept the terms and conditions of service",
+    "length": "Greater than 8 characters",
+    "uppercase": "Contains uppercase letters",
+    "lowercase": "Contains lowercase letters",
+    "specialChars": "Contains special characters"
   },
   "Verification": {
     "completedStep": "Completed",
