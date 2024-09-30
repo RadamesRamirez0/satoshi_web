@@ -1,0 +1,9 @@
+import {
+  RegisterDTO,
+  RegisterResponse,
+} from '@/modules/auth/repository/dtos/registerDto';
+import { ApiEndpointPost } from '@/modules/common/interfaces/apiEndpoint';
+
+export const register: ApiEndpointPost<RegisterResponse, RegisterDTO> = {
+  url: '/v1/users/register',
+};

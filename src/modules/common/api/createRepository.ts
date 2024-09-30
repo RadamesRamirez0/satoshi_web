@@ -5,7 +5,6 @@ import {
   ApiEndpointPost,
   ApiEndpointPut,
 } from '@/modules/common/interfaces/apiEndpoint';
-import { ApiResponse } from '@/modules/common/interfaces/apiResponse';
 
 type Endpoint =
   | ApiEndpointGet<unknown, unknown, unknown>
@@ -15,13 +14,13 @@ type Endpoint =
 
 type Repository<T extends Record<string, Endpoint>> = {
   [K in keyof T]: T[K] extends ApiEndpointGet<infer R, infer Q, infer P>
-    ? (queryParams?: Q, pathParams?: P) => Promise<ApiResponse<R>>
+    ? (queryParams?: Q, pathParams?: P) => Promise<R>
     : T[K] extends ApiEndpointPost<infer R, infer B, infer P>
-      ? (body: B, pathParams?: P) => Promise<ApiResponse<R>>
+      ? (body: B, pathParams?: P) => Promise<R>
       : T[K] extends ApiEndpointPut<infer R, infer B, infer P>
-        ? (body: B, pathParams?: P) => Promise<ApiResponse<R>>
+        ? (body: B, pathParams?: P) => Promise<R>
         : T[K] extends ApiEndpointDelete<infer R, infer P>
-          ? (pathParams?: P) => Promise<ApiResponse<R>>
+          ? (pathParams?: P) => Promise<R>
           : never;
 };
 

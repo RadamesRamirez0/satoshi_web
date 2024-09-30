@@ -29,6 +29,7 @@ const RegisterForm = () => {
     touched,
     errors,
     isSubmitting,
+    isValid,
   } = useFormik({
     initialValues: { email: '', password: '' },
     validationSchema: Yup.object({
@@ -99,9 +100,11 @@ const RegisterForm = () => {
           size='lg'
           className='w-full'
           loading={isSubmitting}
-          disabled={Object.values(validations ?? { a: false })
-            .map((v) => v)
-            .includes(false)}
+          disabled={
+            Object.values(validations ?? { a: false })
+              .map((v) => v)
+              .includes(false) || !isValid
+          }
         >
           Register
         </Button>

@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/modules/common/interfaces/apiResponse';
 import { OrderType } from '@/modules/fiat/models/orderType';
 import { PaymentMethods } from '@/modules/fiat/models/paymentMethods';
 import { PriceEstimation } from '@/modules/fiat/models/priceEstimation';
@@ -10,4 +11,4 @@ export interface PriceEstimationDTO {
   amount_in_quoute_currency?: string;
 }
 
-export type PriceEstimationResponse = PriceEstimation;
+export type PriceEstimationResponse = ApiResponse<PriceEstimation>;
