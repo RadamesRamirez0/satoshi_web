@@ -1,0 +1,58 @@
+{
+  "MainNavigationMenu": {
+    "buyCrypto": "Comprar Cripto",
+    "p2p": "P2P"
+  },
+  "BuySell": {
+    "buying": "Comprar",
+    "buyingSpend": "Tú pagas",
+    "buyingReceive": "Tú recibes",
+    "buyingLoginSign": "Iniciar Sesión / Registrarse",
+    "selling": "Vender",
+    "sellingSpend": "Tú vendes",
+    "sellingReceive": "Tú recibes",
+    "sellingLoginSign": "Iniciar Sesión / Registrarse"
+  },
+  "Login": {
+    "title": "Iniciar Sesión",
+    "email": "Correo Electrónico",
+    "emailPlaceholder": "Tu correo electrónico",
+    "emailError": "Correo electrónico no válido",
+    "emailRequired": "Debes ingresar tu correo electrónico",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Tu contraseña",
+    "passwordRequired": "Debes ingresar tu contraseña",
+    "forgotPassword": "Olvidé mi contraseña",
+    "mainAction": "Iniciar Sesión",
+    "registerLabel": "Crear una cuenta en Satoshi"
+  },
+  "Register": {
+    "title": "Registrarse",
+    "email": "Correo Electrónico",
+    "emailPlaceholder": "Tu correo electrónico",
+    "emailError": "Correo electrónico no válido",
+    "emailRequired": "Debes ingresar tu correo electrónico",
+    "password": "Contraseña",
+    "passwordError": "Contraseña no válida",
+    "passwordPlaceholder": "Tu contraseña"
+  },
+  "Verification": {
+    "completedStep": "Completado",
+    "pendingStep": "Pendiente",
+
+    "step1Title": "Verifica email",
+    "step1CompleteTitle": "Primero, verifica tu correo electrónico",
+    "step1Body": "Te enviaremos un email con un enlace para confirmar tu correo electrónico",
+    "step1Action": "Enviar email",
+
+    "step2Title": "Verifica tu identidad",
+    "step2CompleteTitle": "Ahora verifica tu identidad",
+    "step2Body": "Te pediremos tu identificación oficial y que nos muestres tu rostro en video",
+    "step2Action": "Realizar KYC",
+
+    "step3Title": "Tu primera compra",
+    "step3CompleteTitle": "¡Ya estás! Realiza tu primera transacción",
+    "step3Body": "Te enviaremos un email con un enlace para confirmar tu correo electrónico",
+    "step3Action": "Comprar/Vender Cripto"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "MainNavigationMenu": {
+    "buyCrypto": "Buy Crypto",
+    "p2p": "P2P"
+  },
+  "BuySell": {
+    "buying": "Buy",
+    "buyingSpend": "You pay",
+    "buyingReceive": "You receive",
+    "buyingLoginSign": "Log In / Sign Up",
+    "selling": "Sell",
+    "sellingSpend": "You sell",
+    "sellingReceive": "You receive",
+    "sellingLoginSign": "Log In / Sign Up"
+  },
+  "Login": {
+    "title": "Log In",
+    "email": "Email",
+    "emailPlaceholder": "Your email",
+    "emailError": "Invalid email address",
+    "emailRequired": "You must enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Your password",
+    "passwordRequired": "You must enter your password",
+    "forgotPassword": "I forgot my password",
+    "mainAction": "Log In",
+    "registerLabel": "Create a Satoshi account"
+  },
+  "Register": {
+    "title": "Register",
+    "email": "Email",
+    "emailPlaceholder": "Your email",
+    "emailError": "Invalid email address",
+    "emailRequired": "You must enter your email",
+    "password": "Password",
+    "passwordError": "Invalid password",
+    "passwordPlaceholder": "Your password",
+    "passwordRequired": "You must enter your password",
+    "passwordMinLength": "Password must be at least 8 characters",
+    "forgotPassword": "I forgot my password",
+    "mainAction": "Log In",
+    "registerLabel": "Create a Satoshi account",
+    "passwordStrengthLabel": "Security",
+    "passwordStrengthNone": "None",
+    "passwordStrength0": "Very Weak",
+    "passwordStrength1": "Weak",
+    "passwordStrength2": "Acceptable",
+    "passwordStrength3": "Good",
+    "passwordStrength4": "Excellent"
+  },
+  "Verification": {
+    "completedStep": "Completed",
+    "pendingStep": "Pending",
+
+    "step1Title": "Verify email",
+    "step1CompleteTitle": "First, verify your email address",
+    "step1Body": "We will send you an email with a link to confirm your email address",
+    "step1Action": "Send email",
+
+    "step2Title": "Verify your identity",
+    "step2CompleteTitle": "Now verify your identity",
+    "step2Body": "We will ask for your official ID and a video of your face",
+    "step2Action": "Start KYC",
+
+    "step3Title": "Your first purchase",
+    "step3CompleteTitle": "You're all set! Make your first transaction",
+    "step3Body": "We will send you an email with a link to confirm your email address",
+    "step3Action": "Buy/Sell Crypto"
+  }
+}
