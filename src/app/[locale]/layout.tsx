@@ -2,17 +2,13 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
+import { Toaster } from 'react-hot-toast';
 
 import '../globals.css';
 
 const geistSans = localFont({
   src: '../../../public/fonts/GeistVF.woff',
   variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: '../../../public/fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
   weight: '100 900',
 });
 
@@ -38,7 +34,10 @@ export default async function LocaleLayout({
         <link rel='icon' href='/favicon.ico' sizes='any' />
       </head>
       <body className='flex flex-col'>
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
+          {children}
+          <Toaster position='top-center' />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

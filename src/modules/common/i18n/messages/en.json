@@ -24,7 +24,8 @@
     "passwordRequired": "You must enter your password",
     "forgotPassword": "I forgot my password",
     "mainAction": "Log In",
-    "registerLabel": "Create a Satoshi account"
+    "registerLabel": "Create a Satoshi account",
+    "defaultError": "Incorrect email or password"
   },
   "Register": {
     "title": "Register",
@@ -44,7 +45,10 @@
     "length": "Greater than 8 characters",
     "uppercase": "Contains uppercase letters",
     "lowercase": "Contains lowercase letters",
-    "specialChars": "Contains special characters"
+    "specialChars": "Contains special characters",
+    "toastSuccess": "Succesfully created account",
+    "defaultError": "An error ocurred. Try again later",
+    "emailTakenError": "Email already registered"
   },
   "Verification": {
     "completedStep": "Completed",

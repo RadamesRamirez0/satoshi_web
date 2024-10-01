@@ -5,5 +5,6 @@ import {
 import { ApiEndpointPost } from '@/modules/common/interfaces/apiEndpoint';
 
 export const register: ApiEndpointPost<RegisterResponse, RegisterDTO> = {
+  method: 'POST',
   url: '/v1/users/register',
 };

@@ -46,7 +46,7 @@ export const createRepository = <T extends Record<string, Endpoint>>(
       acc[key] = async (
         body: Parameters<typeof post>[0]['body'],
         pathParams?: Parameters<typeof post>[0]['pathParams'],
-      ) => post({ ...value, body } as ApiEndpointPost<unknown, unknown>);
+      ) => post({ ...value, body, pathParams });
     }
 
     if (value.method === 'PUT') {
@@ -54,7 +54,7 @@ export const createRepository = <T extends Record<string, Endpoint>>(
       acc[key] = async (
         body: Parameters<typeof put>[0]['body'],
         pathParams?: Parameters<typeof put>[0]['pathParams'],
-      ) => put({ ...value, body } as ApiEndpointPut<unknown, unknown>);
+      ) => put({ ...value, body, pathParams });
     }
     if (value.method === 'DELETE') {
       //@ts-expect-error No pasada nada home

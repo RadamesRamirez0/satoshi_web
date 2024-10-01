@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/modules/common/interfaces/apiResponse';
 import { User } from '@/modules/users/models/user';
 
 export interface RegisterDTO {
@@ -6,4 +7,4 @@ export interface RegisterDTO {
   partner_id: string;
 }
 
-export type RegisterResponse = User;
+export type RegisterResponse = ApiResponse<User>;

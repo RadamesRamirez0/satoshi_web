@@ -31,7 +31,7 @@ export const formatPathParams = (
 
   let newUrl = url;
   Object.entries(params).forEach(([param, value]) => {
-    newUrl = newUrl.replace(`{${param}}`, value);
+    newUrl = newUrl.replace(`{${param}}`, value ?? '');
   });
 
   return newUrl;

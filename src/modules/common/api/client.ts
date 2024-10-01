@@ -1,5 +1,3 @@
-import axios, { AxiosError } from 'axios';
-
 import { apiUrl } from '@/modules/common/constants/env';
 import {
   ApiEndpointDelete,
@@ -7,31 +5,24 @@ import {
   ApiEndpointPost,
   ApiEndpointPut,
 } from '@/modules/common/interfaces/apiEndpoint';
-import { ApiErrorResponse, ApiResponse } from '@/modules/common/interfaces/apiResponse';
 import { formatPathParams, formatQueryParams } from '@/modules/common/utils/path';
 
-const client = axios.create({ baseURL: apiUrl });
-
-export const get = async <T, Q, P>({
+export const get = async <R, Q, P>({
   url,
   queryParams,
   pathParams,
-  config,
-}: ApiEndpointGet<Q, P>): Promise<ApiResponse<T> | undefined> => {
+}: ApiEndpointGet<Q, P>): Promise<R | undefined> => {
   try {
     const queryParamsParsed = formatQueryParams(queryParams as Record<string, string>);
-
     const finalUrl = `${formatPathParams(url, pathParams as Record<string, string>)}${queryParamsParsed}`;
 
-    const res = await client.get<ApiResponse<T>>(finalUrl);
+    const res = await fetch(`${apiUrl}${finalUrl}`, {
+      method: 'GET',
+    });
 
-    return res.data;
+    return res.json() as R;
   } catch (e) {
-    if (e instanceof AxiosError) {
-      await config?.onError?.(e);
-
-      return e.response?.data as ApiErrorResponse;
-    }
+    console.log(e);
   }
 };
 
@@ -39,58 +30,70 @@ export const post = async <R, B, P>({
   url,
   body,
   pathParams,
-  config,
-}: ApiEndpointPost<R, B, P>): Promise<ApiResponse<R> | undefined> => {
+  contentType = 'json',
+}: ApiEndpointPost<R, B, P>): Promise<R | undefined> => {
   try {
     const finalUrl = formatPathParams(url, pathParams as Record<string, string>);
 
-    const res = await client.post<ApiResponse<R>>(finalUrl, body);
+    const res = await fetch(`${apiUrl}${finalUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type':
+          contentType === 'json'
+            ? 'application/json'
+            : 'application/x-www-form-urlencoded',
+      },
+      body:
+        contentType === 'json'
+          ? JSON.stringify(body)
+          : new URLSearchParams(body as Record<string, string>),
+    });
 
-    return res.data;
+    return (await res.json()) as R;
   } catch (e) {
-    if (e instanceof AxiosError) {
-      await config?.onError?.(e);
-
-      return e.response?.data as ApiErrorResponse;
-    }
+    console.log(e);
   }
 };
 
-export const put = async <T, B, P>({
+export const put = async <R, B, P>({
   url,
   body,
   pathParams,
-  config,
-}: ApiEndpointPut<B, P>): Promise<ApiResponse<T> | undefined> => {
+  contentType = 'json',
+}: ApiEndpointPut<B, P>): Promise<R | undefined> => {
   try {
-    const finalUrl = formatPathParams(url, pathParams);
+    const finalUrl = formatPathParams(url, pathParams as Record<string, string>);
 
-    const res = await client.put<ApiResponse<T>>(finalUrl, body);
+    const res = await fetch(`${apiUrl}${finalUrl}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type':
+          contentType === 'json'
+            ? 'application/json'
+            : 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(body),
+    });
 
-    return res.data;
+    return (await res.json()) as R;
   } catch (e) {
-    if (e instanceof AxiosError) {
-      await config?.onError?.(e);
-
-      return e.response?.data as ApiErrorResponse;
-    }
+    console.log(e);
   }
 };
 
-export const del = async <T, P>({
+export const del = async <R, P>({
   url,
   pathParams,
-  config,
-}: ApiEndpointDelete<P>): Promise<ApiResponse<T> | undefined> => {
+}: ApiEndpointDelete<P>): Promise<R | undefined> => {
   try {
-    const finalUrl = formatPathParams(url, pathParams);
+    const finalUrl = formatPathParams(url, pathParams as Record<string, string>);
 
-    const res = await client.delete<ApiResponse<T>>(finalUrl);
+    const res = await fetch(`${apiUrl}${finalUrl}`, {
+      method: 'DELETE',
+    });
 
-    return res.data;
+    return (await res.json()) as R;
   } catch (e) {
-    if (e instanceof AxiosError) {
-      await config?.onError?.();
-    }
+    console.log(e);
   }
 };

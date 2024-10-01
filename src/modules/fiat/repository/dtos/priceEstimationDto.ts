@@ -7,7 +7,7 @@ export interface PriceEstimationDTO {
   base_currency: string;
   quote_currency: string;
   order_type: OrderType;
-  payment_method: PaymentMethods;
+  payment_method?: PaymentMethods;
   amount_in_quoute_currency?: string;
 }
 

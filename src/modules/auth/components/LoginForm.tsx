@@ -5,11 +5,13 @@ import { useTranslations } from 'next-intl';
 import React from 'react';
 import * as Yup from 'yup';
 
+import { login } from '@/app/api/auth/loginAction';
 import LoginForgotPassword from '@/modules/auth/components/LoginForgotPassword';
 import { Button } from '@/modules/common/ui/components/button';
 import HintText from '@/modules/common/ui/components/hintText';
 import { Input } from '@/modules/common/ui/components/input';
 import { Label } from '@/modules/common/ui/components/label';
+import { toast } from '@/modules/common/utils/toast';
 
 const LoginForm = () => {
   const t = useTranslations('Login');
@@ -27,7 +29,12 @@ const LoginForm = () => {
       email: Yup.string().email(t('emailError')).required(t('emailRequired')),
       password: Yup.string().required(t('passwordRequired')),
     }),
-    onSubmit: () => {},
+    onSubmit: async ({ email, password }) => {
+      const res = await login({ username: email, password });
+      if (res) {
+        toast.error(res.detail);
+      }
+    },
   });
 
   return (
@@ -66,7 +73,7 @@ const LoginForm = () => {
       </span>
       <LoginForgotPassword />
       <span className='pt-6'>
-        <Button size='lg' className='w-full' loading={isSubmitting}>
+        <Button size='lg' className='w-full' loading={isSubmitting} type='submit'>
           {t('mainAction')}
         </Button>
       </span>

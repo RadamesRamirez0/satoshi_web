@@ -1,0 +1,40 @@
+name: Deploy to Satoshi Server
+
+# Trigger this workflow on pushes to the specified branch
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Next.js app
+        run: pnpm build
+
+      - name: SSH Deploy
+        # Use the 'appleboy/ssh-action' action for SSH deployment
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }} # Your server's IP address
+          username: ${{ secrets.USERNAME }} # Your server's username
+          key: ${{ secrets.SSH_PRIVATE_KEY }} # Your server's SSH private key
+          script: |
+            cd /home/apps/satoshi
+            git pull
+            npm install
+            npm run build
+            pm2 restart satoshi

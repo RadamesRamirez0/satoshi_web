@@ -1,4 +1,7 @@
-import { UserAuthentication } from '@/modules/auth/models/userAuthentication';
+import {
+  FailedUserAuthentication,
+  UserAuthentication,
+} from '@/modules/auth/models/userAuthentication';
 
 export interface LoginDTO {
   grant_type: string;
@@ -9,4 +12,4 @@ export interface LoginDTO {
   client_secret?: string;
 }
 
-export type LoginResponse = UserAuthentication;
+export type LoginResponse = UserAuthentication | FailedUserAuthentication;

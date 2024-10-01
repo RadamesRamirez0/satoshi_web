@@ -1,15 +1,9 @@
-import { AxiosError, AxiosRequestConfig } from 'axios';
-
-interface ServiceConfig extends AxiosRequestConfig<unknown> {
-  onError?: (e: AxiosError) => Promise<void> | void;
-}
-
 export type DTORecord = Record<string, string | null> | undefined;
 
 export interface ApiEndpoint {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
   url: string;
-  config?: ServiceConfig;
+  contentType?: 'json' | 'x-www-form-urlencoded';
 }
 export interface ApiEndpointGet<R, Q = DTORecord, P = DTORecord> extends ApiEndpoint {
   method?: 'GET';

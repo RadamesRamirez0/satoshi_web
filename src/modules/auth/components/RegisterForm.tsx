@@ -1,26 +1,34 @@
 'use client';
 
 import { useFormik } from 'formik';
+// eslint-disable-next-line import/no-unresolved
+import { Messages } from 'global';
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 
 import PasswordValidator from '@/modules/auth/components/PasswordValidator';
+import { partnerId } from '@/modules/auth/constants/env';
+import { authRepository } from '@/modules/auth/repository';
 import {
   PasswordValidation,
   validatePassword,
 } from '@/modules/auth/utils/validatePassword';
+import { useRouter } from '@/modules/common/i18n/routing';
 import { Button } from '@/modules/common/ui/components/button';
 import { Checkbox } from '@/modules/common/ui/components/checkbox';
 import HintText from '@/modules/common/ui/components/hintText';
 import { Input } from '@/modules/common/ui/components/input';
 import { Label } from '@/modules/common/ui/components/label';
+import { toast } from '@/modules/common/utils/toast';
 
 const RegisterForm = () => {
   const passRef = useRef<HTMLInputElement>(null);
   const [passFocused, setPassFocused] = useState<boolean>(false);
   const [validations, setValidations] = useState<PasswordValidation>();
   const t = useTranslations('Register');
+  const router = useRouter();
+
   const {
     handleSubmit,
     values,
@@ -38,7 +46,23 @@ const RegisterForm = () => {
         .required(t('passwordRequired'))
         .min(8, t('passwordMinLength')),
     }),
-    onSubmit: () => {},
+    onSubmit: async (values) => {
+      const res = await authRepository.register({ ...values, partner_id: partnerId });
+
+      if (res.error) {
+        let error: keyof Messages['Register'] = 'defaultError';
+        if (res.error === 'Email already registered') {
+          error = 'emailTakenError';
+        }
+        toast.error(t(error));
+
+        return;
+      }
+
+      toast.success(t('toastSuccess'));
+
+      router.push(`/users/me`);
+    },
   });
 
   useEffect(() => {
@@ -100,6 +124,7 @@ const RegisterForm = () => {
           size='lg'
           className='w-full'
           loading={isSubmitting}
+          type='submit'
           disabled={
             Object.values(validations ?? { a: false })
               .map((v) => v)
