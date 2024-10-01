@@ -35,6 +35,6 @@ jobs:
           script: |
             cd /home/apps/satoshi_web
             git pull
-            npm install
-            npm run build
+            pnpm install
+            pnpm build
             pm2 restart satoshi_web
