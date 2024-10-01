@@ -33,8 +33,8 @@ jobs:
           username: ${{ secrets.USERNAME }} # Your server's username
           key: ${{ secrets.SSH_PRIVATE_KEY }} # Your server's SSH private key
           script: |
-            cd /home/apps/satoshi
+            cd /home/apps/satoshi_web
             git pull
             npm install
             npm run build
-            pm2 restart satoshi
+            pm2 restart satoshi_web
