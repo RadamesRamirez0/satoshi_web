@@ -33,6 +33,8 @@ jobs:
           username: ${{ secrets.USERNAME }} # Your server's username
           key: ${{ secrets.SSH_PRIVATE_KEY }} # Your server's SSH private key
           script: |
+            source /home/radames/.bashrc
+            git config --global --add safe.directory /home/apps/satoshi_web
             cd /home/apps/satoshi_web
             git pull
             pnpm install
