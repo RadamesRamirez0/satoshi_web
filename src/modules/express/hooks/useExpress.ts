@@ -1,28 +1,36 @@
+import Autonumeric from 'autonumeric';
 import { useFormik } from 'formik';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
 import { VoidParamCallback } from '@/modules/common/types/voidCallback';
 import { PriceEstimation } from '@/modules/express/models/priceEstimation';
 import { expressRepository } from '@/modules/express/repository';
 import { PriceEstimationDTO } from '@/modules/express/repository/dtos/priceEstimationDto';
+import { estimateBase, estimateQuote } from '@/modules/express/utils/estimateFiat';
 
 interface UseExpressValues {
   data?: PriceEstimation;
-  formik: ReturnType<typeof useFormik<typeof initialValues>>;
+  formik: ReturnType<typeof useFormik<InitialExpressValues>>;
   handlePay: VoidParamCallback<string>;
   handleReceive: VoidParamCallback<string>;
+  pay: string;
+  setPay: Dispatch<SetStateAction<string>>;
+  receive: string;
+  setReceive: Dispatch<SetStateAction<string>>;
 }
 
-const initialValues = {
-  pay: '',
-  payCurrency: 'MXN',
-  receive: '1',
-  receiveCurrency: 'BTC',
-};
+export interface InitialExpressValues {
+  pay: string;
+  payCurrency: string;
+  receive: string;
+  receiveCurrency: string;
+}
 
-const useExpress = (): UseExpressValues => {
+const useExpress = (initialValues: InitialExpressValues): UseExpressValues => {
   const [data, setData] = useState<PriceEstimation>();
+  const [pay, setPay] = useState<string>('');
+  const [receive, setReceive] = useState<string>('');
 
   const formik = useFormik({
     initialValues,
@@ -42,50 +50,48 @@ const useExpress = (): UseExpressValues => {
       payment_method: 'bank_transfer',
     });
 
-  const handlePay = async (pay: string) => {
-    if (await formik.setFieldValue('pay', pay)) {
+  const handlePay = (payAmount: string, price?: string) => {
+    if (!price && !data?.price) {
       return;
     }
+
+    const sanitizedPay = Autonumeric.unformat(payAmount);
+
+    setReceive(estimateBase(sanitizedPay.toString(), price ?? data?.price ?? ''));
   };
 
-  const handleReceive = async (receive: string) => {
-    const change = await formik.setFieldValue('receive', receive);
-    if (change && change.pay !== '') {
+  const handleReceive = (receiveAmount: string, price?: string) => {
+    if (!price && !data?.price) {
       return;
     }
+    const sanitizedReceive = Autonumeric.unformat(receiveAmount);
 
-    const res = await getData({
-      base_currency: 'MXN',
-      quote_currency: 'BTC',
-      order_type: 'buy',
-      amount_in_quoute_currency: receive,
-    });
-
-    if (!res.data) {
-      return;
-    }
-
-    setData(res.data);
-
-    await formik.setFieldValue('pay', res.data.price);
+    setPay(estimateQuote(sanitizedReceive.toString(), price ?? data?.price ?? ''));
   };
 
   useEffect(() => {
-    void getData({
-      base_currency: 'MXN',
-      quote_currency: 'BTC',
-      order_type: 'buy',
-    }).then((r) => {
-      if (!r.data) {
-        return;
-      }
+    const fetchData = () => {
+      void getData({
+        base_currency: 'btc',
+        quote_currency: 'mxn',
+        order_type: 'buy',
+      }).then((r) => {
+        if (!r.data) {
+          return;
+        }
 
-      setData(r.data);
-      void formik.setFieldValue('pay', r.data.price);
-    });
+        setData(r.data);
+      });
+    };
+
+    fetchData();
+
+    const intervalId = setInterval(fetchData, 15000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
-  return { formik, data, handlePay, handleReceive };
+  return { formik, data, handlePay, handleReceive, pay, receive, setPay, setReceive };
 };
 
 export default useExpress;

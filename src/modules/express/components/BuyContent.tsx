@@ -8,11 +8,17 @@ import { Combobox } from '@/modules/common/ui/components/combobox';
 import { ComboboxItem } from '@/modules/common/ui/components/comboboxItem';
 import { InputWidget } from '@/modules/common/ui/components/inputWidget';
 import { TabsContent } from '@/modules/common/ui/components/tabs';
-import useFiat from '@/modules/express/hooks/useExpress';
+import useExpress from '@/modules/express/hooks/useExpress';
 
 const BuyTab = () => {
   const t = useTranslations('BuySell');
-  const { formik, handleReceive } = useFiat();
+  const { formik, pay, receive, setPay, setReceive, handlePay, handleReceive } =
+    useExpress({
+      pay: '100',
+      payCurrency: 'MXN',
+      receive: '',
+      receiveCurrency: 'BTC',
+    });
 
   return (
     <TabsContent value='buying'>
@@ -22,8 +28,10 @@ const BuyTab = () => {
             <InputWidget
               id='pay'
               label={t('buyingSpend')}
-              value={formik.values.pay}
-              onChange={formik.handleChange}
+              state={pay}
+              setState={setPay}
+              value={pay}
+              onChange={(e) => void handlePay(e.target.value)}
             >
               <Combobox
                 small
@@ -41,8 +49,11 @@ const BuyTab = () => {
             <InputWidget
               id='receive'
               label={t('buyingReceive')}
-              value={formik.values.receive}
-              onChange={(e) => void handleReceive(e.currentTarget.value)}
+              state={receive}
+              value={receive}
+              setState={setReceive}
+              decimals={8}
+              onChange={(e) => void handleReceive(e.target.value)}
             >
               <Combobox
                 small

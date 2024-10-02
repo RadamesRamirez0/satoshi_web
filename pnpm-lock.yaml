@@ -41,6 +41,9 @@ importers:
       '@radix-ui/react-toast':
         specifier: ^1.2.1
         version: 1.2.1(@types/react-dom@18.3.0)(@types/react@18.3.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      autonumeric:
+        specifier: ^4.10.5
+        version: 4.10.5
       axios:
         specifier: ^1.7.7
         version: 1.7.7
@@ -68,6 +71,9 @@ importers:
       react:
         specifier: ^18
         version: 18.3.1
+      react-autonumeric:
+        specifier: ^2.0.2
+        version: 2.0.2
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
@@ -86,9 +92,6 @@ importers:
       yup:
         specifier: ^1.4.0
         version: 1.4.0
-      zxcvbn:
-        specifier: ^4.4.2
-        version: 4.4.2
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -1208,6 +1211,9 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
+  autonumeric@4.10.5:
+    resolution: {integrity: sha512-t7h1poYH37eVi/pDTdO0UBb8qk8A9gUHzABP/wUoqSw4w5aDFJr2gxfZPl+agta4ifb5OfBm4Bylv1G/dCC2zQ==}
+
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
@@ -2297,6 +2303,9 @@ packages:
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
+  react-autonumeric@2.0.2:
+    resolution: {integrity: sha512-8ECTC+89inLyNv+GjCGa/JpKloD22bqWb2+QMMhnw6yuK+d+Agbcvw2bhhiY62M+CnTvX6ghru6L5kiRr945vw==}
+
   react-dom@18.3.1:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
     peerDependencies:
@@ -2725,9 +2734,6 @@ packages:
 
   yup@1.4.0:
     resolution: {integrity: sha512-wPbgkJRCqIf+OHyiTBQoJiP5PFuAXaWiJK6AmYkzQAh5/c2K9hzSApBZG5wV9KoKSePF7sAxmNSvh/13YHkFDg==}
-
-  zxcvbn@4.4.2:
-    resolution: {integrity: sha512-Bq0B+ixT/DMyG8kgX2xWcI5jUvCwqrMxSFam7m0lAf78nf04hv6lNCsyLYdyYTrCVMqNDY/206K7eExYCeSyUQ==}
 
 snapshots:
 
@@ -3879,6 +3885,8 @@ snapshots:
   ast-types-flow@0.0.8: {}
 
   asynckit@0.4.0: {}
+
+  autonumeric@4.10.5: {}
 
   available-typed-arrays@1.0.7:
     dependencies:
@@ -5140,6 +5148,12 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
+  react-autonumeric@2.0.2:
+    dependencies:
+      autonumeric: 4.10.5
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
   react-dom@18.3.1(react@18.3.1):
     dependencies:
       loose-envify: 1.4.0
@@ -5642,5 +5656,3 @@ snapshots:
       tiny-case: 1.0.3
       toposort: 2.0.2
       type-fest: 2.19.0
-
-  zxcvbn@4.4.2: {}
