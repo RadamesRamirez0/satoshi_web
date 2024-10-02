@@ -14,24 +14,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # - name: Install pnpm
-      #   uses: pnpm/action-setup@v2
-      #   with:
-      #     version: latest
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
 
-      # - name: Install dependencies
-      #   run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
-      # - name: Build Next.js app
-      #   run: pnpm build
+      - name: Build Next.js app
+        run: pnpm build
+
+      - name: Upload Files
+        uses: burnett01/rsync-deployments@5.2.1
+        with:
+          switches: -avzr --delete
+          path: .next .env .next.config.mjs public package.json
+          remote_path: /home/apps/satoshi_web
+          remote_host: ${{ secrets.HOST }}
+          remote_user: ${{ secrets.USERNAME }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: SSH Deploy
         uses: fifsky/ssh-action@master
         with:
           command: |
-            cd /home/apps/satoshi_web
-            chmod +x deploy.sh
-            ./deploy.sh
+            pnpm install
+            pm2 delete "satoshi_web"
+            pm2 start pnpm --name "satoshi_web" -- start
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
