@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
 import { VoidParamCallback } from '@/modules/common/types/voidCallback';
-import { PriceEstimation } from '@/modules/fiat/models/priceEstimation';
-import { fiatRepository } from '@/modules/fiat/repository';
-import { PriceEstimationDTO } from '@/modules/fiat/repository/dtos/priceEstimationDto';
+import { PriceEstimation } from '@/modules/express/models/priceEstimation';
+import { expressRepository } from '@/modules/express/repository';
+import { PriceEstimationDTO } from '@/modules/express/repository/dtos/priceEstimationDto';
 
-interface UseFiatValues {
+interface UseExpressValues {
   data?: PriceEstimation;
   formik: ReturnType<typeof useFormik<typeof initialValues>>;
   handlePay: VoidParamCallback<string>;
@@ -21,7 +21,7 @@ const initialValues = {
   receiveCurrency: 'BTC',
 };
 
-const useFiat = (): UseFiatValues => {
+const useExpress = (): UseExpressValues => {
   const [data, setData] = useState<PriceEstimation>();
 
   const formik = useFormik({
@@ -37,7 +37,7 @@ const useFiat = (): UseFiatValues => {
   });
 
   const getData = async (values: Omit<PriceEstimationDTO, 'payment_method'>) =>
-    await fiatRepository.getPriceEstimation({
+    await expressRepository.getPriceEstimation({
       ...values,
       payment_method: 'bank_transfer',
     });
@@ -88,4 +88,4 @@ const useFiat = (): UseFiatValues => {
   return { formik, data, handlePay, handleReceive };
 };
 
-export default useFiat;
+export default useExpress;

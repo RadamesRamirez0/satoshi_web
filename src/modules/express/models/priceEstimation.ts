@@ -1,4 +1,4 @@
-import { PaymentMethods } from '@/modules/fiat/models/paymentMethods';
+import { PaymentMethods } from '@/modules/express/models/paymentMethods';
 
 export interface PriceEstimation {
   base_currency: string;

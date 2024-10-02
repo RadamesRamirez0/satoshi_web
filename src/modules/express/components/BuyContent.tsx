@@ -8,7 +8,7 @@ import { Combobox } from '@/modules/common/ui/components/combobox';
 import { ComboboxItem } from '@/modules/common/ui/components/comboboxItem';
 import { InputWidget } from '@/modules/common/ui/components/inputWidget';
 import { TabsContent } from '@/modules/common/ui/components/tabs';
-import useFiat from '@/modules/fiat/hooks/useFiat';
+import useFiat from '@/modules/express/hooks/useExpress';
 
 const BuyTab = () => {
   const t = useTranslations('BuySell');

@@ -26,7 +26,7 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = () => {
           <Image src='/svg/satoshi_logo.svg' width={130} height={36} alt='Satoshi Logo' />
         </li>
         <NavigationItem>
-          <Link href='/fiat'>{t('buyCrypto')}</Link>
+          <Link href='/express'>{t('buyCrypto')}</Link>
         </NavigationItem>
         <NavigationItem>
           <Link href='/p2p'>{t('p2p')}</Link>

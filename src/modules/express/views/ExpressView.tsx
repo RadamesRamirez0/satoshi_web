@@ -1,11 +1,11 @@
 import React from 'react';
 
-import FiatTab from '../components/FiatTab';
+import ExpressTab from '../components/ExpressTab';
 
 const FiatView = () => {
   return (
     <div className='pt-12 flex justify-center items-center'>
-      <FiatTab />
+      <ExpressTab />
     </div>
   );
 };

@@ -1,9 +1,12 @@
 import React from 'react';
 import { FaRegCircleUser } from 'react-icons/fa6';
 
+import { getSession } from '@/app/api/auth/lib/session';
 import DashboardVerificationSteps from '@/modules/users/components/DashboardVerificationSteps';
 
 const UserView = () => {
+  console.log(getSession());
+
   return (
     <div className='py-8 px-12 space-y-12'>
       <div className='flex items-start gap-4'>

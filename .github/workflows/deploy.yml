@@ -29,7 +29,7 @@ jobs:
         uses: burnett01/rsync-deployments@5.2.1
         with:
           switches: -avzr --delete
-          path: .next .env .next.config.mjs public package.json
+          path: .next .env next.config.mjs public package.json
           remote_path: /home/apps/satoshi_web
           remote_host: ${{ secrets.HOST }}
           remote_user: ${{ secrets.USERNAME }}

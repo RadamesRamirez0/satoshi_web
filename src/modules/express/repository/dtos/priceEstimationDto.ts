@@ -1,7 +1,7 @@
 import { ApiResponse } from '@/modules/common/interfaces/apiResponse';
-import { OrderType } from '@/modules/fiat/models/orderType';
-import { PaymentMethods } from '@/modules/fiat/models/paymentMethods';
-import { PriceEstimation } from '@/modules/fiat/models/priceEstimation';
+import { OrderType } from '@/modules/express/models/orderType';
+import { PaymentMethods } from '@/modules/express/models/paymentMethods';
+import { PriceEstimation } from '@/modules/express/models/priceEstimation';
 
 export interface PriceEstimationDTO {
   base_currency: string;

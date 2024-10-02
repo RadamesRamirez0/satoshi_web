@@ -3,7 +3,7 @@ import { ApiEndpointGet } from '@/modules/common/interfaces/apiEndpoint';
 import {
   PriceEstimationDTO,
   PriceEstimationResponse,
-} from '@/modules/fiat/repository/dtos/priceEstimationDto';
+} from '@/modules/express/repository/dtos/priceEstimationDto';
 
 export const getPriceEstimation: ApiEndpointGet<
   PriceEstimationResponse,
