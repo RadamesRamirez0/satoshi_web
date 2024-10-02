@@ -29,7 +29,7 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
-            export PATH=$PATH:/home/tu_usuario/.local/share/pnpm:/usr/local/bin:/usr/bin
+            export PATH=$PATH:/home/radames/.local/share/pnpm:/usr/local/bin:/usr/bin
             export NVM_DIR="$HOME/.nvm"[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             git config --global --add safe.directory /home/apps/satoshi_web
             cd /home/apps/satoshi_web
