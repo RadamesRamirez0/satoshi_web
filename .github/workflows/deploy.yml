@@ -29,15 +29,9 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
-            export PATH=$PATH:/home/radames/.local/share/pnpm:/usr/local/bin:/usr/bin
-            export NVM_DIR="$HOME/.nvm"[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            git config --global --add safe.directory /home/apps/satoshi_web
             cd /home/apps/satoshi_web
-            git pull
-            /home/radames/.local/share/pnpm/pnpm install
-            /home/radames/.local/share/pnpm/pnpm build
-            /home/radames/.local/share/pnpm/pm2 delete "satoshi_web"
-            /home/radames/.local/share/pnpm/pm2 start pnpm --name "satoshi_web" -- start
+            chmod +x deploy.sh
+            ./deploy.sh
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
