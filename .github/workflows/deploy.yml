@@ -39,6 +39,7 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
+            cd /home/apps/satoshi_web
             pnpm install
             pm2 delete "satoshi_web"
             pm2 start pnpm --name "satoshi_web" -- start

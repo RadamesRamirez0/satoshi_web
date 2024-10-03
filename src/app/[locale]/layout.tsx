@@ -1,16 +1,9 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { Toaster } from 'react-hot-toast';
 
 import '../globals.css';
-
-const geistSans = localFont({
-  src: '../../../public/fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
 
 export const metadata: Metadata = {
   title: 'Satoshi Payments',
@@ -29,7 +22,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${geistSans.className} antialiased dark h-full`}>
+    <html lang={locale} className={`font-satoshi antialiased dark h-full`}>
       <head>
         <link rel='icon' href='/favicon.ico' sizes='any' />
       </head>

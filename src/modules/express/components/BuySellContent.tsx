@@ -44,7 +44,7 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
     <TabsContent value={type}>
       <Card className='border-none'>
         <form onSubmit={formik.handleSubmit}>
-          <CardContent className='space-y-3 relative'>
+          <CardContent className='space-y-3 relative '>
             <InputWidget
               id='pay'
               label={t('buyingSpend')}
