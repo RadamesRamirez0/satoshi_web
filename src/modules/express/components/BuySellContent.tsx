@@ -62,8 +62,8 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
               onChange={(e) => void handlePay(e.target.value)}
               error={type === 'buy' ? isErrorQuote : false}
               placeholder={
-                type === 'buy'
-                  ? `Min ${data?.minimum_order_amount} Max ${data?.maximum_order_amount}`
+                type === 'buy' && data
+                  ? `Min ${data.minimum_order_amount} Max ${data.maximum_order_amount}`
                   : ''
               }
             >
@@ -91,8 +91,8 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
               decimals={receiveDecimals}
               onChange={(e) => void handleReceive(e.target.value)}
               placeholder={
-                type === 'sell'
-                  ? `Min ${data?.minimum_order_amount} Max ${data?.maximum_order_amount}`
+                type === 'sell' && data
+                  ? `Min ${data.minimum_order_amount} Max ${data.maximum_order_amount}`
                   : ''
               }
               error={type === 'sell' ? isErrorQuote : false}

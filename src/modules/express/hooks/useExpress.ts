@@ -60,6 +60,11 @@ const useExpress = ({ initialValues, orderType }: UseExpressProps): UseExpressVa
     if (!price && !data?.price) {
       return;
     }
+    if (payAmount === '') {
+      setReceive('');
+
+      return;
+    }
 
     const sanitizedPay = Autonumeric.unformat(payAmount);
 
@@ -79,6 +84,11 @@ const useExpress = ({ initialValues, orderType }: UseExpressProps): UseExpressVa
 
   const handleReceive = (receiveAmount: string, price?: string) => {
     if (!price && !data?.price) {
+      return;
+    }
+    if (receiveAmount === '') {
+      setPay('');
+
       return;
     }
 
