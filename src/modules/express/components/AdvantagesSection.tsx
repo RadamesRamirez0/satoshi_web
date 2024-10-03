@@ -5,7 +5,7 @@ const AdvantagesSection = async () => {
   const t = await getTranslations('Advantages');
 
   return (
-    <section className='space-y-8 pt-32 '>
+    <section className='space-y-8 pt-32 w-1/2'>
       <h2 className='text-5xl font-bold pb-8'>{t('mainTitle')}</h2>
       <article className='space-y-2'>
         <h3 className='text-xl font-bold'>{t('firstTitle')}</h3>
