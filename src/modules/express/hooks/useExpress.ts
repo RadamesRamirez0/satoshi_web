@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
 import { VoidParamCallback } from '@/modules/common/types/voidCallback';
+import { OrderType } from '@/modules/express/models/orderType';
 import { PriceEstimation } from '@/modules/express/models/priceEstimation';
 import { expressRepository } from '@/modules/express/repository';
 import { PriceEstimationDTO } from '@/modules/express/repository/dtos/priceEstimationDto';
@@ -27,7 +28,12 @@ export interface InitialExpressValues {
   receiveCurrency: string;
 }
 
-const useExpress = (initialValues: InitialExpressValues): UseExpressValues => {
+export interface UseExpressProps {
+  initialValues: InitialExpressValues;
+  orderType: OrderType;
+}
+
+const useExpress = ({ initialValues, orderType }: UseExpressProps): UseExpressValues => {
   const [data, setData] = useState<PriceEstimation>();
   const [pay, setPay] = useState<string>('');
   const [receive, setReceive] = useState<string>('');
@@ -57,16 +63,39 @@ const useExpress = (initialValues: InitialExpressValues): UseExpressValues => {
 
     const sanitizedPay = Autonumeric.unformat(payAmount);
 
-    setReceive(estimateBase(sanitizedPay.toString(), price ?? data?.price ?? ''));
+    let receive: string = '0';
+
+    switch (orderType) {
+      case 'buy':
+        receive = estimateBase(sanitizedPay.toString(), price ?? data?.price ?? '');
+        break;
+      case 'sell':
+        receive = estimateQuote(sanitizedPay.toString(), price ?? data?.price ?? '');
+        break;
+    }
+
+    setReceive(receive);
   };
 
   const handleReceive = (receiveAmount: string, price?: string) => {
     if (!price && !data?.price) {
       return;
     }
+
     const sanitizedReceive = Autonumeric.unformat(receiveAmount);
 
-    setPay(estimateQuote(sanitizedReceive.toString(), price ?? data?.price ?? ''));
+    let pay: string = '0';
+
+    switch (orderType) {
+      case 'buy':
+        pay = estimateQuote(sanitizedReceive.toString(), price ?? data?.price ?? '');
+        break;
+      case 'sell':
+        pay = estimateBase(sanitizedReceive.toString(), price ?? data?.price ?? '');
+        break;
+    }
+
+    setPay(pay);
   };
 
   useEffect(() => {
