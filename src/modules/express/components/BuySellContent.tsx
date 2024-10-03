@@ -29,16 +29,23 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
     receiveDecimals = 2;
   }
   const t = useTranslations('BuySell');
-  const { formik, pay, receive, setPay, setReceive, handlePay, handleReceive } =
-    useExpress({
-      initialValues: {
-        pay: '100',
-        payCurrency: payCurrencies[0],
-        receive: '',
-        receiveCurrency: receiveCurrencies[0],
-      },
-      orderType: type,
-    });
+  const {
+    formik,
+    pay,
+    receive,
+    setPay,
+    setReceive,
+    handlePay,
+    handleReceive,
+    isErrorQuote,
+    data,
+  } = useExpress({
+    initialValues: {
+      payCurrency: payCurrencies[0],
+      receiveCurrency: receiveCurrencies[0],
+    },
+    orderType: type,
+  });
 
   return (
     <TabsContent value={type}>
@@ -53,6 +60,12 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
               value={pay}
               decimals={payDecimals}
               onChange={(e) => void handlePay(e.target.value)}
+              error={type === 'buy' ? isErrorQuote : false}
+              placeholder={
+                type === 'buy'
+                  ? `Min ${data?.minimum_order_amount} Max ${data?.maximum_order_amount}`
+                  : ''
+              }
             >
               <Combobox
                 small
@@ -63,7 +76,7 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                 onChange={(v) => void formik.setFieldValue('payCurrency', v)}
               >
                 {payCurrencies.map((c) => (
-                  <ComboboxItem key={c} value={c} subLabel='Mexican pesos'>
+                  <ComboboxItem key={c} value={c} subLabel='Mexican Pesos'>
                     {c}
                   </ComboboxItem>
                 ))}
@@ -77,6 +90,12 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
               setState={setReceive}
               decimals={receiveDecimals}
               onChange={(e) => void handleReceive(e.target.value)}
+              placeholder={
+                type === 'sell'
+                  ? `Min ${data?.minimum_order_amount} Max ${data?.maximum_order_amount}`
+                  : ''
+              }
+              error={type === 'sell' ? isErrorQuote : false}
             >
               <Combobox
                 small
@@ -87,7 +106,7 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                 onChange={(v) => void formik.setFieldValue('receiveCurrency', v)}
               >
                 {receiveCurrencies.map((c) => (
-                  <ComboboxItem key={c} value={c} subLabel='Mexican pesos'>
+                  <ComboboxItem key={c} value={c} subLabel='Mexican Pesos'>
                     {c}
                   </ComboboxItem>
                 ))}

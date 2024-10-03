@@ -8,7 +8,7 @@ const ExpressTab = async () => {
   const t = await getTranslations('BuySell');
 
   return (
-    <Tabs defaultValue='buy' className='w-[25rem]'>
+    <Tabs defaultValue='buy' className='w-[28rem]'>
       <div className='bg-card border-2 rounded-t-[1.62rem] rounded-b-3xl '>
         <TabsList className='grid w-full grid-cols-2'>
           <TabsTrigger value='buy' className='clip-trapezoid-right'>

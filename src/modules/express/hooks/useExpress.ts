@@ -19,12 +19,11 @@ interface UseExpressValues {
   setPay: Dispatch<SetStateAction<string>>;
   receive: string;
   setReceive: Dispatch<SetStateAction<string>>;
+  isErrorQuote: boolean;
 }
 
 export interface InitialExpressValues {
-  pay: string;
   payCurrency: string;
-  receive: string;
   receiveCurrency: string;
 }
 
@@ -37,16 +36,17 @@ const useExpress = ({ initialValues, orderType }: UseExpressProps): UseExpressVa
   const [data, setData] = useState<PriceEstimation>();
   const [pay, setPay] = useState<string>('');
   const [receive, setReceive] = useState<string>('');
+  const [isErrorQuote, setIsErrorQuote] = useState<boolean>(false);
+
+  const schemaValidation = Yup.object({
+    payCurrency: Yup.string().required(''),
+
+    receiveCurrency: Yup.string().required(''),
+  });
 
   const formik = useFormik({
     initialValues,
-    validationSchema: Yup.object({
-      pay: Yup.number().min(1).required(''),
-      payCurrency: Yup.string().required(''),
-      receive: Yup.number().min(1).required(''),
-      receiveCurrency: Yup.string().required(''),
-    }),
-
+    validationSchema: schemaValidation,
     onSubmit: () => {},
   });
 
@@ -103,7 +103,8 @@ const useExpress = ({ initialValues, orderType }: UseExpressProps): UseExpressVa
       void getData({
         base_currency: 'btc',
         quote_currency: 'mxn',
-        order_type: 'buy',
+        order_type: orderType,
+        amount_in_quoute_currency: orderType === 'buy' ? pay : receive,
       }).then((r) => {
         if (!r.data) {
           return;
@@ -120,7 +121,29 @@ const useExpress = ({ initialValues, orderType }: UseExpressProps): UseExpressVa
     return () => clearInterval(intervalId);
   }, []);
 
-  return { formik, data, handlePay, handleReceive, pay, receive, setPay, setReceive };
+  useEffect(() => {
+    const quote = orderType === 'buy' ? pay : receive;
+
+    const isError: boolean =
+      parseFloat(Autonumeric.unformat(quote).toString()) <
+        parseFloat(data?.minimum_order_amount ?? '100') ||
+      parseFloat(Autonumeric.unformat(quote).toString()) >
+        parseFloat(data?.maximum_order_amount ?? '2000');
+
+    setIsErrorQuote(isError);
+  }, [pay, receive]);
+
+  return {
+    formik,
+    data,
+    handlePay,
+    handleReceive,
+    pay,
+    receive,
+    setPay,
+    setReceive,
+    isErrorQuote,
+  };
 };
 
 export default useExpress;

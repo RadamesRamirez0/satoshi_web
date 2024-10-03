@@ -12,6 +12,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   state: string;
   setState: Dispatch<SetStateAction<string>>;
   decimals?: number;
+  error?: boolean;
 }
 
 export const InputWidget = React.forwardRef<HTMLInputElement, InputProps>(
@@ -24,6 +25,7 @@ export const InputWidget = React.forwardRef<HTMLInputElement, InputProps>(
       state,
       setState,
       decimals = 2,
+      error = false,
       ...props
     },
     _ref,
@@ -40,6 +42,8 @@ export const InputWidget = React.forwardRef<HTMLInputElement, InputProps>(
             type,
             className: cn(
               'flex  w-full rounded-xl  bg-zinc-800 appearance-none number px-5 pb-4 pt-10 text-2xl shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+              error &&
+                'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-red-500 text-red-500 ',
               className,
             ),
             ...props,
