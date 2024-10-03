@@ -16,7 +16,7 @@ const ComboboxItem = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Item>,
   ComboboxItemProps
 >(({ className, children, subLabel, ...props }, ref) => {
-  const { value, setValue, setOpen, setLabel, setSubLabel } = useComboboxContext();
+  const { value, onChange, setOpen, setSubLabel } = useComboboxContext();
 
   return (
     <CommandPrimitive.Item
@@ -28,14 +28,13 @@ const ComboboxItem = React.forwardRef<
       onSelect={(currentValue) => {
         setOpen(false);
         if (!props.value) {
-          setValue(children as string);
+          onChange(children as string);
 
           return;
         }
 
-        setValue(value === currentValue ? '' : currentValue);
-        setLabel(value === currentValue ? '' : (children as string));
-        setSubLabel(value === currentValue ? '' : (subLabel ?? ''));
+        onChange(currentValue);
+        setSubLabel(subLabel ?? '');
       }}
       {...props}
     >
@@ -55,7 +54,7 @@ const ComboboxItem = React.forwardRef<
       </div>
       <CheckIcon
         className={cn(
-          'ml-auto size-5 text-primary-500',
+          'ml-auto size-5 text-primary-500 group-hover:text-black',
           value === props.value ? 'opacity-100' : 'opacity-0',
         )}
       />

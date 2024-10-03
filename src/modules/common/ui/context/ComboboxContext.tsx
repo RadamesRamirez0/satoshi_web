@@ -5,11 +5,11 @@ import React, { createContext, FC, PropsWithChildren, useEffect, useState } from
 interface ComboboxContextValues {
   open: boolean;
   value: string;
-  label: string;
+
   subLabel: string;
   setOpen: (open: boolean) => void;
-  setValue: (value: string) => void;
-  setLabel: (label: string) => void;
+  onChange: (value: string) => void;
+
   setSubLabel: (subLabel: string) => void;
 }
 
@@ -18,28 +18,23 @@ export const ComboboxContext = createContext<ComboboxContextValues>(
 );
 
 export interface ComboboxProviderProps extends PropsWithChildren {
-  onChange?: (value: string) => void;
-  defaultValue?: string;
-  defaultLabel?: string;
+  onChange: (value: string) => void;
+  value: string;
 }
 
 export const ComboboxProvider: FC<ComboboxProviderProps> = ({
   children,
   onChange,
-  defaultValue,
-  defaultLabel,
+  value,
 }) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(defaultValue ?? '');
-  const [label, setLabel] = useState(defaultLabel ?? '');
+
   const [subLabel, setSubLabel] = useState('');
 
   useEffect(() => {
-    if (value && onChange) {
-      onChange(value);
+    onChange(value);
 
-      return;
-    }
+    return;
   }, []);
 
   return (
@@ -48,9 +43,8 @@ export const ComboboxProvider: FC<ComboboxProviderProps> = ({
         open,
         value,
         setOpen,
-        setValue,
-        label,
-        setLabel,
+        onChange,
+
         subLabel,
         setSubLabel,
       }}

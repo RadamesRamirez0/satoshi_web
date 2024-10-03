@@ -8,10 +8,12 @@ export interface NavigationLayoutProps extends PropsWithChildren {
 
 const NavigationLayout: FC<NavigationLayoutProps> = ({ children }) => {
   return (
-    <main className='p-4 flex flex-col flex-1'>
+    <>
       <MainNavigationMenu />
-      {children}
-    </main>
+      <main className='p-4 flex flex-col flex-1 md:px-12 lg:px-18  xl:px-24 2xl:px-32'>
+        {children}
+      </main>
+    </>
   );
 };
 

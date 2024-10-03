@@ -26,7 +26,7 @@ export default async function LocaleLayout({
       <head>
         <link rel='icon' href='/favicon.ico' sizes='any' />
       </head>
-      <body className='flex flex-col'>
+      <body className='flex flex-col p-4'>
         <NextIntlClientProvider messages={messages}>
           {children}
           <Toaster position='top-center' />

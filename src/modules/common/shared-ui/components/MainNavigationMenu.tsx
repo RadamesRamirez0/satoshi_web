@@ -23,7 +23,7 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = () => {
     <nav className='flex items-center justify-between h-16 px-6 bg-muted text-background rounded-2xl '>
       <ul className='flex items-center'>
         <li className='mr-6'>
-          <Image src='/svg/satoshi_logo.svg' width={130} height={36} alt='Satoshi Logo' />
+          <Image src='/svg/satoshi_logo.svg' width={119} height={31} alt='Satoshi Logo' />
         </li>
         <NavigationItem>
           <Link href='/express'>{t('buyCrypto')}</Link>

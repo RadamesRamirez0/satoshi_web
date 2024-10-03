@@ -2,14 +2,19 @@
 import { useTranslations } from 'next-intl';
 import React, { FC } from 'react';
 
+import { TooltipWithIcon } from '@/modules/common/shared-ui/components/TooltipWithIcon';
 import { Button } from '@/modules/common/ui/components/button';
 import { Card, CardContent, CardFooter } from '@/modules/common/ui/components/card';
 import { Combobox } from '@/modules/common/ui/components/combobox';
 import { ComboboxItem } from '@/modules/common/ui/components/comboboxItem';
 import { InputWidget } from '@/modules/common/ui/components/inputWidget';
 import { TabsContent } from '@/modules/common/ui/components/tabs';
-import { baseCurrencies, fiatCurrencies } from '@/modules/cripto/constants/currencies';
-import useExpress from '@/modules/express/hooks/useExpress';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+} from '@/modules/common/ui/components/tooltip';
+import { useExpressContext } from '@/modules/express/contexts/ExpressContext';
 import { OrderType } from '@/modules/express/models/orderType';
 
 export interface BuySellContent {
@@ -17,44 +22,41 @@ export interface BuySellContent {
 }
 
 export const BuySellContent: FC<BuySellContent> = ({ type }) => {
-  let payCurrencies: string[] = fiatCurrencies;
-  let receiveCurrencies: string[] = baseCurrencies;
   let payDecimals = 2;
   let receiveDecimals = 8;
 
   if (type === 'sell') {
-    payCurrencies = baseCurrencies;
-    receiveCurrencies = fiatCurrencies;
     payDecimals = 8;
     receiveDecimals = 2;
   }
   const t = useTranslations('BuySell');
   const {
-    formik,
-    pay,
-    receive,
-    setPay,
-    setReceive,
     handlePay,
     handleReceive,
+    pay,
+    setPay,
+    receive,
+    setReceive,
     isErrorQuote,
     data,
-  } = useExpress({
-    initialValues: {
-      payCurrency: payCurrencies[0],
-      receiveCurrency: receiveCurrencies[0],
-    },
-    orderType: type,
-  });
+    fiatCurrencies,
+    cryptoCurrencies,
+    payCurrency,
+    receiveCurrency,
+    setPayCurrency,
+    setReceiveCurrency,
+    base,
+    quote,
+  } = useExpressContext();
 
   return (
     <TabsContent value={type}>
       <Card className='border-none'>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={() => {}}>
           <CardContent className='space-y-3 relative '>
             <InputWidget
               id='pay'
-              label={t('buyingSpend')}
+              label={t(type === 'buy' ? 'buyingSpend' : 'sellingSpend')}
               state={pay}
               setState={setPay}
               value={pay}
@@ -69,15 +71,14 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
             >
               <Combobox
                 small
-                defaultLabel={formik.values.payCurrency}
-                defaultValue={formik.values.payCurrency}
                 dropDownClassName='w-full'
                 triggerClassName='absolute right-4 top-0 bottom-0 m-auto z-10'
-                onChange={(v) => void formik.setFieldValue('payCurrency', v)}
+                onChange={setPayCurrency}
+                value={payCurrency}
               >
-                {payCurrencies.map((c) => (
-                  <ComboboxItem key={c} value={c} subLabel='Mexican Pesos'>
-                    {c}
+                {(type === 'buy' ? fiatCurrencies : cryptoCurrencies)?.map((c) => (
+                  <ComboboxItem key={c.id} value={c.id} subLabel={c.name}>
+                    {c.symbol}
                   </ComboboxItem>
                 ))}
               </Combobox>
@@ -99,22 +100,43 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
             >
               <Combobox
                 small
-                defaultLabel={formik.values.receiveCurrency}
-                defaultValue={formik.values.receiveCurrency}
                 dropDownClassName='w-full'
                 triggerClassName='absolute right-4 top-0 bottom-0 m-auto z-10'
-                onChange={(v) => void formik.setFieldValue('receiveCurrency', v)}
+                onChange={setReceiveCurrency}
+                value={receiveCurrency}
               >
-                {receiveCurrencies.map((c) => (
-                  <ComboboxItem key={c} value={c} subLabel='Mexican Pesos'>
-                    {c}
+                {(type === 'buy' ? cryptoCurrencies : fiatCurrencies)?.map((c) => (
+                  <ComboboxItem key={c.id} value={c.id} subLabel={c.name}>
+                    {c.symbol}
                   </ComboboxItem>
                 ))}
               </Combobox>
             </InputWidget>
           </CardContent>
-          <CardFooter>
-            <Button className='w-full ' size='xl'>
+          <CardFooter className='flex-col items-start space-y-2 pt-20'>
+            <TooltipProvider>
+              {data?.price && (
+                <span className='flex gap-3 items-center'>
+                  <Tooltip>
+                    <TooltipWithIcon>{t('estimatedPrice')}</TooltipWithIcon>
+                    <TooltipContent>{t('estimatedPriceTooltip')}</TooltipContent>
+                  </Tooltip>
+                  <p className='font-bold'>{`1 ${base.toUpperCase()} ≈ ${data.price} ${quote.toUpperCase()}`}</p>
+                </span>
+              )}
+              {data?.fee_percentage && (
+                <span className='pb-1'>
+                  <Tooltip>
+                    <TooltipWithIcon className='text-zinc-400'>
+                      {t('feeRate')}
+                    </TooltipWithIcon>
+                    <TooltipContent>{t('feeRateTooltip')}</TooltipContent>
+                    <p className='font-bold'>{data.fee_percentage}</p>
+                  </Tooltip>
+                </span>
+              )}
+            </TooltipProvider>
+            <Button className='w-full rounded-xl' size='xl'>
               {t('buyingLoginSign')}
             </Button>
           </CardFooter>

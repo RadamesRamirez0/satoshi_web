@@ -25,9 +25,8 @@ interface ComboboxProps extends PropsWithChildren {
   emptyValue?: string;
   dropDownClassName?: string;
   triggerClassName?: string;
-  onChange?: (value: string) => void;
-  defaultValue?: string;
-  defaultLabel?: string;
+  onChange: (value: string) => void;
+  value: string;
   size?: 'sm' | 'lg';
   small: boolean;
 }
@@ -38,15 +37,14 @@ const Combobox: FC<ComboboxProps> = ({
   dropDownClassName,
   triggerClassName,
   onChange,
-  defaultValue,
-  defaultLabel,
+  value,
   small,
   size = 'sm',
 }) => {
   return (
-    <ComboboxProvider {...{ onChange, defaultValue, defaultLabel }}>
+    <ComboboxProvider {...{ onChange, value }}>
       <ComboboxConsumer>
-        {({ open, setOpen, label, value, subLabel }) => (
+        {({ open, setOpen, value, subLabel }) => (
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
@@ -62,7 +60,7 @@ const Combobox: FC<ComboboxProps> = ({
                 )}
               >
                 <div className='flex items-center gap-2 text-ellipsis overflow-hidden'>
-                  {label === '' ? '' : label}
+                  {value.toUpperCase()}
                   {subLabel && !small && <p className='text-gray-500'>{subLabel}</p>}
                 </div>
                 <ChevronDownIcon className='size-5 ml-2 text-whiteBG/80 group-hover:text-whiteBG transition-colors' />

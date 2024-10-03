@@ -36,6 +36,7 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
+    'plugin:@next/next/recommended',
   ],
   plugins: ['react-hooks'],
   rules: {

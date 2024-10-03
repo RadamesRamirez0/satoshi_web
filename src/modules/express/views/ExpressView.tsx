@@ -1,13 +1,17 @@
 import React from 'react';
 
-import ExpressTab from '../components/ExpressTab';
+import AdvantagesSection from '@/modules/express/components/AdvantagesSection';
+import HowToSection from '@/modules/express/components/HowToSection';
+import WidgetSection from '@/modules/express/components/WidgetSection';
 
-const FiatView = () => {
+const ExpressView = () => {
   return (
-    <div className='pt-12 flex justify-center items-center'>
-      <ExpressTab />
-    </div>
+    <>
+      <WidgetSection />
+      <HowToSection />
+      <AdvantagesSection />
+    </>
   );
 };
 
-export default FiatView;
+export default ExpressView;

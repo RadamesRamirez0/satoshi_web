@@ -4,11 +4,11 @@
     "p2p": "P2P"
   },
   "BuySell": {
-    "buying": "Comprar",
+    "buy": "Comprar",
     "buyingSpend": "Tú pagas",
     "buyingReceive": "Tú recibes",
     "buyingLoginSign": "Iniciar Sesión / Registrarse",
-    "selling": "Vender",
+    "sell": "Vender",
     "sellingSpend": "Tú vendes",
     "sellingReceive": "Tú recibes",
     "sellingLoginSign": "Iniciar Sesión / Registrarse"

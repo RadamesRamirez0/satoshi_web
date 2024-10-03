@@ -4,14 +4,36 @@
     "p2p": "P2P"
   },
   "BuySell": {
-    "buying": "Buy",
+    "buy": "Buy",
     "buyingSpend": "You pay",
     "buyingReceive": "You receive",
     "buyingLoginSign": "Log In / Sign Up",
-    "selling": "Sell",
+    "sell": "Sell",
     "sellingSpend": "You sell",
     "sellingReceive": "You receive",
-    "sellingLoginSign": "Log In / Sign Up"
+    "sellingLoginSign": "Log In / Sign Up",
+    "estimatedPrice": "Estimated price",
+    "estimatedPriceTooltip": "This is estimated based on the available advertisements on P2P Zone. Click on Select Payment Method to view actual prices.",
+    "feeRate": "Fee rate",
+    "feeRateTooltip": "Upon order completion, the processing fee is automatically deducted from the total crypto quantity when seller release the crypto to buyer"
+  },
+  "HowTo": {
+    "mainTitle": "How to buy {base} via P2P Express",
+    "stepOneTitle": "1. Get matched with the best offers",
+    "stepOneContent": "Select your {base} and {quote} pair, enter your purchase amount, and get matched with top offers.",
+    "stepTwoTitle": "2. Pay with {quote}",
+    "stepTwoContent": "Select your preferred payment method, and pay the seller within time limit",
+    "stepThreeTitle": "3. Receive {base}",
+    "stepThreeContent": "Once the seller confirms payment, you'll receive {base} in your funding wallet"
+  },
+  "Advantages": {
+    "mainTitle": "Advantages of P2P Exchange",
+    "firstTitle": "Trade at Your Preferred Prices",
+    "firstContent": "Where as many other P2P platforms target specific markets, Satoshi P2P provides a truly global trading experience with support for more than 70 local currencies.",
+    "secondTitle": "Flexible Payment Methods",
+    "secondContent": "Trusted by millions of users worldwide, Satoshi P2P provides a safe platform to conduct crypto trades in 800+ payment methods and 100+ fiat currencies. Users can easily buy, sell and trade crypto directly with other users, while setting their preferred prices and payment methods in an open crypto marketplace.",
+    "thirdTitle": "Trade at Your Preferred Prices",
+    "thirdContent": "Trade crypto with the freedom to buy and sell at your preferred prices. Buy or sell from the existing offers, or create trade advertisements to set your own prices."
   },
   "Login": {
     "title": "Log In",

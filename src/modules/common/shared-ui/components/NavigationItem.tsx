@@ -5,7 +5,12 @@ import { Button } from '@/modules/common/ui/components/button';
 const NavigationItem: FC<PropsWithChildren> = ({ children }) => {
   return (
     <li>
-      <Button variant='string' size='lg' className='h-16  rounded-none px-2' asChild>
+      <Button
+        variant='string'
+        size='lg'
+        className='h-16  rounded-none px-2 font-bold'
+        asChild
+      >
         {children}
       </Button>
     </li>
