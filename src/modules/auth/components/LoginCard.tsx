@@ -1,9 +1,12 @@
+import { headers } from 'next/headers';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import React from 'react';
 
+import { getSession } from '@/app/api/auth/lib/session';
 import LoginForm from '@/modules/auth/components/LoginForm';
 import LoginRegister from '@/modules/auth/components/LoginRegister';
+import { redirect } from '@/modules/common/i18n/routing';
 import {
   Card,
   CardContent,
@@ -11,8 +14,15 @@ import {
   CardHeader,
 } from '@/modules/common/ui/components/card';
 
-const LoginCard = () => {
-  const t = useTranslations('Login');
+const LoginCard = async () => {
+  const session = getSession();
+  if (session) {
+    redirect('/');
+  }
+
+  const t = await getTranslations('Login');
+  const referer = headers().get('referer');
+  const redirectTo = !referer || referer.includes('login') ? '/' : referer;
 
   return (
     <Card className='px-6 min-w-[25rem] border py-6'>
@@ -21,7 +31,7 @@ const LoginCard = () => {
         <h1 className='text-3xl font-semibold'>{t('title')}</h1>
       </CardHeader>
       <CardContent className='pt-2'>
-        <LoginForm />
+        <LoginForm redirectTo={redirectTo} />
       </CardContent>
       <CardFooter className='flex-col items-start'>
         <LoginRegister />

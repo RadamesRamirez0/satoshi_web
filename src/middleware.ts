@@ -15,12 +15,7 @@ export function middleware(request: NextRequest): NextResponse {
   if (!sessionCookie && isProtectedRoute) {
     request.nextUrl.pathname = `/${locale}/auth/login`;
   }
-  if (
-    sessionCookie &&
-    (path.includes('/auth/login') || path.includes('/auth/register'))
-  ) {
-    request.nextUrl.pathname = `/${locale}/users/me`;
-  }
+
   const response = intlMiddleware(request);
 
   return response;

@@ -10,11 +10,11 @@ import { useExpressContext } from '@/modules/express/contexts/ExpressContext';
 const HowToSection = () => {
   const t = useTranslations('HowTo');
 
-  const { base, quote } = useExpressContext();
+  const { base, quote, orderType } = useExpressContext();
 
   return (
     <section className='flex flex-col gap-8'>
-      <h2 className='text-5xl font-bold'>{t('mainTitle', { base })}</h2>
+      <h2 className='text-5xl font-bold'>{t(`${orderType}MainTitle`, { base })}</h2>
       <article className='flex w-full gap-4'>
         <Card className='flex-1'>
           <CardContent className='space-y-6 pt-8 pb-12'>
@@ -25,8 +25,8 @@ const HowToSection = () => {
               height={31}
               className='w-full'
             />
-            <h3 className='text-xl font-bold'>{t('stepOneTitle')}</h3>
-            <p>{t('stepOneContent', { base, quote })}</p>
+            <h3 className='text-xl font-bold'>{t(`${orderType}StepOneTitle`)}</h3>
+            <p>{t(`${orderType}StepOneContent`, { base, quote })}</p>
           </CardContent>
         </Card>
         <Card className='flex-1'>
@@ -38,8 +38,10 @@ const HowToSection = () => {
               height={31}
               className='w-full'
             />
-            <h3 className='text-xl font-bold'>{t('stepTwoTitle', { quote })}</h3>
-            <p>{t('stepTwoContent')}</p>
+            <h3 className='text-xl font-bold'>
+              {t(`${orderType}StepTwoTitle`, { quote, base })}
+            </h3>
+            <p>{t(`${orderType}StepTwoContent`, { quote })}</p>
           </CardContent>
         </Card>
         <Card className='flex-1'>
@@ -51,8 +53,10 @@ const HowToSection = () => {
               height={31}
               className='w-full'
             />
-            <h3 className='text-xl font-bold'>{t('stepThreeTitle', { base })}</h3>
-            <p>{t('stepThreeContent', { base })}</p>
+            <h3 className='text-xl font-bold'>
+              {t(`${orderType}StepThreeTitle`, { base })}
+            </h3>
+            <p>{t(`${orderType}StepThreeContent`, { base, quote })}</p>
           </CardContent>
         </Card>
       </article>

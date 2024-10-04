@@ -2,14 +2,13 @@
 
 import { useFormik } from 'formik';
 // eslint-disable-next-line import/no-unresolved
-import { Messages } from 'global';
 import { useTranslations } from 'next-intl';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 
+import { register } from '@/app/api/auth/registerAction';
 import PasswordValidator from '@/modules/auth/components/PasswordValidator';
 import { partnerId } from '@/modules/auth/constants/env';
-import { authRepository } from '@/modules/auth/repository';
 import {
   PasswordValidation,
   validatePassword,
@@ -22,7 +21,11 @@ import { Input } from '@/modules/common/ui/components/input';
 import { Label } from '@/modules/common/ui/components/label';
 import { toast } from '@/modules/common/utils/toast';
 
-const RegisterForm = () => {
+export interface RegisterFormProps {
+  redirectTo?: string;
+}
+
+const RegisterForm: FC<RegisterFormProps> = ({ redirectTo }) => {
   const passRef = useRef<HTMLInputElement>(null);
   const [passFocused, setPassFocused] = useState<boolean>(false);
   const [validations, setValidations] = useState<PasswordValidation>();
@@ -45,23 +48,16 @@ const RegisterForm = () => {
       password: Yup.string()
         .required(t('passwordRequired'))
         .min(8, t('passwordMinLength')),
+      tos: Yup.boolean().oneOf([true], t('tosRequired')),
     }),
-    onSubmit: async (values) => {
-      const res = await authRepository.register({ ...values, partner_id: partnerId });
+    onSubmit: async ({ email, password }) => {
+      const res = await register({ email, password, partner_id: partnerId });
 
       if (res.error) {
-        let error: keyof Messages['Register'] = 'defaultError';
-        if (res.error === 'Email already registered') {
-          error = 'emailTakenError';
-        }
-        toast.error(t(error));
-
-        return;
+        toast.error(res.error);
       }
 
-      toast.success(t('toastSuccess'));
-
-      router.push(`/users/me`);
+      router.push(redirectTo ?? '/');
     },
   });
 

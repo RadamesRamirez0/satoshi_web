@@ -1,12 +1,15 @@
+import { GlobeIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import * as React from 'react';
 import { FC } from 'react';
 import { FaRegCircleUser } from 'react-icons/fa6';
 
+import { getSession } from '@/app/api/auth/lib/session';
 import { Link } from '@/modules/common/i18n/routing';
-import NavDropdown from '@/modules/common/shared-ui/components/NavDropdown';
+import L10nDropdown from '@/modules/common/shared-ui/components/L10nDropdown';
 import NavigationItem from '@/modules/common/shared-ui/components/NavigationItem';
+import UserNavDropdown from '@/modules/common/shared-ui/components/UserNavDropdown';
 import { Button } from '@/modules/common/ui/components/button';
 import {
   Popover,
@@ -16,8 +19,9 @@ import {
 
 export type MainNavegationMenuProps = object;
 
-export const MainNavigationMenu: FC<MainNavegationMenuProps> = () => {
-  const t = useTranslations('MainNavigationMenu');
+export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
+  const t = await getTranslations('MainNavigationMenu');
+  const session = getSession();
 
   return (
     <nav className='flex items-center justify-between h-16 px-6 bg-muted text-background rounded-2xl '>
@@ -32,12 +36,46 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = () => {
           <Link href='/p2p'>{t('p2p')}</Link>
         </NavigationItem>
       </ul>
-      <ul className='flex items-center'>
+      <ul className='flex items-center gap-4'>
+        {session && (
+          <li>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant='string' size='icon'>
+                  <FaRegCircleUser className='w-full h-full' />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                align='end'
+                side='bottom'
+                sideOffset={30}
+                alignOffset={-26}
+                className='border-none bg-muted p-0'
+              >
+                <UserNavDropdown />
+              </PopoverContent>
+            </Popover>
+          </li>
+        )}
+        {!session && (
+          <>
+            <li>
+              <Button variant='secondary' size='default' asChild>
+                <Link href='/auth/login'>{t('logIn')}</Link>
+              </Button>
+            </li>
+            <li>
+              <Button size='default' asChild>
+                <Link href='/auth/register'>{t('signUp')}</Link>
+              </Button>
+            </li>
+          </>
+        )}
         <li>
           <Popover>
             <PopoverTrigger asChild>
               <Button variant='string' size='icon'>
-                <FaRegCircleUser className='w-full h-full' />
+                <GlobeIcon className='w-full h-full' />
               </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -45,9 +83,9 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = () => {
               side='bottom'
               sideOffset={30}
               alignOffset={-26}
-              className='border-none bg-muted p-0'
+              className='border-none bg-muted p-0 w-48'
             >
-              <NavDropdown />
+              <L10nDropdown />
             </PopoverContent>
           </Popover>
         </li>

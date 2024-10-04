@@ -10,7 +10,7 @@ const ExpressTab = () => {
   const { setOrderType } = useExpressContext();
 
   return (
-    <Tabs defaultValue='buy' className='w-[28rem]'>
+    <Tabs defaultValue='buy' className='w-[28rem] shrink-0'>
       <div className='bg-card border-2 rounded-t-[1.62rem] rounded-b-3xl '>
         <TabsList className='grid w-full grid-cols-2'>
           <TabsTrigger

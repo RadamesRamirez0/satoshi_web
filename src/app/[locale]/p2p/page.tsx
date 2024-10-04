@@ -1,7 +1,3 @@
-import React from 'react';
+import P2PView from '@/modules/p2p/views/P2PView';
 
-const P2PPage = () => {
-  return <div>WIP</div>;
-};
-
-export default P2PPage;
+export default P2PView;

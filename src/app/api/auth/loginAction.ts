@@ -3,15 +3,13 @@
 import { getTranslations } from 'next-intl/server';
 
 import { createSession } from '@/app/api/auth/lib/session';
-import { FailedUserAuthentication } from '@/modules/auth/models/userAuthentication';
 import { authRepository } from '@/modules/auth/repository';
-import { LoginDTO } from '@/modules/auth/repository/dtos/loginDto';
-import { redirect } from '@/modules/common/i18n/routing';
+import { LoginDTO, LoginResponse } from '@/modules/auth/repository/dtos/loginDto';
 
 export const login = async ({
   username,
   password,
-}: Pick<LoginDTO, 'username' | 'password'>): Promise<FailedUserAuthentication | void> => {
+}: Pick<LoginDTO, 'username' | 'password'>): Promise<LoginResponse> => {
   const t = await getTranslations('Login');
 
   const res = await authRepository.login({
@@ -25,5 +23,6 @@ export const login = async ({
   }
 
   createSession(res.access_token);
-  redirect('/users/me');
+
+  return res;
 };

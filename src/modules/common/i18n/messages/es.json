@@ -1,58 +1,106 @@
 {
   "MainNavigationMenu": {
-    "buyCrypto": "Comprar Cripto",
-    "p2p": "P2P"
+    "buyCrypto": "Express",
+    "p2p": "P2P",
+    "logIn": "Iniciar sesión",
+    "signUp": "Registrarse"
   },
   "BuySell": {
+    "title": "{type, select, buy {Compra} sell {Vende} other {}} {base} con {quote}",
+    "subtitle": "Compra y vende {base} en Satoshi P2P con varios métodos de pago",
     "buy": "Comprar",
     "buyingSpend": "Tú pagas",
     "buyingReceive": "Tú recibes",
-    "buyingLoginSign": "Iniciar Sesión / Registrarse",
+    "buyingLoginSign": "Iniciar sesión / Registrarse",
     "sell": "Vender",
     "sellingSpend": "Tú vendes",
     "sellingReceive": "Tú recibes",
-    "sellingLoginSign": "Iniciar Sesión / Registrarse"
+    "sellingLoginSign": "Iniciar sesión / Registrarse",
+    "estimatedPrice": "Precio estimado",
+    "estimatedPriceTooltip": "Este es un precio estimado basado en los anuncios disponibles en la Zona P2P. Haz clic en Seleccionar método de pago para ver los precios reales.",
+    "feeRate": "Tasa de comisión",
+    "feeRateTooltip": "Al completar la orden, la comisión de procesamiento se deduce automáticamente de la cantidad total de criptomonedas cuando el vendedor libera las criptomonedas al comprador."
+  },
+  "HowTo": {
+    "buyMainTitle": "Cómo comprar {base} a través de P2P Express",
+    "buyStepOneTitle": "1. Encuentra las mejores ofertas",
+    "buyStepOneContent": "Selecciona tu par {base} y {quote}, ingresa la cantidad que deseas comprar y encuentra las mejores ofertas.",
+    "buyStepTwoTitle": "2. Paga con {quote}",
+    "buyStepTwoContent": "Selecciona tu método de pago preferido y paga al vendedor dentro del límite de tiempo.",
+    "buyStepThreeTitle": "3. Recibe {base}",
+    "buyStepThreeContent": "Una vez que el vendedor confirme el pago, recibirás {base} en tu billetera de fondos.",
+    "sellMainTitle": "Cómo vender {base} a través de P2P Express",
+    "sellStepOneTitle": "1. Encuentra las mejores ofertas",
+    "sellStepOneContent": "Selecciona tu par {base} y {quote}, ingresa la cantidad que deseas vender y encuentra las mejores ofertas.",
+    "sellStepTwoTitle": "2. Recibe {quote}",
+    "sellStepTwoContent": "Elige el método de pago para recibir {quote}.",
+    "sellStepThreeTitle": "3. Libera {base}",
+    "sellStepThreeContent": "Una vez que recibas {quote} en tu cuenta del comprador, libera {base} para el comprador."
+  },
+  "Advantages": {
+    "mainTitle": "Ventajas del intercambio P2P",
+    "firstTitle": "Comercia a tus precios preferidos",
+    "firstContent": "Mientras que muchas otras plataformas P2P se enfocan en mercados específicos, Satoshi P2P ofrece una experiencia de comercio verdaderamente global con soporte para más de 70 monedas locales.",
+    "secondTitle": "Métodos de pago flexibles",
+    "secondContent": "Confiado por millones de usuarios en todo el mundo, Satoshi P2P proporciona una plataforma segura para realizar transacciones de criptomonedas con más de 800 métodos de pago y más de 100 monedas fiduciarias. Los usuarios pueden comprar, vender y comerciar criptomonedas directamente con otros usuarios, estableciendo sus precios y métodos de pago preferidos en un mercado abierto de criptomonedas.",
+    "thirdTitle": "Comercia a tus precios preferidos",
+    "thirdContent": "Comercia criptomonedas con la libertad de comprar y vender a los precios que prefieras. Compra o vende desde las ofertas existentes, o crea anuncios comerciales para establecer tus propios precios."
   },
   "Login": {
-    "title": "Iniciar Sesión",
-    "email": "Correo Electrónico",
+    "title": "Iniciar sesión",
+    "email": "Correo electrónico",
     "emailPlaceholder": "Tu correo electrónico",
-    "emailError": "Correo electrónico no válido",
+    "emailError": "Dirección de correo electrónico no válida",
     "emailRequired": "Debes ingresar tu correo electrónico",
     "password": "Contraseña",
     "passwordPlaceholder": "Tu contraseña",
     "passwordRequired": "Debes ingresar tu contraseña",
     "forgotPassword": "Olvidé mi contraseña",
-    "mainAction": "Iniciar Sesión",
-    "registerLabel": "Crear una cuenta en Satoshi"
+    "mainAction": "Iniciar sesión",
+    "registerLabel": "Crea una cuenta en Satoshi",
+    "defaultError": "Correo electrónico o contraseña incorrectos"
   },
   "Register": {
     "title": "Registrarse",
-    "email": "Correo Electrónico",
+    "email": "Correo electrónico",
     "emailPlaceholder": "Tu correo electrónico",
-    "emailError": "Correo electrónico no válido",
+    "emailError": "Dirección de correo electrónico no válida",
     "emailRequired": "Debes ingresar tu correo electrónico",
     "password": "Contraseña",
     "passwordError": "Contraseña no válida",
-    "passwordPlaceholder": "Tu contraseña"
+    "passwordPlaceholder": "Tu contraseña",
+    "passwordRequired": "Debes ingresar tu contraseña",
+    "passwordMinLength": "La contraseña debe tener al menos 8 caracteres",
+    "forgotPassword": "Olvidé mi contraseña",
+    "tosRequired": "Debes aceptar los términos y condiciones",
+    "mainAction": "Iniciar sesión",
+    "registerLabel": "Crea una cuenta en Satoshi",
+    "terms": "Acepto los términos y condiciones del servicio",
+    "length": "Más de 8 caracteres",
+    "uppercase": "Contiene letras mayúsculas",
+    "lowercase": "Contiene letras minúsculas",
+    "specialChars": "Contiene caracteres especiales",
+    "toastSuccess": "Cuenta creada con éxito",
+    "defaultError": "Ocurrió un error. Inténtalo de nuevo más tarde",
+    "emailTakenError": "El correo electrónico ya está registrado"
   },
   "Verification": {
     "completedStep": "Completado",
     "pendingStep": "Pendiente",
 
-    "step1Title": "Verifica email",
-    "step1CompleteTitle": "Primero, verifica tu correo electrónico",
-    "step1Body": "Te enviaremos un email con un enlace para confirmar tu correo electrónico",
-    "step1Action": "Enviar email",
+    "step1Title": "Verifica tu correo electrónico",
+    "step1CompleteTitle": "Primero, verifica tu dirección de correo electrónico",
+    "step1Body": "Te enviaremos un correo electrónico con un enlace para confirmar tu dirección de correo.",
+    "step1Action": "Enviar correo",
 
     "step2Title": "Verifica tu identidad",
     "step2CompleteTitle": "Ahora verifica tu identidad",
-    "step2Body": "Te pediremos tu identificación oficial y que nos muestres tu rostro en video",
-    "step2Action": "Realizar KYC",
+    "step2Body": "Te pediremos tu identificación oficial y un video de tu rostro.",
+    "step2Action": "Iniciar KYC",
 
     "step3Title": "Tu primera compra",
-    "step3CompleteTitle": "¡Ya estás! Realiza tu primera transacción",
-    "step3Body": "Te enviaremos un email con un enlace para confirmar tu correo electrónico",
+    "step3CompleteTitle": "¡Todo listo! Realiza tu primera transacción",
+    "step3Body": "Te enviaremos un correo electrónico con un enlace para confirmar tu dirección de correo.",
     "step3Action": "Comprar/Vender Cripto"
   }
 }

@@ -2,19 +2,26 @@
 
 import { useFormik } from 'formik';
 import { useTranslations } from 'next-intl';
-import React from 'react';
+import React, { FC } from 'react';
 import * as Yup from 'yup';
 
 import { login } from '@/app/api/auth/loginAction';
 import LoginForgotPassword from '@/modules/auth/components/LoginForgotPassword';
+import { useRouter } from '@/modules/common/i18n/routing';
 import { Button } from '@/modules/common/ui/components/button';
 import HintText from '@/modules/common/ui/components/hintText';
 import { Input } from '@/modules/common/ui/components/input';
 import { Label } from '@/modules/common/ui/components/label';
 import { toast } from '@/modules/common/utils/toast';
 
-const LoginForm = () => {
+export interface LoginFormProps {
+  redirectTo?: string;
+}
+
+const LoginForm: FC<LoginFormProps> = ({ redirectTo }) => {
   const t = useTranslations('Login');
+
+  const router = useRouter();
   const {
     handleSubmit,
     values,
@@ -31,9 +38,11 @@ const LoginForm = () => {
     }),
     onSubmit: async ({ email, password }) => {
       const res = await login({ username: email, password });
-      if (res) {
+      if ('detail' in res) {
         toast.error(res.detail);
       }
+
+      router.push(redirectTo ?? '/');
     },
   });
 

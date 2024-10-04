@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { CgLogOut } from 'react-icons/cg';
 import { FaRegCircleUser } from 'react-icons/fa6';
 
+import { logout } from '@/app/api/auth/logoutAction';
 import { Link } from '@/modules/common/i18n/routing';
 import NavDropdownItem from '@/modules/common/shared-ui/components/NavDropdownItem';
 import {
@@ -12,9 +13,9 @@ import {
 } from '@/modules/common/shared-ui/components/NavigationAccordion';
 import { Button } from '@/modules/common/ui/components/button';
 
-export type NavDropdownProps = object;
+export type UserNavDropdownProps = object;
 
-const NavDropdown: FC<NavDropdownProps> = () => {
+const UserNavDropdown: FC<UserNavDropdownProps> = () => {
   return (
     <>
       <div className='flex px-6 py-4 justify-between'>
@@ -53,16 +54,18 @@ const NavDropdown: FC<NavDropdownProps> = () => {
           Settings
         </NavDropdownItem>
       </div>
-      <Button
-        className='w-full gap-3 rounded-t-none justify-start px-6'
-        variant='destructive'
-        size='md'
-      >
-        <CgLogOut className='size-5' />
-        Log Out
-      </Button>
+      <form action={logout}>
+        <Button
+          className='w-full gap-3 rounded-t-none justify-start px-6'
+          variant='destructive'
+          size='md'
+        >
+          <CgLogOut className='size-5' />
+          Log Out
+        </Button>
+      </form>
     </>
   );
 };
 
-export default NavDropdown;
+export default UserNavDropdown;

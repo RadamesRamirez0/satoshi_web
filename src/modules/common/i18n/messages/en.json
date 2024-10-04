@@ -1,9 +1,13 @@
 {
   "MainNavigationMenu": {
-    "buyCrypto": "Buy Crypto",
-    "p2p": "P2P"
+    "buyCrypto": "Express",
+    "p2p": "P2P",
+    "logIn": "Log In",
+    "signUp": "Sign Up"
   },
   "BuySell": {
+    "title": "{type, select, buy {Buy} sell {Sell} other {}} {base} with {quote}",
+    "subtitle": "Buy and sell {base} on Satoshi P2P with various payment methods",
     "buy": "Buy",
     "buyingSpend": "You pay",
     "buyingReceive": "You receive",
@@ -18,13 +22,20 @@
     "feeRateTooltip": "Upon order completion, the processing fee is automatically deducted from the total crypto quantity when seller release the crypto to buyer"
   },
   "HowTo": {
-    "mainTitle": "How to buy {base} via P2P Express",
-    "stepOneTitle": "1. Get matched with the best offers",
-    "stepOneContent": "Select your {base} and {quote} pair, enter your purchase amount, and get matched with top offers.",
-    "stepTwoTitle": "2. Pay with {quote}",
-    "stepTwoContent": "Select your preferred payment method, and pay the seller within time limit",
-    "stepThreeTitle": "3. Receive {base}",
-    "stepThreeContent": "Once the seller confirms payment, you'll receive {base} in your funding wallet"
+    "buyMainTitle": "How to buy {base} via P2P Express",
+    "buyStepOneTitle": "1. Get matched with the best offers",
+    "buyStepOneContent": "Select your {base} and {quote} pair, enter your purchase amount, and get matched with top offers.",
+    "buyStepTwoTitle": "2. Pay with {quote}",
+    "buyStepTwoContent": "Select your preferred payment method, and pay the seller within time limit",
+    "buyStepThreeTitle": "3. Receive {base}",
+    "buyStepThreeContent": "Once the seller confirms payment, you'll receive {base} in your funding wallet",
+    "sellMainTitle": "How to sell {base} via P2P Express",
+    "sellStepOneTitle": "1. Get matched with the best offers",
+    "sellStepOneContent": "Select your {base} and {quote} pair, enter your sell amount, and get matched with top offers.",
+    "sellStepTwoTitle": "2. Receive {quote}",
+    "sellStepTwoContent": "Choose payment method to receive {quote}",
+    "sellStepThreeTitle": "3. Release {base}",
+    "sellStepThreeContent": "Once you receive {quote} in your account from the buyer, release the {base} to the buyer"
   },
   "Advantages": {
     "mainTitle": "Advantages of P2P Exchange",
@@ -61,6 +72,7 @@
     "passwordRequired": "You must enter your password",
     "passwordMinLength": "Password must be at least 8 characters",
     "forgotPassword": "I forgot my password",
+    "tosRequired": "You must accept the terms and conditions",
     "mainAction": "Log In",
     "registerLabel": "Create a Satoshi account",
     "terms": "I accept the terms and conditions of service",
