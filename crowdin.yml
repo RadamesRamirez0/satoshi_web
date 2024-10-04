@@ -1,0 +1,13 @@
+'project_id_env': '724057'
+'api_token_env': '47abe00cb8d7baeb1279fa41d73d47085f75a05d69dd5ccaba22ec1f39a10d700ed2bfe67934fec7'
+'base_path': '.'
+
+'preserve_hierarchy': true
+
+'files':
+  [
+    {
+      'source': 'src/modules/common/i18n/messages/en.json',
+      'translation': 'src/modules/common/i18n/messages/%two_letters_code%.json',
+    },
+  ]
