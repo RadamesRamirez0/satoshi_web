@@ -19,23 +19,23 @@
     "estimatedPrice": "Precio estimado",
     "estimatedPriceTooltip": "Este es un precio estimado basado en los anuncios disponibles en la Zona P2P. Haz clic en Seleccionar método de pago para ver los precios reales.",
     "feeRate": "Tasa de comisión",
-    "feeRateTooltip": "Al completar la orden, la comisión de procesamiento se deduce automáticamente de la cantidad total de criptomonedas cuando el vendedor libera las criptomonedas al comprador."
+    "feeRateTooltip": "Al completar la orden, la comisión de procesamiento se deduce automáticamente de la cantidad total de criptomonedas cuando el vendedor libera las criptomonedas al comprador"
   },
   "HowTo": {
     "buyMainTitle": "Cómo comprar {base} a través de P2P Express",
     "buyStepOneTitle": "1. Encuentra las mejores ofertas",
     "buyStepOneContent": "Selecciona tu par {base} y {quote}, ingresa la cantidad que deseas comprar y encuentra las mejores ofertas.",
     "buyStepTwoTitle": "2. Paga con {quote}",
-    "buyStepTwoContent": "Selecciona tu método de pago preferido y paga al vendedor dentro del límite de tiempo.",
+    "buyStepTwoContent": "Selecciona tu método de pago preferido y paga al vendedor dentro del límite de tiempo",
     "buyStepThreeTitle": "3. Recibe {base}",
-    "buyStepThreeContent": "Una vez que el vendedor confirme el pago, recibirás {base} en tu billetera de fondos.",
+    "buyStepThreeContent": "Una vez que el vendedor confirme el pago, recibirás {base} en tu billetera de fondos",
     "sellMainTitle": "Cómo vender {base} a través de P2P Express",
     "sellStepOneTitle": "1. Encuentra las mejores ofertas",
     "sellStepOneContent": "Selecciona tu par {base} y {quote}, ingresa la cantidad que deseas vender y encuentra las mejores ofertas.",
     "sellStepTwoTitle": "2. Recibe {quote}",
-    "sellStepTwoContent": "Elige el método de pago para recibir {quote}.",
+    "sellStepTwoContent": "Elige el método de pago para recibir {quote}",
     "sellStepThreeTitle": "3. Libera {base}",
-    "sellStepThreeContent": "Una vez que recibas {quote} en tu cuenta del comprador, libera {base} para el comprador."
+    "sellStepThreeContent": "Una vez que recibas {quote} en tu cuenta del comprador, libera {base} para el comprador"
   },
   "Advantages": {
     "mainTitle": "Ventajas del intercambio P2P",
@@ -87,17 +87,14 @@
   "Verification": {
     "completedStep": "Completado",
     "pendingStep": "Pendiente",
-
     "step1Title": "Verifica tu correo electrónico",
     "step1CompleteTitle": "Primero, verifica tu dirección de correo electrónico",
     "step1Body": "Te enviaremos un correo electrónico con un enlace para confirmar tu dirección de correo.",
     "step1Action": "Enviar correo",
-
     "step2Title": "Verifica tu identidad",
     "step2CompleteTitle": "Ahora verifica tu identidad",
     "step2Body": "Te pediremos tu identificación oficial y un video de tu rostro.",
     "step2Action": "Iniciar KYC",
-
     "step3Title": "Tu primera compra",
     "step3CompleteTitle": "¡Todo listo! Realiza tu primera transacción",
     "step3Body": "Te enviaremos un correo electrónico con un enlace para confirmar tu dirección de correo.",
