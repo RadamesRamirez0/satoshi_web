@@ -1,14 +1,17 @@
 import React from 'react';
 
 import AdvantagesSection from '@/modules/express/components/AdvantagesSection';
+import ClientWrapper from '@/modules/express/components/ClientWrapper';
 import HowToSection from '@/modules/express/components/HowToSection';
 import WidgetSection from '@/modules/express/components/WidgetSection';
 
 const ExpressView = () => {
   return (
     <>
-      <WidgetSection />
-      <HowToSection />
+      <ClientWrapper>
+        <WidgetSection />
+        <HowToSection />
+      </ClientWrapper>
       <AdvantagesSection />
     </>
   );

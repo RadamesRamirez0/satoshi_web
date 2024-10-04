@@ -177,10 +177,10 @@ const useExpress = (): UseExpressValues => {
   useEffect(() => {
     setReceive('');
     if (orderType === 'buy') {
-      setBase(receiveCurrency);
+      setBase(receiveCurrency.toUpperCase());
     }
     if (orderType === 'sell') {
-      setQuote(receiveCurrency);
+      setQuote(receiveCurrency.toUpperCase());
     }
   }, [receiveCurrency]);
 

@@ -121,7 +121,7 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                     <TooltipWithIcon>{t('estimatedPrice')}</TooltipWithIcon>
                     <TooltipContent>{t('estimatedPriceTooltip')}</TooltipContent>
                   </Tooltip>
-                  <p className='font-bold'>{`1 ${base.toUpperCase()} ≈ ${data.price} ${quote.toUpperCase()}`}</p>
+                  <p className='font-bold'>{`1 ${base} ≈ ${data.price} ${quote}`}</p>
                 </span>
               )}
               {data?.fee_percentage && (
