@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import React from 'react';
@@ -7,16 +6,16 @@ import { getSession } from '@/app/api/auth/lib/session';
 import RegisterForm from '@/modules/auth/components/RegisterForm';
 import { redirect } from '@/modules/common/i18n/routing';
 import { Card, CardContent, CardHeader } from '@/modules/common/ui/components/card';
+import { getRedirect } from '@/modules/common/utils/getRedirect';
 
 const RegisterCard = async () => {
   const session = getSession();
+  const t = await getTranslations('Register');
   if (session) {
     redirect('/');
   }
 
-  const t = await getTranslations('Login');
-  const referer = headers().get('referer');
-  const redirectTo = !referer || referer.includes('register') ? '/' : referer;
+  const redirectTo = getRedirect('auth');
 
   return (
     <Card className='px-6 sm:w-[25rem]  border py-6'>

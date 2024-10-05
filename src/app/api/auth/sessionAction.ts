@@ -1,3 +1,7 @@
-import { getSession } from '@/app/api/auth/lib/session';
+'use server';
 
-export const sessionAction = getSession;
+import { getSession as s } from '@/app/api/auth/lib/session';
+import { TokenWithPayload } from '@/modules/auth/types/tokenPayload';
+
+// eslint-disable-next-line @typescript-eslint/require-await
+export const getSession = async (): Promise<TokenWithPayload | null> => s();

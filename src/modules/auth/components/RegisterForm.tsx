@@ -1,6 +1,7 @@
 'use client';
 
 import { useFormik } from 'formik';
+import { useRouter } from 'next/navigation';
 // eslint-disable-next-line import/no-unresolved
 import { useTranslations } from 'next-intl';
 import React, { FC, useEffect, useRef, useState } from 'react';
@@ -13,7 +14,6 @@ import {
   PasswordValidation,
   validatePassword,
 } from '@/modules/auth/utils/validatePassword';
-import { useRouter } from '@/modules/common/i18n/routing';
 import { Button } from '@/modules/common/ui/components/button';
 import { Checkbox } from '@/modules/common/ui/components/checkbox';
 import HintText from '@/modules/common/ui/components/hintText';
@@ -38,11 +38,12 @@ const RegisterForm: FC<RegisterFormProps> = ({ redirectTo }) => {
     handleChange,
     handleBlur,
     touched,
+    setFieldValue,
     errors,
     isSubmitting,
     isValid,
   } = useFormik({
-    initialValues: { email: '', password: '' },
+    initialValues: { email: '', password: '', tos: false },
     validationSchema: Yup.object({
       email: Yup.string().email(t('emailError')).required(t('emailRequired')),
       password: Yup.string()
@@ -55,6 +56,8 @@ const RegisterForm: FC<RegisterFormProps> = ({ redirectTo }) => {
 
       if (res.error) {
         toast.error(res.error);
+
+        return;
       }
 
       router.push(redirectTo ?? '/');
@@ -90,7 +93,6 @@ const RegisterForm: FC<RegisterFormProps> = ({ redirectTo }) => {
       </span>
       <span className='relative'>
         <Label htmlFor='password'>{t('password')}</Label>
-
         <Input
           type='password'
           id='password'
@@ -108,13 +110,21 @@ const RegisterForm: FC<RegisterFormProps> = ({ redirectTo }) => {
         />
         <PasswordValidator open={passFocused} validations={validations} />
       </span>
-      <span className='flex items-center space-x-2 '>
-        <Checkbox id='terms' />
-        <Label htmlFor='terms' className='text-sm'>
-          {t('terms')}
-        </Label>
+      <span>
+        <span className='flex items-center space-x-2 '>
+          <Checkbox
+            id='tos'
+            checked={values.tos}
+            onCheckedChange={(v) => void setFieldValue('tos', v)}
+            type='button'
+            name='tos'
+          />
+          <Label htmlFor='terms' className='text-sm'>
+            {t('terms')}
+          </Label>
+          {touched.tos && errors.tos && <HintText variant='error'>{errors.tos}</HintText>}
+        </span>
       </span>
-
       <span className='pt-2'>
         <Button
           size='lg'

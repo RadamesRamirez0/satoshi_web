@@ -1,13 +1,13 @@
 'use client';
 
 import { useFormik } from 'formik';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import React, { FC } from 'react';
 import * as Yup from 'yup';
 
 import { login } from '@/app/api/auth/loginAction';
 import LoginForgotPassword from '@/modules/auth/components/LoginForgotPassword';
-import { useRouter } from '@/modules/common/i18n/routing';
 import { Button } from '@/modules/common/ui/components/button';
 import HintText from '@/modules/common/ui/components/hintText';
 import { Input } from '@/modules/common/ui/components/input';
@@ -40,8 +40,10 @@ const LoginForm: FC<LoginFormProps> = ({ redirectTo }) => {
       const res = await login({ username: email, password });
       if ('detail' in res) {
         toast.error(res.detail);
-      }
 
+        return;
+      }
+      console.log(redirectTo);
       router.push(redirectTo ?? '/');
     },
   });

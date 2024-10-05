@@ -3,7 +3,6 @@ import { useTranslations } from 'next-intl';
 import React, { FC } from 'react';
 
 import { TooltipWithIcon } from '@/modules/common/shared-ui/components/TooltipWithIcon';
-import { Button } from '@/modules/common/ui/components/button';
 import { Card, CardContent, CardFooter } from '@/modules/common/ui/components/card';
 import { Combobox } from '@/modules/common/ui/components/combobox';
 import { ComboboxItem } from '@/modules/common/ui/components/comboboxItem';
@@ -14,6 +13,7 @@ import {
   TooltipContent,
   TooltipProvider,
 } from '@/modules/common/ui/components/tooltip';
+import { ExpressAction } from '@/modules/express/components/ExpressAction';
 import { useExpressContext } from '@/modules/express/contexts/ExpressContext';
 import { OrderType } from '@/modules/express/models/orderType';
 
@@ -52,7 +52,11 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
   return (
     <TabsContent value={type}>
       <Card className='border-none'>
-        <form onSubmit={() => {}}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
           <CardContent className='space-y-3 relative '>
             <InputWidget
               id='pay'
@@ -136,9 +140,7 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                 </span>
               )}
             </TooltipProvider>
-            <Button className='w-full rounded-xl' size='xl'>
-              {t('buyingLoginSign')}
-            </Button>
+            <ExpressAction />
           </CardFooter>
         </form>
       </Card>
