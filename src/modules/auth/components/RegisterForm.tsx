@@ -14,6 +14,7 @@ import {
   PasswordValidation,
   validatePassword,
 } from '@/modules/auth/utils/validatePassword';
+import { Link } from '@/modules/common/i18n/routing';
 import { Button } from '@/modules/common/ui/components/button';
 import { Checkbox } from '@/modules/common/ui/components/checkbox';
 import HintText from '@/modules/common/ui/components/hintText';
@@ -119,9 +120,14 @@ const RegisterForm: FC<RegisterFormProps> = ({ redirectTo }) => {
             type='button'
             name='tos'
           />
-          <Label htmlFor='terms' className='text-sm'>
-            {t('terms')}
-          </Label>
+          <span>
+            <Label htmlFor='tos' className='text-sm'>
+              {t('terms1')}
+            </Label>
+            <Button asChild variant='link'>
+              <Link href='/terms'>{t('terms2')}</Link>
+            </Button>
+          </span>
           {touched.tos && errors.tos && <HintText variant='error'>{errors.tos}</HintText>}
         </span>
       </span>

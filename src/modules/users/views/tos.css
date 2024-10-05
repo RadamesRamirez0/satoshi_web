@@ -1,0 +1,24 @@
+h2 {
+  font-size: 1.25rem;
+  /* 20px */
+  line-height: 1.75rem;
+  /* 28px */
+  font-weight: 600;
+  font-family: 'Satoshi', sans-serif;
+}
+
+p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  /* 14px */
+  line-height: 1.5rem;
+  /* 20px */
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+.upper-list {
+  list-style-type: upper-alpha;
+}

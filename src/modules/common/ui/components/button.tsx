@@ -33,7 +33,7 @@ const buttonVariants = cva(
         string: ' hover:text-primary text-whiteBG px-0 py-0 h-auto flex items-center',
         darkString:
           ' hover:text-primary text-background px-0 py-0 h-auto flex items-center',
-        link: 'text-primary underline-offset-4 hover:underline',
+        link: 'text-primary underline-offset-4 hover:underline px-0 py-0',
       },
     },
     defaultVariants: {

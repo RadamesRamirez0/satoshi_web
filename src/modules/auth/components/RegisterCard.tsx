@@ -20,7 +20,13 @@ const RegisterCard = async () => {
   return (
     <Card className='px-6 sm:w-[25rem]  border py-6'>
       <CardHeader className='flex flex-col space-y-10'>
-        <Image src='/svg/satoshi_logo.svg' width={175} height={10} alt='Satoshi Logo' />
+        <Image
+          src='/svg/satoshi_logo.svg'
+          width={119}
+          height={31}
+          alt='Satoshi Logo'
+          className=''
+        />
         <h1 className='text-3xl font-semibold'>{t('title')}</h1>
       </CardHeader>
       <CardContent className='pt-2'>
