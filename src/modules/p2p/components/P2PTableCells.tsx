@@ -131,7 +131,7 @@ export interface TradeCellProps extends React.TdHTMLAttributes<HTMLTableCellElem
 }
 
 export const TradeCell = React.forwardRef<HTMLTableCellElement, TradeCellProps>(
-  ({ className, announcementId, ...props }, ref) => (
+  ({ className, ...props }, ref) => (
     <td
       ref={ref}
       className={cn(
