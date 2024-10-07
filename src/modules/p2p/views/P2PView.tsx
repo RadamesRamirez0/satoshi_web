@@ -1,7 +1,7 @@
-import { ColumnDef } from '@tanstack/react-table';
 import React from 'react';
 
-import { DataTableP2P } from '@/modules/common/ui/components/data-table';
+import AdvantagesSection from '@/modules/express/components/AdvantagesSection';
+import { P2PTable } from '@/modules/p2p/components/P2PTable';
 
 export interface Order {
   advertiser: string;
@@ -10,45 +10,170 @@ export interface Order {
   payment: string;
 }
 
-export const columns: ColumnDef<Order>[] = [
+export const announcements = [
   {
-    accessorKey: 'advertiser',
-    header: 'Advertisers',
+    id: '1',
+    username: 'John Doe',
+    orders: '10',
+    completion: '100%',
+    commendRate: '100%',
+    transactionTime: 10,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
   },
   {
-    accessorKey: 'price',
-    header: 'Price',
+    id: '2',
+    username: 'Jane Doe',
+    orders: '5',
+    completion: '96.5%',
+    commendRate: '98%',
+    transactionTime: 5,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
   },
   {
-    accessorKey: 'available',
-    header: 'Available',
+    id: '3',
+    username: 'John Doe',
+    orders: '10',
+    completion: '100%',
+    commendRate: '100%',
+    transactionTime: 10,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
   },
   {
-    accessorKey: 'payment',
-    header: 'Payment',
+    id: '4',
+    username: 'Jane Doe',
+    orders: '5',
+    completion: '96.5%',
+    commendRate: '98%',
+    transactionTime: 5,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
+  },
+  {
+    id: '5',
+    username: 'John Doe',
+    orders: '10',
+    completion: '100%',
+    commendRate: '100%',
+    transactionTime: 10,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
+  },
+  {
+    id: '6',
+    username: 'Jane Doe',
+    orders: '5',
+    completion: '96.5%',
+    commendRate: '98%',
+    transactionTime: 5,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
+  },
+  {
+    id: '7',
+    username: 'John Doe',
+    orders: '10',
+    completion: '100%',
+    commendRate: '100%',
+    transactionTime: 10,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
+  },
+  {
+    id: '8',
+    username: 'Jane Doe',
+    orders: '5',
+    completion: '96.5%',
+    commendRate: '98%',
+    transactionTime: 5,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
+  },
+  {
+    id: '9',
+    username: 'John Doe',
+    orders: '10',
+    completion: '100%',
+    commendRate: '100%',
+    transactionTime: 10,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
+  },
+  {
+    id: '10',
+    username: 'Jane Doe',
+    orders: '5',
+    completion: '96.5%',
+    commendRate: '98%',
+    transactionTime: 5,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
+  },
+  {
+    id: '11',
+    username: 'John Doe',
+    orders: '10',
+    completion: '100%',
+    commendRate: '100%',
+    transactionTime: 10,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
+  },
+  {
+    id: '12',
+    username: 'Jane Doe',
+    orders: '5',
+    completion: '96.5%',
+    commendRate: '98%',
+    transactionTime: 5,
+    price: '19.37',
+    available: '38076.94',
+    minOrder: '100.00',
+    maxOrder: '1000.00',
+    payments: ['Bank Transfer', 'STP'],
   },
 ];
 
 const P2PView = () => {
   return (
     <div>
-      <DataTableP2P
-        columns={columns}
-        data={[
-          {
-            advertiser: 'Advertiser 1',
-            price: '0.00000001',
-            available: '1000',
-            payment: 'Visa',
-          },
-          {
-            advertiser: 'Advertiser 2',
-            price: '0.00000002',
-            available: '2000',
-            payment: 'MasterCard',
-          },
-        ]}
-      ></DataTableP2P>
+      <P2PTable {...{ announcements }} />
+      <AdvantagesSection />
     </div>
   );
 };

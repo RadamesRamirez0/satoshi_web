@@ -8,7 +8,7 @@ export function middleware(request: NextRequest): NextResponse {
   const path = request.nextUrl.pathname;
   const [, locale] = request.nextUrl.pathname.split('/');
 
-  const isProtectedRoute = protectedRoutes.includes(path);
+  const isProtectedRoute = protectedRoutes.map((r) => `/${locale}${r}`).includes(path);
 
   const sessionCookie = cookies().get('session')?.value;
 

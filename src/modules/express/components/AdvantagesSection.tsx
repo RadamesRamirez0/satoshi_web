@@ -7,8 +7,8 @@ const AdvantagesSection = async () => {
 
   return (
     <section className='space-y-8 pt-32 flex gap-4'>
-      <span className='flex-1'>
-        <h2 className='text-5xl font-bold pb-8'>{t('mainTitle')}</h2>
+      <span className='flex-1 space-y-8'>
+        <h2 className='text-5xl font-bold pb-8 '>{t('mainTitle')}</h2>
         <article className='space-y-2'>
           <h3 className='text-xl font-bold'>{t('firstTitle')}</h3>
           <p className='text-lg font-medium'>{t('firstContent')}</p>

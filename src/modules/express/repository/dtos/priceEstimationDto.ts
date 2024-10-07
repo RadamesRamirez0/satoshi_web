@@ -1,4 +1,4 @@
-import { ApiResponse } from '@/modules/common/interfaces/apiResponse';
+import { ApiErrorResponse, ApiResponse } from '@/modules/common/interfaces/apiResponse';
 import { OrderType } from '@/modules/express/models/orderType';
 import { PaymentMethods } from '@/modules/express/models/paymentMethods';
 import { PriceEstimation } from '@/modules/express/models/priceEstimation';
@@ -11,4 +11,4 @@ export interface PriceEstimationDTO {
   amount_in_quoute_currency?: string;
 }
 
-export type PriceEstimationResponse = ApiResponse<PriceEstimation>;
+export type PriceEstimationResponse = ApiResponse<PriceEstimation> | ApiErrorResponse;

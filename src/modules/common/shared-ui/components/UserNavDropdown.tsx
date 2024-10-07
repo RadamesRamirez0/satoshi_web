@@ -1,4 +1,6 @@
 import { DashboardIcon, GearIcon, GlobeIcon } from '@radix-ui/react-icons';
+import NativeLink from 'next/link';
+import { getTranslations } from 'next-intl/server';
 import React, { FC } from 'react';
 import { CgLogOut } from 'react-icons/cg';
 import { FaRegCircleUser } from 'react-icons/fa6';
@@ -15,7 +17,9 @@ import { Button } from '@/modules/common/ui/components/button';
 
 export type UserNavDropdownProps = object;
 
-const UserNavDropdown: FC<UserNavDropdownProps> = () => {
+const UserNavDropdown: FC<UserNavDropdownProps> = async () => {
+  const t = await getTranslations('UserDropdown');
+
   return (
     <>
       <div className='flex px-6 py-4 justify-between'>
@@ -28,30 +32,28 @@ const UserNavDropdown: FC<UserNavDropdownProps> = () => {
 
       <div>
         <NavDropdownItem asChild>
-          <Link href='/users/me'>
+          <Link href='/users'>
             <DashboardIcon className='size-5' />
-            Dashboard
+            {t('dashboard')}
           </Link>
         </NavDropdownItem>
         <NavigationAccordionItem>
           <NavigationAccordionTrigger>
             <GlobeIcon className='size-5' />
-            Language
+            {t('language')}
           </NavigationAccordionTrigger>
           <NavigationAccordionContent>
-            <form action='/api/i18n/change-language' method='POST'>
-              <NavDropdownItem type='submit' name='newLang' value='en' size='sm'>
-                English
-              </NavDropdownItem>
-              <NavDropdownItem type='submit' name='newLang' value='es' size='sm'>
-                Español
-              </NavDropdownItem>
-            </form>
+            <NavDropdownItem type='submit' name='newLang' value='en' size='sm' asChild>
+              <NativeLink href='/api/i18n/change-language/en'>English</NativeLink>
+            </NavDropdownItem>
+            <NavDropdownItem type='submit' name='newLang' value='es' size='sm' asChild>
+              <NativeLink href='/api/i18n/change-language/es'>Español</NativeLink>
+            </NavDropdownItem>
           </NavigationAccordionContent>
         </NavigationAccordionItem>
         <NavDropdownItem>
           <GearIcon className='size-5' />
-          Settings
+          {t('settings')}
         </NavDropdownItem>
       </div>
       <form action={logout}>
@@ -61,7 +63,7 @@ const UserNavDropdown: FC<UserNavDropdownProps> = () => {
           size='md'
         >
           <CgLogOut className='size-5' />
-          Log Out
+          {t('logout')}
         </Button>
       </form>
     </>

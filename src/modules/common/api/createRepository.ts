@@ -8,24 +8,38 @@ import {
 
 type Endpoint =
   | ApiEndpointGet<unknown, unknown, unknown>
-  | ApiEndpointPost<unknown, unknown, unknown>
+  | ApiEndpointPost<unknown, unknown, unknown, unknown>
   | ApiEndpointPut<unknown, unknown, unknown>
   | ApiEndpointDelete<unknown, unknown>;
 
 type Repository<T extends Record<string, Endpoint>> = {
   [K in keyof T]: T[K] extends ApiEndpointGet<infer R, infer Q, infer P>
-    ? (queryParams?: Q, pathParams?: P) => Promise<R>
-    : T[K] extends ApiEndpointPost<infer R, infer B, infer P>
-      ? (body: B, pathParams?: P) => Promise<R>
+    ? (
+        queryParams?: Q,
+        pathParams?: P,
+        headers?: Parameters<typeof get>[0]['headers'],
+      ) => Promise<R>
+    : T[K] extends ApiEndpointPost<infer R, infer B, infer P, infer Q>
+      ? (
+          body: B,
+          pathParams?: P,
+          queryParams?: Q,
+          headers?: Parameters<typeof post>[0]['headers'],
+        ) => Promise<R>
       : T[K] extends ApiEndpointPut<infer R, infer B, infer P>
-        ? (body: B, pathParams?: P) => Promise<R>
+        ? (
+            body: B,
+            pathParams?: P,
+            headers?: Parameters<typeof put>[0]['headers'],
+          ) => Promise<R>
         : T[K] extends ApiEndpointDelete<infer R, infer P>
-          ? (pathParams?: P) => Promise<R>
+          ? (pathParams?: P, headers?: Parameters<typeof del>[0]['headers']) => Promise<R>
           : never;
 };
 
 export const createRepository = <T extends Record<string, Endpoint>>(
   endpoints: T,
+  baseUrl?: string,
 ): Repository<T> => {
   return Object.entries(endpoints).reduce((acc, [key, value]) => {
     if (value.method === 'GET') {
@@ -33,11 +47,14 @@ export const createRepository = <T extends Record<string, Endpoint>>(
       acc[key] = async (
         queryParams?: Parameters<typeof get>[0]['queryParams'],
         pathParams?: Parameters<typeof get>[0]['pathParams'],
+        headers?: Parameters<typeof get>[0]['headers'],
       ) =>
         get({
           ...value,
           queryParams,
           pathParams,
+          baseUrl,
+          headers,
         });
     }
 
@@ -46,7 +63,9 @@ export const createRepository = <T extends Record<string, Endpoint>>(
       acc[key] = async (
         body: Parameters<typeof post>[0]['body'],
         pathParams?: Parameters<typeof post>[0]['pathParams'],
-      ) => post({ ...value, body, pathParams });
+        queryParams?: Parameters<typeof post>[0]['queryParams'],
+        headers?: Parameters<typeof post>[0]['headers'],
+      ) => post({ ...value, body, pathParams, queryParams, baseUrl, headers });
     }
 
     if (value.method === 'PUT') {
@@ -54,12 +73,15 @@ export const createRepository = <T extends Record<string, Endpoint>>(
       acc[key] = async (
         body: Parameters<typeof put>[0]['body'],
         pathParams?: Parameters<typeof put>[0]['pathParams'],
-      ) => put({ ...value, body, pathParams });
+        headers?: Parameters<typeof put>[0]['headers'],
+      ) => put({ ...value, body, pathParams, baseUrl, headers });
     }
     if (value.method === 'DELETE') {
       //@ts-expect-error No pasada nada home
-      acc[key] = async (pathParams?: Parameters<typeof del>[0]['pathParams']) =>
-        del({ ...value, pathParams });
+      acc[key] = async (
+        pathParams?: Parameters<typeof del>[0]['pathParams'],
+        headers?: Parameters<typeof del>[0]['headers'],
+      ) => del({ ...value, pathParams, baseUrl, headers });
     }
 
     return acc;

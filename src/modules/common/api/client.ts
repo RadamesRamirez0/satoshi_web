@@ -11,13 +11,16 @@ export const get = async <R, Q, P>({
   url,
   queryParams,
   pathParams,
-}: ApiEndpointGet<Q, P>): Promise<R | undefined> => {
+  baseUrl,
+  headers,
+}: ApiEndpointGet<Q, P> & { baseUrl?: string }): Promise<R | undefined> => {
   try {
     const queryParamsParsed = formatQueryParams(queryParams as Record<string, string>);
     const finalUrl = `${formatPathParams(url, pathParams as Record<string, string>)}${queryParamsParsed}`;
 
-    const res = await fetch(`${apiUrl}${finalUrl}`, {
+    const res = await fetch(`${baseUrl ?? apiUrl}${finalUrl}`, {
       method: 'GET',
+      headers,
     });
 
     return res.json() as R;
@@ -26,22 +29,28 @@ export const get = async <R, Q, P>({
   }
 };
 
-export const post = async <R, B, P>({
+export const post = async <R, B, P, Q>({
   url,
   body,
   pathParams,
+  queryParams,
   contentType = 'json',
-}: ApiEndpointPost<R, B, P>): Promise<R | undefined> => {
+  baseUrl,
+  headers,
+}: ApiEndpointPost<R, B, P, Q> & { baseUrl?: string }): Promise<R | undefined> => {
   try {
-    const finalUrl = formatPathParams(url, pathParams as Record<string, string>);
+    const queryParamsParsed = formatQueryParams(queryParams as Record<string, string>);
+    const finalUrl = `${formatPathParams(url, pathParams as Record<string, string>)}${queryParamsParsed}`;
 
-    const res = await fetch(`${apiUrl}${finalUrl}`, {
+    const res = await fetch(`${baseUrl ?? apiUrl}${finalUrl}`, {
       method: 'POST',
       headers: {
+        Accept: 'application/json',
         'Content-Type':
           contentType === 'json'
             ? 'application/json'
             : 'application/x-www-form-urlencoded',
+        ...headers,
       },
       body:
         contentType === 'json'
@@ -60,17 +69,20 @@ export const put = async <R, B, P>({
   body,
   pathParams,
   contentType = 'json',
-}: ApiEndpointPut<B, P>): Promise<R | undefined> => {
+  baseUrl,
+  headers,
+}: ApiEndpointPut<B, P> & { baseUrl?: string }): Promise<R | undefined> => {
   try {
     const finalUrl = formatPathParams(url, pathParams as Record<string, string>);
 
-    const res = await fetch(`${apiUrl}${finalUrl}`, {
+    const res = await fetch(`${baseUrl ?? apiUrl}${finalUrl}`, {
       method: 'PUT',
       headers: {
         'Content-Type':
           contentType === 'json'
             ? 'application/json'
             : 'application/x-www-form-urlencoded',
+        ...headers,
       },
       body: JSON.stringify(body),
     });
@@ -84,12 +96,15 @@ export const put = async <R, B, P>({
 export const del = async <R, P>({
   url,
   pathParams,
-}: ApiEndpointDelete<P>): Promise<R | undefined> => {
+  baseUrl,
+  headers,
+}: ApiEndpointDelete<P> & { baseUrl?: string }): Promise<R | undefined> => {
   try {
     const finalUrl = formatPathParams(url, pathParams as Record<string, string>);
 
-    const res = await fetch(`${apiUrl}${finalUrl}`, {
+    const res = await fetch(`${baseUrl ?? apiUrl}${finalUrl}`, {
       method: 'DELETE',
+      headers,
     });
 
     return (await res.json()) as R;

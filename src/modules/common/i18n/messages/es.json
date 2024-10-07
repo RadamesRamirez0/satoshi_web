@@ -99,5 +99,25 @@
     "step3CompleteTitle": "¡Todo listo! Realiza tu primera transacción",
     "step3Body": "Te enviaremos un correo electrónico con un enlace para confirmar tu dirección de correo.",
     "step3Action": "Comprar/Vender Cripto"
+  },
+  "UserDropdown": {
+    "dashboard": "Tablero",
+    "language": "Idioma",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión"
+  },
+  "ForgotPassword": {
+    "description": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña",
+    "title": "Olvidé mi contraseña",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "Tu correo electrónico",
+    "emailError": "Dirección de correo electrónico no válida",
+    "emailRequired": "Debes ingresar tu correo electrónico",
+    "mainAction": "Enviar correo",
+    "registerLabel": "Crea una cuenta en Satoshi",
+    "defaultError": "Correo electrónico o contraseña incorrectos",
+    "emailSent": "Correo electrónico enviado",
+    "emailSentDescription": "Te hemos enviado un correo electrónico con instrucciones para restablecer tu contraseña",
+    "backToLogin": "Volver a iniciar sesión"
   }
 }

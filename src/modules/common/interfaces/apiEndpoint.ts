@@ -10,21 +10,26 @@ export interface ApiEndpointGet<R, Q = DTORecord, P = DTORecord> extends ApiEndp
   queryParams?: Q;
   pathParams?: P;
   response?: R;
+  headers?: Record<string, string>;
 }
-export interface ApiEndpointPost<R, B, P = DTORecord> extends ApiEndpoint {
+export interface ApiEndpointPost<R, B, P = DTORecord, Q = DTORecord> extends ApiEndpoint {
   method?: 'POST';
   body?: B;
   pathParams?: P;
+  queryParams?: Q;
   response?: R;
+  headers?: Record<string, string>;
 }
 export interface ApiEndpointPut<R, B, P = DTORecord> extends ApiEndpoint {
   method?: 'PUT';
   body?: B;
   pathParams?: P;
   response?: R;
+  headers?: Record<string, string>;
 }
 export interface ApiEndpointDelete<R, P = DTORecord> extends ApiEndpoint {
   method?: 'DELETE';
   pathParams?: P;
   response?: R;
+  headers?: Record<string, string>;
 }
