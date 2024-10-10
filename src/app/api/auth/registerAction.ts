@@ -15,7 +15,7 @@ import {
 export const register = async (values: RegisterDTO): Promise<RegisterResponse> => {
   const t = await getTranslations('Register');
 
-  const res = await authRepository.register(values);
+  const res = await authRepository.register({ body: values });
 
   if (res.error) {
     let error: keyof Messages['Register'] = 'defaultError';

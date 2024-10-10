@@ -11,6 +11,7 @@ export interface ApiEndpointGet<R, Q = DTORecord, P = DTORecord> extends ApiEndp
   pathParams?: P;
   response?: R;
   headers?: Record<string, string>;
+  token?: string;
 }
 export interface ApiEndpointPost<R, B, P = DTORecord, Q = DTORecord> extends ApiEndpoint {
   method?: 'POST';

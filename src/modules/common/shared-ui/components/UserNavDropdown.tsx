@@ -26,13 +26,13 @@ const UserNavDropdown: FC<UserNavDropdownProps> = async () => {
         <FaRegCircleUser className='size-12' />
         <div>
           <p className='text-lg font-semibold text-primary'>Radames Ramírez</p>
-          <p className='text-sm text-zinc-200'>radameskalel@gmail.com</p>
+          {/* <p className='text-sm text-zinc-200'>radameskalel@gmail.com</p> */}
         </div>
       </div>
 
       <div>
         <NavDropdownItem asChild>
-          <Link href='/users'>
+          <Link href='/users/me'>
             <DashboardIcon className='size-5' />
             {t('dashboard')}
           </Link>

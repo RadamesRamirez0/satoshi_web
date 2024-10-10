@@ -13,9 +13,7 @@ export const login = async ({
   const t = await getTranslations('Login');
 
   const res = await authRepository.login({
-    grant_type: 'password',
-    username,
-    password,
+    body: { grant_type: 'password', username, password },
   });
 
   if ('detail' in res) {

@@ -1,29 +1,30 @@
 import { CheckIcon, TimerIcon } from '@radix-ui/react-icons';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import React from 'react';
 
+import { getSession } from '@/app/api/auth/sessionAction';
 import { Button } from '@/modules/common/ui/components/button';
 import { CardGroup, CardGroupItem } from '@/modules/common/ui/components/card-group';
+import { cn } from '@/modules/common/ui/lib/utils';
+import { usersRepository } from '@/modules/users/repository';
 
-const DashboardVerificationSteps = () => {
-  const t = useTranslations('Verification');
+const DashboardVerificationSteps = async () => {
+  const t = await getTranslations('Verification');
 
-  const emailVerified = true;
-  const kycVerified = false;
+  const session = await getSession();
 
-  let defaultValue = 1;
+  const user = await usersRepository.userMe({
+    token: session?.token ?? '',
+  });
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (emailVerified) {
-    defaultValue = 2;
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (kycVerified) {
-    defaultValue = 3;
-  }
+  const currentValue = !user.data?.email_is_verified
+    ? '1'
+    : user.data.kyc_level === 0
+      ? '2'
+      : '3';
 
   return (
-    <CardGroup defaultValue={defaultValue.toString()}>
+    <CardGroup defaultValue={currentValue}>
       <CardGroupItem
         value='1'
         id='step1'
@@ -39,16 +40,26 @@ const DashboardVerificationSteps = () => {
             </p>
             <p className='hidden group-data-[state=checked]:block'>{t('step1Body')}</p>
           </div>
-          {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
-          {emailVerified ? (
+
+          {user.data?.email_is_verified ? (
             <p className='text-lg text-green-500 font-bold flex items-center gap-1'>
               <CheckIcon className='size-6' />
               {t('completedStep')}
             </p>
           ) : (
-            <Button asChild>
-              <div>{t('step1Action')}</div>
-            </Button>
+            <span
+              className={cn(
+                'flex justify-between w-full flex-col items-start group-data-[state=checked]:items-center group-data-[state=checked]:flex-row gap-3',
+              )}
+            >
+              <Button asChild>
+                <div>{t('step1Action')}</div>
+              </Button>
+              <p className='text-lg text-zinc-500 font-bold flex items-center gap-1'>
+                <TimerIcon className='size-6' />
+                {t('pendingStep')}
+              </p>
+            </span>
           )}
         </span>
       </CardGroupItem>
@@ -67,25 +78,27 @@ const DashboardVerificationSteps = () => {
             </p>
             <p className='hidden group-data-[state=checked]:block'>{t('step2Body')}</p>
           </div>
-          {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
-          {kycVerified && (
+
+          {user.data?.kyc_level === 1 ? (
             <p className='text-lg text-green-500 font-bold flex items-center gap-1'>
               <CheckIcon className='size-6' />
               {t('completedStep')}
             </p>
-          )}
-          {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
-          {emailVerified && !kycVerified && (
-            <Button asChild>
-              <div>{t('step2Action')}</div>
-            </Button>
-          )}
-          {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
-          {!emailVerified && (
-            <p className='text-lg text-zinc-500 font-bold flex items-center gap-1'>
-              <TimerIcon className='size-6' />
-              {t('pendingStep')}
-            </p>
+          ) : (
+            <span
+              className={cn(
+                'flex justify-between w-full flex-col items-start group-data-[state=checked]:items-center group-data-[state=checked]:flex-row gap-3',
+              )}
+            >
+              <Button asChild>
+                <div>{t('step2Action')}</div>
+              </Button>
+
+              <p className='text-lg text-zinc-500 font-bold flex items-center gap-1'>
+                <TimerIcon className='size-6' />
+                {t('pendingStep')}
+              </p>
+            </span>
           )}
         </span>
       </CardGroupItem>
@@ -104,17 +117,24 @@ const DashboardVerificationSteps = () => {
             </p>
             <p className='hidden group-data-[state=checked]:block'>{t('step3Body')}</p>
           </div>
-          {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
-          {emailVerified && kycVerified ? (
-            <Button asChild>
-              <div>{t('step3Action')}</div>
-            </Button>
-          ) : (
-            <p className='text-lg text-zinc-500 font-bold flex items-center gap-1'>
-              <TimerIcon className='size-6' />
-              {t('pendingStep')}
-            </p>
-          )}
+          <span
+            className={cn(
+              'flex justify-between w-full flex-col items-start group-data-[state=checked]:items-center group-data-[state=checked]:flex-row gap-3',
+            )}
+          >
+            {user.data?.email_is_verified && user.data.kyc_level === 1 && (
+              <Button asChild>
+                <div>{t('step3Action')}</div>
+              </Button>
+            )}
+
+            {
+              <p className='text-lg text-zinc-500 font-bold flex items-center gap-1'>
+                <TimerIcon className='size-6' />
+                {t('pendingStep')}
+              </p>
+            }
+          </span>
         </span>
       </CardGroupItem>
     </CardGroup>

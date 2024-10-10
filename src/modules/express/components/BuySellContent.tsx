@@ -74,14 +74,16 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
               }
             >
               <Combobox
-                small
+                id='payCurrency'
                 dropDownClassName='w-full'
                 triggerClassName='absolute right-4 top-0 bottom-0 m-auto z-10'
                 onChange={setPayCurrency}
                 value={payCurrency}
+                align='end'
+                defaultLabel={payCurrency?.symbol}
               >
                 {(type === 'buy' ? fiatCurrencies : cryptoCurrencies)?.map((c) => (
-                  <ComboboxItem key={c.id} value={c.id} subLabel={c.name}>
+                  <ComboboxItem key={c.id} value={c} subLabel={c.name}>
                     {c.symbol}
                   </ComboboxItem>
                 ))}
@@ -103,14 +105,16 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
               error={type === 'sell' ? isErrorQuote : false}
             >
               <Combobox
-                small
+                id='receiveCurrency'
                 dropDownClassName='w-full'
                 triggerClassName='absolute right-4 top-0 bottom-0 m-auto z-10'
                 onChange={setReceiveCurrency}
                 value={receiveCurrency}
+                defaultLabel={receiveCurrency?.symbol}
+                align='end'
               >
                 {(type === 'buy' ? cryptoCurrencies : fiatCurrencies)?.map((c) => (
-                  <ComboboxItem key={c.id} value={c.id} subLabel={c.name}>
+                  <ComboboxItem key={c.id} value={c} subLabel={c.name}>
                     {c.symbol}
                   </ComboboxItem>
                 ))}

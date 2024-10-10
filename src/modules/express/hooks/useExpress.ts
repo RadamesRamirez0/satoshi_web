@@ -4,6 +4,10 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { VoidParamCallback } from '@/modules/common/types/voidCallback';
 import { Currency } from '@/modules/cripto/models/currency';
 import { criptoRepository } from '@/modules/cripto/repository';
+import {
+  getCryptoCurrencies,
+  getFiatCurrencies,
+} from '@/modules/cripto/utils/filterCurrencies';
 import { OrderType } from '@/modules/express/models/orderType';
 import { PriceEstimation } from '@/modules/express/models/priceEstimation';
 import { expressRepository } from '@/modules/express/repository';
@@ -24,10 +28,10 @@ export interface UseExpressValues {
   setOrderType: VoidParamCallback<OrderType>;
   fiatCurrencies?: Currency[];
   cryptoCurrencies?: Currency[];
-  payCurrency: string;
-  receiveCurrency: string;
-  setPayCurrency: Dispatch<SetStateAction<string>>;
-  setReceiveCurrency: Dispatch<SetStateAction<string>>;
+  payCurrency?: Currency;
+  receiveCurrency?: Currency;
+  setPayCurrency: Dispatch<SetStateAction<Currency>>;
+  setReceiveCurrency: Dispatch<SetStateAction<Currency>>;
   base: string;
   quote: string;
 }
@@ -43,17 +47,19 @@ const useExpress = (): UseExpressValues => {
   const [pay, setPay] = useState<string>('');
   const [receive, setReceive] = useState<string>('');
   const [isErrorQuote, setIsErrorQuote] = useState<boolean>(false);
-  const [payCurrency, setPayCurrency] = useState<string>('');
+  const [payCurrency, setPayCurrency] = useState<Currency>();
   const [quote, setQuote] = useState<string>('');
-  const [receiveCurrency, setReceiveCurrency] = useState<string>('');
+  const [receiveCurrency, setReceiveCurrency] = useState<Currency>();
   const [base, setBase] = useState<string>('');
   const [fiatCurrencies, setFiatCurrencies] = useState<Currency[]>();
   const [cryptoCurrencies, setCryptoCurrencies] = useState<Currency[]>();
 
   const getData = async (values: Omit<PriceEstimationDTO, 'payment_method'>) =>
     await expressRepository.getPriceEstimation({
-      ...values,
-      payment_method: 'bank_transfer',
+      queryParams: {
+        ...values,
+        payment_method: 'bank_transfer',
+      },
     });
 
   const handlePay = (payAmount: string, price?: string) => {
@@ -109,15 +115,11 @@ const useExpress = (): UseExpressValues => {
   };
 
   const getAndSetCurrencies = async () => {
-    const currencies = await criptoRepository.getCurrencies();
+    const currencies = await criptoRepository.getCurrencies({});
 
-    const fiatCurrencies = currencies
-      .filter((currency) => currency.type === 'fiat')
-      .map((c) => ({ ...c, symbol: c.symbol.toUpperCase() }));
+    const fiatCurrencies = getFiatCurrencies(currencies);
 
-    const cryptoCurrencies = currencies
-      .filter((currency) => currency.type === 'crypto')
-      .map((c) => ({ ...c, symbol: c.symbol.toUpperCase() }));
+    const cryptoCurrencies = getCryptoCurrencies(currencies);
 
     setFiatCurrencies(fiatCurrencies);
     setCryptoCurrencies(cryptoCurrencies);
@@ -167,20 +169,21 @@ const useExpress = (): UseExpressValues => {
 
   useEffect(() => {
     setPay('');
-    if (orderType === 'buy') {
-      setQuote(payCurrency);
+    if (orderType === 'buy' && payCurrency) {
+      setQuote(payCurrency.symbol);
     }
-    if (orderType === 'sell') {
-      setBase(payCurrency);
+    if (orderType === 'sell' && payCurrency) {
+      setBase(payCurrency.symbol);
     }
   }, [payCurrency]);
+
   useEffect(() => {
     setReceive('');
-    if (orderType === 'buy') {
-      setBase(receiveCurrency.toUpperCase());
+    if (orderType === 'buy' && receiveCurrency) {
+      setBase(receiveCurrency.symbol);
     }
-    if (orderType === 'sell') {
-      setQuote(receiveCurrency.toUpperCase());
+    if (orderType === 'sell' && receiveCurrency) {
+      setQuote(receiveCurrency.symbol);
     }
   }, [receiveCurrency]);
 
@@ -189,12 +192,12 @@ const useExpress = (): UseExpressValues => {
       return;
     }
     if (orderType === 'buy') {
-      setPayCurrency(fiatCurrencies[0].symbol);
-      setReceiveCurrency(cryptoCurrencies[0].symbol);
+      setPayCurrency(fiatCurrencies[0]);
+      setReceiveCurrency(cryptoCurrencies[0]);
     }
     if (orderType === 'sell') {
-      setPayCurrency(cryptoCurrencies[0].symbol);
-      setReceiveCurrency(fiatCurrencies[0].symbol);
+      setPayCurrency(cryptoCurrencies[0]);
+      setReceiveCurrency(fiatCurrencies[0]);
     }
   }, [fiatCurrencies, cryptoCurrencies, orderType]);
 

@@ -3,7 +3,8 @@
     "buyCrypto": "Express",
     "p2p": "P2P",
     "logIn": "Log In",
-    "signUp": "Sign Up"
+    "signUp": "Sign Up",
+    "deposit": "Deposit"
   },
   "BuySell": {
     "title": "{type, select, buy {Buy} sell {Sell} other {}} {base} with {quote}",
@@ -105,7 +106,7 @@
     "step3Action": "Buy/Sell Crypto"
   },
   "UserDropdown": {
-    "dashboard": "Dashboard",
+    "dashboard": "Profile",
     "settings": "Settings",
     "language": "Language",
     "logout": "Log Out"
@@ -122,5 +123,19 @@
     "emailSent": "Email sent!",
     "emailSentDescription": "We have sent you an email with instructions to reset your password",
     "backToLogin": "Back to Log In"
+  },
+  "Deposit": {
+    "title": "Deposit",
+    "subtitle": "Deposit funds to your Satoshi account",
+    "selectCurrency": "Select currency",
+    "network": "Network",
+    "address": "Address:"
+  },
+  "Withdraw": {
+    "title": "Withdraw",
+    "subtitle": "Withdraw funds from your Satoshi account"
+  },
+  "Combobox": {
+    "noResults": "No results found"
   }
 }

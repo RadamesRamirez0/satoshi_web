@@ -1,4 +1,4 @@
-import { GlobeIcon } from '@radix-ui/react-icons';
+import { DownloadIcon, GlobeIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import * as React from 'react';
@@ -24,7 +24,7 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
   const session = getSession();
 
   return (
-    <nav className='flex items-center justify-between h-16 px-6 bg-muted text-background rounded-2xl '>
+    <nav className='flex items-center justify-between h-16 px-6 bg-muted text-background rounded-2xl m-4 '>
       <ul className='flex items-center'>
         <li className='mr-6'>
           <Image src='/svg/satoshi_logo.svg' width={119} height={31} alt='Satoshi Logo' />
@@ -38,24 +38,34 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
       </ul>
       <ul className='flex items-center gap-4'>
         {session && (
-          <li>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant='string' size='icon'>
-                  <FaRegCircleUser className='w-full h-full' />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent
-                align='end'
-                side='bottom'
-                sideOffset={30}
-                alignOffset={-26}
-                className='border-none bg-muted p-0'
-              >
-                <UserNavDropdown />
-              </PopoverContent>
-            </Popover>
-          </li>
+          <>
+            <li className='pr-2'>
+              <Button className='text-base' asChild>
+                <Link href='/users/me/deposit'>
+                  <DownloadIcon className='w-5 h-5 mr-2' />
+                  {t('deposit')}
+                </Link>
+              </Button>
+            </li>
+            <li>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant='string' size='icon'>
+                    <FaRegCircleUser className='w-full h-full' />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  align='end'
+                  side='bottom'
+                  sideOffset={30}
+                  alignOffset={-26}
+                  className='border-none bg-muted p-0'
+                >
+                  <UserNavDropdown />
+                </PopoverContent>
+              </Popover>
+            </li>
+          </>
         )}
         {!session && (
           <>

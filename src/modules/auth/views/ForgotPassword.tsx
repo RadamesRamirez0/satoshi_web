@@ -26,7 +26,9 @@ const ForgotPasswordView = () => {
       email: '',
     },
     onSubmit: async (values) => {
-      const res = await authRepository.forgotPassword({ email_address: values.email });
+      const res = await authRepository.forgotPassword({
+        body: { email_address: values.email },
+      });
 
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (res.data?.email_sent) {

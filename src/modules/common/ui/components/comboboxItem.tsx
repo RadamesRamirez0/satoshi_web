@@ -2,21 +2,23 @@
 
 import { CheckIcon } from '@radix-ui/react-icons';
 import { Command as CommandPrimitive } from 'cmdk';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { useComboboxContext } from '@/modules/common/ui/context/ComboboxContext';
 import { cn } from '@/modules/common/ui/lib/utils';
 
-interface ComboboxItemProps
-  extends React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item> {
+interface ComboboxItemProps<T>
+  extends Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>, 'value'> {
   subLabel?: string;
+  value: T;
 }
 
-const ComboboxItem = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Item>,
-  ComboboxItemProps
->(({ className, children, subLabel, ...props }, ref) => {
-  const { value, onChange, setOpen, setSubLabel } = useComboboxContext();
+const ComboboxItem = forwardRef(function <T>(
+  { className, children, subLabel, value, ...props }: ComboboxItemProps<T>,
+  ref: React.ForwardedRef<React.ElementRef<typeof CommandPrimitive.Item>>,
+) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { onChange, setOpen, value: selectedValue, setLabel } = useComboboxContext();
 
   return (
     <CommandPrimitive.Item
@@ -25,16 +27,11 @@ const ComboboxItem = React.forwardRef<
         'flex group items-center bg-zinc-700 cursor-default select-none justify-start  px-5 py-2 text-sm outline-none h-14 hover:bg-primary transition-colors  [&_[data-slot=sublabel]]:hover:text-primary-200 [&_[data-slot=label]]:hover:text-black [&_[data-slot=label]]:hover:transition-colors',
         className,
       )}
-      onSelect={(currentValue) => {
+      onSelect={() => {
         setOpen(false);
-        if (!props.value) {
-          onChange(children as string);
 
-          return;
-        }
-
-        onChange(currentValue);
-        setSubLabel(subLabel ?? '');
+        onChange(value);
+        setLabel(children as string);
       }}
       {...props}
     >
@@ -55,7 +52,7 @@ const ComboboxItem = React.forwardRef<
       <CheckIcon
         className={cn(
           'ml-auto size-5 text-primary-500 group-hover:text-black',
-          value === props.value ? 'opacity-100' : 'opacity-0',
+          selectedValue === value ? 'opacity-100' : 'opacity-0',
         )}
       />
     </CommandPrimitive.Item>

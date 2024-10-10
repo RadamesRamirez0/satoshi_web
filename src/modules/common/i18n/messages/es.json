@@ -3,7 +3,8 @@
     "buyCrypto": "Express",
     "p2p": "P2P",
     "logIn": "Iniciar sesión",
-    "signUp": "Registrarse"
+    "signUp": "Registrarse",
+    "deposit": "Depositar"
   },
   "BuySell": {
     "title": "{type, select, buy {Compra} sell {Vende} other {}} {base} con {quote}",
@@ -102,7 +103,7 @@
     "step3Action": "Comprar/Vender Cripto"
   },
   "UserDropdown": {
-    "dashboard": "Tablero",
+    "dashboard": "Perfil",
     "language": "Idioma",
     "settings": "Configuración",
     "logout": "Cerrar sesión"
@@ -120,5 +121,8 @@
     "emailSent": "Correo electrónico enviado",
     "emailSentDescription": "Te hemos enviado un correo electrónico con instrucciones para restablecer tu contraseña",
     "backToLogin": "Volver a iniciar sesión"
+  },
+  "Combobox": {
+    "noResults": "Sin resultados"
   }
 }

@@ -43,7 +43,7 @@ const LoginForm: FC<LoginFormProps> = ({ redirectTo }) => {
 
         return;
       }
-      console.log(redirectTo);
+
       router.push(redirectTo ?? '/');
     },
   });

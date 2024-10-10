@@ -21,10 +21,13 @@ export const getKycToken = async (userId: string): Promise<GetKycTokenResponse> 
     data,
   });
 
-  const res = await kycRepository.getKycToken(data, undefined, undefined, {
-    'X-App-Token': KycApiToken,
-    'X-App-Access-Ts': ts,
-    'X-App-Access-Sig': signature,
+  const res = await kycRepository.getKycToken({
+    body: data,
+    headers: {
+      'X-App-Token': KycApiToken,
+      'X-App-Access-Ts': ts,
+      'X-App-Access-Sig': signature,
+    },
   });
 
   return res;

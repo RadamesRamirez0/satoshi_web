@@ -1,41 +1,34 @@
 'use client';
 
-import React, { createContext, FC, PropsWithChildren, useEffect, useState } from 'react';
+import React, { createContext, PropsWithChildren, useState } from 'react';
 
-interface ComboboxContextValues {
+interface ComboboxContextValues<T> {
   open: boolean;
-  value: string;
-
-  subLabel: string;
+  value: T;
+  label?: string;
   setOpen: (open: boolean) => void;
-  onChange: (value: string) => void;
-
-  setSubLabel: (subLabel: string) => void;
+  onChange: (value: T) => void;
+  setLabel: (label: string) => void;
 }
 
-export const ComboboxContext = createContext<ComboboxContextValues>(
-  {} as ComboboxContextValues,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const ComboboxContext = createContext<ComboboxContextValues<any>>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  {} as ComboboxContextValues<any>,
 );
 
-export interface ComboboxProviderProps extends PropsWithChildren {
-  onChange: (value: string) => void;
-  value: string;
+export interface ComboboxProviderProps<T> extends PropsWithChildren {
+  onChange: (value: T) => void;
+  value?: T;
 }
 
-export const ComboboxProvider: FC<ComboboxProviderProps> = ({
+export function ComboboxProvider<T>({
   children,
   onChange,
   value,
-}) => {
+}: ComboboxProviderProps<T>): JSX.Element {
   const [open, setOpen] = useState(false);
-
-  const [subLabel, setSubLabel] = useState('');
-
-  useEffect(() => {
-    onChange(value);
-
-    return;
-  }, []);
+  const [label, setLabel] = useState<string>();
 
   return (
     <ComboboxContext.Provider
@@ -44,15 +37,14 @@ export const ComboboxProvider: FC<ComboboxProviderProps> = ({
         value,
         setOpen,
         onChange,
-
-        subLabel,
-        setSubLabel,
+        label,
+        setLabel,
       }}
     >
       {children}
     </ComboboxContext.Provider>
   );
-};
+}
 
 export const ComboboxConsumer = ComboboxContext.Consumer;
 
