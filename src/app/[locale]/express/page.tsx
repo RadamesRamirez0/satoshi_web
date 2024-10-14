@@ -1,3 +1,3 @@
-import FiatView from '@/modules/express/views/ExpressView';
+import ExpressView from '@/modules/express/views/ExpressView';
 
-export default FiatView;
+export default ExpressView;

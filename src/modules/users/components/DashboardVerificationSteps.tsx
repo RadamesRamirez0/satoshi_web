@@ -24,7 +24,7 @@ const DashboardVerificationSteps = async () => {
       : '3';
 
   return (
-    <CardGroup defaultValue={currentValue}>
+    <CardGroup defaultValue={currentValue} className='grid grid-cols-12'>
       <CardGroupItem
         value='1'
         id='step1'

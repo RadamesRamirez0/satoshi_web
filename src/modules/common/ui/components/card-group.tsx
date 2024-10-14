@@ -11,7 +11,7 @@ export const CardGroup = React.forwardRef<
 >(({ className, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Root
-      className={cn('grid grid-cols-12  gap-4 w-full', className)}
+      className={cn(' gap-4 w-full', className)}
       {...props}
       ref={ref}
     />
@@ -27,7 +27,7 @@ export const CardGroupItem = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        'rounded-3xl text-card-foreground shadow border p-6 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 transition-all group',
+        'rounded-2xl text-card-foreground shadow border p-6 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 transition-all group',
         className,
       )}
       {...props}

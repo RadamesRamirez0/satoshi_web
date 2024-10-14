@@ -1,5 +1,3 @@
-import { PaymentMethods } from '@/modules/express/models/paymentMethods';
-
 export interface PriceEstimation {
   base_currency: string;
   quote_currency: string;
@@ -9,6 +7,6 @@ export interface PriceEstimation {
   maximum_order_amount: string;
   fee_percentage: string;
   network_fee: string;
-  payment_method: PaymentMethods;
+  payment_method: string;
   amount_in_quote_currency: string;
 }

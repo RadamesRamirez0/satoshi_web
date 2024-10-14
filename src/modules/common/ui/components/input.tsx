@@ -1,10 +1,17 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import * as React from 'react';
+import { AutoNumericInput } from 'react-autonumeric';
 
 import { cn } from '@/modules/common/ui/lib/utils';
 
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement> &
-  VariantProps<typeof inputVariants>;
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement>,
+    VariantProps<typeof inputVariants> {
+  numeric?: boolean;
+  state?: string;
+  setState?: React.Dispatch<React.SetStateAction<string>>;
+  decimals?: number;
+}
 
 const inputVariants = cva(
   [
@@ -27,7 +34,38 @@ const inputVariants = cva(
 );
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, error, autoComplete = 'off', ...props }, ref) => {
+  (
+    {
+      className,
+      type,
+      error,
+      autoComplete = 'off',
+      numeric = false,
+      decimals = 2,
+      state,
+      setState,
+      ...props
+    },
+    ref,
+  ) => {
+    if (numeric) {
+      return (
+        <AutoNumericInput
+          inputProps={{
+            type,
+            className: cn(inputVariants({ error }), className),
+            ...props,
+          }}
+          valueState={{ state: state ?? '', stateSetter: setState ?? (() => {}) }}
+          autoNumericOptions={{
+            decimalPlaces: decimals,
+            roundingMethod: 'D',
+            allowDecimalPadding: 'floats',
+          }}
+        />
+      );
+    }
+
     return (
       <input
         type={type}

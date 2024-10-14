@@ -1,4 +1,3 @@
-'use client';
 import { useTranslations } from 'next-intl';
 import React, { FC } from 'react';
 
@@ -34,9 +33,9 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
     handlePay,
     handleReceive,
     pay,
-    setPay,
-    receive,
     setReceive,
+    receive,
+    setPay,
     isErrorQuote,
     data,
     fiatCurrencies,
@@ -61,11 +60,12 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
             <InputWidget
               id='pay'
               label={t(type === 'buy' ? 'buyingSpend' : 'sellingSpend')}
-              state={pay}
-              setState={setPay}
               value={pay}
               decimals={payDecimals}
-              onChange={(e) => void handlePay(e.target.value)}
+              onChange={(e) => {
+                setPay(e.target.value);
+                void handlePay(e.target.value);
+              }}
               error={type === 'buy' ? isErrorQuote : false}
               placeholder={
                 type === 'buy' && data
@@ -92,11 +92,12 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
             <InputWidget
               id='receive'
               label={t('buyingReceive')}
-              state={receive}
               value={receive}
-              setState={setReceive}
               decimals={receiveDecimals}
-              onChange={(e) => void handleReceive(e.target.value)}
+              onChange={(e) => {
+                setReceive(e.target.value);
+                void handleReceive(e.target.value);
+              }}
               placeholder={
                 type === 'sell' && data
                   ? `Min ${data.minimum_order_amount} Max ${data.maximum_order_amount}`
@@ -133,7 +134,7 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                 </span>
               )}
               {data?.fee_percentage && (
-                <span className='pb-1'>
+                <span className='flex gap-3 items-center pb-1'>
                   <Tooltip>
                     <TooltipWithIcon className='text-zinc-400'>
                       {t('feeRate')}

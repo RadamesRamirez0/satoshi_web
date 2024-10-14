@@ -22,7 +22,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA', 'Santander'],
   },
   {
     id: '2',
@@ -35,7 +35,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA'],
   },
   {
     id: '3',
@@ -48,7 +48,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA'],
   },
   {
     id: '4',
@@ -61,7 +61,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA'],
   },
   {
     id: '5',
@@ -74,7 +74,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA'],
   },
   {
     id: '6',
@@ -87,7 +87,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA', 'Santander'],
   },
   {
     id: '7',
@@ -100,7 +100,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA'],
   },
   {
     id: '8',
@@ -113,7 +113,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA', 'Mercado Pago'],
   },
   {
     id: '9',
@@ -126,7 +126,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA'],
   },
   {
     id: '10',
@@ -139,7 +139,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA'],
   },
   {
     id: '11',
@@ -152,7 +152,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA'],
   },
   {
     id: '12',
@@ -165,7 +165,7 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'STP'],
+    payments: ['Bank Transfer', 'BBVA'],
   },
 ];
 

@@ -30,8 +30,8 @@ export interface UseExpressValues {
   cryptoCurrencies?: Currency[];
   payCurrency?: Currency;
   receiveCurrency?: Currency;
-  setPayCurrency: Dispatch<SetStateAction<Currency>>;
-  setReceiveCurrency: Dispatch<SetStateAction<Currency>>;
+  setPayCurrency: Dispatch<SetStateAction<Currency | undefined>>;
+  setReceiveCurrency: Dispatch<SetStateAction<Currency | undefined>>;
   base: string;
   quote: string;
 }
@@ -58,12 +58,11 @@ const useExpress = (): UseExpressValues => {
     await expressRepository.getPriceEstimation({
       queryParams: {
         ...values,
-        payment_method: 'bank_transfer',
       },
     });
 
-  const handlePay = (payAmount: string, price?: string) => {
-    if (!price && !data?.price) {
+  const handlePay = (payAmount: string) => {
+    if (!data?.price) {
       return;
     }
     if (payAmount === '') {
@@ -72,24 +71,27 @@ const useExpress = (): UseExpressValues => {
       return;
     }
 
-    const sanitizedPay = Autonumeric.unformat(payAmount);
+    const sanitizedPay = Autonumeric.unformat(payAmount, {
+      decimalPlaces: payCurrency?.precision,
+      allowDecimalPadding: 'floats',
+    });
 
     let receive: string = '0';
 
     switch (orderType) {
       case 'buy':
-        receive = estimateBase(sanitizedPay.toString(), price ?? data?.price ?? '');
+        receive = estimateBase(sanitizedPay.toString(), data.price, data.fee_percentage);
         break;
       case 'sell':
-        receive = estimateQuote(sanitizedPay.toString(), price ?? data?.price ?? '');
+        receive = estimateQuote(sanitizedPay.toString(), data.price, data.fee_percentage);
         break;
     }
 
     setReceive(receive);
   };
 
-  const handleReceive = (receiveAmount: string, price?: string) => {
-    if (!price && !data?.price) {
+  const handleReceive = (receiveAmount: string) => {
+    if (!data?.price) {
       return;
     }
     if (receiveAmount === '') {
@@ -98,16 +100,19 @@ const useExpress = (): UseExpressValues => {
       return;
     }
 
-    const sanitizedReceive = Autonumeric.unformat(receiveAmount);
+    const sanitizedReceive = Autonumeric.unformat(receiveAmount, {
+      decimalPlaces: receiveCurrency?.precision,
+      allowDecimalPadding: 'floats',
+    });
 
     let pay: string = '0';
 
     switch (orderType) {
       case 'buy':
-        pay = estimateQuote(sanitizedReceive.toString(), price ?? data?.price ?? '');
+        pay = estimateQuote(sanitizedReceive.toString(), data.price, data.fee_percentage);
         break;
       case 'sell':
-        pay = estimateBase(sanitizedReceive.toString(), price ?? data?.price ?? '');
+        pay = estimateBase(sanitizedReceive.toString(), data.price, data.fee_percentage);
         break;
     }
 
@@ -125,39 +130,62 @@ const useExpress = (): UseExpressValues => {
     setCryptoCurrencies(cryptoCurrencies);
   };
 
+  const fetchData = () => {
+    void getData({
+      base_currency: base,
+      quote_currency: quote,
+      order_type: orderType,
+      amount_in_quoute_currency: orderType === 'buy' ? pay : receive,
+    }).then((r) => {
+      if (!r.data) {
+        setData(undefined);
+
+        return;
+      }
+
+      setData(r.data);
+    });
+  };
   useEffect(() => {
     void getAndSetCurrencies();
+  }, []);
 
-    const fetchData = () => {
-      void getData({
-        base_currency: 'tbtc',
-        quote_currency: 'mxn',
-        order_type: orderType,
-        amount_in_quoute_currency: orderType === 'buy' ? pay : receive,
-      }).then((r) => {
-        if (!r.data) {
-          return;
-        }
-
-        setData(r.data);
-      });
-    };
-
+  useEffect(() => {
     fetchData();
 
     const intervalId = setInterval(fetchData, 15000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [base, quote, orderType, pay, receive]);
 
   useEffect(() => {
     const quote = orderType === 'buy' ? pay : receive;
+    console.log(quote);
+    const precision =
+      orderType === 'buy' ? payCurrency?.precision : receiveCurrency?.precision;
 
     const isError: boolean =
-      parseFloat(Autonumeric.unformat(quote).toString()) <
-        parseFloat(data?.minimum_order_amount ?? '100') ||
-      parseFloat(Autonumeric.unformat(quote).toString()) >
-        parseFloat(data?.maximum_order_amount ?? '2000');
+      parseFloat(
+        Autonumeric.unformat(quote, {
+          decimalPlaces: precision,
+          allowDecimalPadding: 'floats',
+        }).toString(),
+      ) < parseFloat(data?.minimum_order_amount ?? '100') ||
+      parseFloat(
+        Autonumeric.unformat(quote, {
+          decimalPlaces: precision,
+          allowDecimalPadding: 'floats',
+        }).toString(),
+      ) > parseFloat(data?.maximum_order_amount ?? '2000');
+
+    console.log(
+      data?.minimum_order_amount,
+      quote,
+      Autonumeric.unformat(quote, {
+        decimalPlaces: precision,
+        allowDecimalPadding: 'floats',
+      }).toString(),
+    );
 
     setIsErrorQuote(isError);
   }, [pay, receive]);

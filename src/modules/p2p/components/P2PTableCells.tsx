@@ -1,9 +1,11 @@
-import { CheckIcon, ClockIcon } from '@radix-ui/react-icons';
+import { CheckIcon } from '@radix-ui/react-icons';
+import Image from 'next/image';
 import React from 'react';
-import { FaThumbsUp } from 'react-icons/fa6';
 
 import { Button } from '@/modules/common/ui/components/button';
 import { cn } from '@/modules/common/ui/lib/utils';
+import { paymentsColors } from '@/modules/p2p/constants/paymentsColors';
+import { PaymentMethod } from '@/modules/p2p/models/paymentMethod';
 
 export interface AdvertiserCellProps
   extends React.TdHTMLAttributes<HTMLTableCellElement> {
@@ -15,10 +17,7 @@ export interface AdvertiserCellProps
 }
 
 export const AdvertiserCell = React.forwardRef<HTMLTableCellElement, AdvertiserCellProps>(
-  (
-    { className, username, orders, transactionTime, commendRate, completion, ...props },
-    ref,
-  ) => (
+  ({ className, username, orders, completion, ...props }, ref) => (
     <td
       ref={ref}
       className={cn(
@@ -32,12 +31,19 @@ export const AdvertiserCell = React.forwardRef<HTMLTableCellElement, AdvertiserC
         <p className='font-medium text-lg'>{username}</p>
         <CheckIcon className='w-4 h-4 text-primary' />
       </div>
+      <Image
+        src='/svg/satoshi_logo.svg'
+        width={119}
+        height={31}
+        alt='Satoshi Logo'
+        className='w-24'
+      />
       <div className='flex items-center gap-2 font-medium text-sm'>
         <p>{`${orders} orders`}</p>
-
+        <p>|</p>
         <p>{`${completion} completion`}</p>
       </div>
-      <div className='flex items-center gap-2 text-sm font-medium'>
+      {/* <div className='flex items-center gap-2 text-sm font-medium'>
         <span className='flex items-center gap-2'>
           <FaThumbsUp className='size-3 ' />
           {commendRate}
@@ -46,7 +52,7 @@ export const AdvertiserCell = React.forwardRef<HTMLTableCellElement, AdvertiserC
           <ClockIcon className='size-3' />
           {transactionTime} min
         </span>
-      </div>
+      </div> */}
     </td>
   ),
 );
@@ -66,8 +72,8 @@ export const PriceCell = React.forwardRef<HTMLTableCellElement, PriceCellProps>(
       )}
       {...props}
     >
-      <p className='font-bold text-lg'>{price}</p>
-      <p className='font-bold'>MXN</p>
+      <p className='font-bold text-xl'>{price}</p>
+      <p className='font-bold text-lg'>MXN</p>
     </td>
   ),
 );
@@ -100,7 +106,7 @@ export const AvailableCell = React.forwardRef<HTMLTableCellElement, AvailableCel
 AvailableCell.displayName = 'AvailableCell';
 
 export interface PaymentCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
-  payments: string[];
+  payments: PaymentMethod[];
 }
 
 export const PaymentCell = React.forwardRef<HTMLTableCellElement, PaymentCellProps>(
@@ -115,9 +121,14 @@ export const PaymentCell = React.forwardRef<HTMLTableCellElement, PaymentCellPro
     >
       <div className=''>
         {payments.map((payment) => (
-          <div key={payment} className='flex items-center gap-1 font-bold'>
-            <div className='size-3 bg-white shrink-0' />
-            <p>{payment}</p>
+          <div key={payment.id} className='flex items-center gap-1 font-bold'>
+            <div
+              className={cn(
+                'size-3 bg-white shrink-0',
+                `bg-[${paymentsColors[payment.id]}]`,
+              )}
+            />
+            <p>{payment.name}</p>
           </div>
         ))}
       </div>

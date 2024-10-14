@@ -14,6 +14,8 @@
     "buyingReceive": "You receive",
     "loginSign": "Log In / Sign Up",
     "verifyIdentity": "Verify identity",
+    "verifyEmail": "Verify email",
+    "selectPaymentMethod": "Select Payment Method",
     "sell": "Sell",
     "sellingSpend": "You sell",
     "sellingReceive": "You receive",
@@ -133,9 +135,24 @@
   },
   "Withdraw": {
     "title": "Withdraw",
-    "subtitle": "Withdraw funds from your Satoshi account"
+    "subtitle": "Withdraw funds from your Satoshi account",
+    "selectCurrency": "Select currency",
+    "network": "Network",
+    "address": "Address",
+    "amount": "Amount"
   },
   "Combobox": {
     "noResults": "No results found"
+  },
+  "PaymentMethods": {
+    "unitPrice": "Unit price",
+    "bestOffer": "Best offer",
+    "createOrder": "Create order"
+  },
+  "PreviewOrder": {
+    "title": "Order Preview",
+    "youPay": "You pay",
+    "youReceive": "You receive",
+    "fee": "Fee"
   }
 }
