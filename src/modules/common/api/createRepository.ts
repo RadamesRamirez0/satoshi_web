@@ -1,7 +1,8 @@
-import { del, get, post, put } from '@/modules/common/api/client';
+import { del, get, patch, post, put } from '@/modules/common/api/client';
 import {
   ApiEndpointDelete,
   ApiEndpointGet,
+  ApiEndpointPatch,
   ApiEndpointPost,
   ApiEndpointPut,
 } from '@/modules/common/interfaces/apiEndpoint';
@@ -10,7 +11,8 @@ type Endpoint =
   | ApiEndpointGet<unknown, unknown, unknown>
   | ApiEndpointPost<unknown, unknown, unknown, unknown>
   | ApiEndpointPut<unknown, unknown, unknown>
-  | ApiEndpointDelete<unknown, unknown>;
+  | ApiEndpointDelete<unknown, unknown>
+  | ApiEndpointPatch<unknown, unknown, unknown>;
 
 type Repository<T extends Record<string, Endpoint>> = {
   [K in keyof T]: T[K] extends ApiEndpointGet<infer R, infer Q, infer P>
@@ -40,7 +42,14 @@ type Repository<T extends Record<string, Endpoint>> = {
               pathParams?: P;
               headers?: Parameters<typeof del>[0]['headers'];
             }) => Promise<R>
-          : never;
+          : T[K] extends ApiEndpointPatch<infer R, infer B, infer P>
+            ? (params: {
+                body: B;
+                pathParams?: P;
+                token?: string;
+                headers?: Parameters<typeof put>[0]['headers'];
+              }) => Promise<R>
+            : never;
 };
 
 export const createRepository = <T extends Record<string, Endpoint>>(
@@ -116,6 +125,30 @@ export const createRepository = <T extends Record<string, Endpoint>>(
         token?: string;
       }) =>
         put({
+          ...value,
+          body,
+          pathParams,
+          baseUrl,
+          headers: {
+            ...(token && { Authorization: `Bearer ${token}` }),
+            ...headers,
+          },
+        });
+    }
+    if (value.method === 'PATCH') {
+      //@ts-expect-error No pasada nada home
+      acc[key] = async ({
+        body,
+        pathParams,
+        headers,
+        token,
+      }: {
+        body: Parameters<typeof patch>[0]['body'];
+        pathParams?: Parameters<typeof patch>[0]['pathParams'];
+        headers?: Parameters<typeof patch>[0]['headers'];
+        token?: string;
+      }) =>
+        patch({
           ...value,
           body,
           pathParams,

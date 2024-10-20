@@ -5,50 +5,11 @@ import React, { FC } from 'react';
 
 import { Card, CardContent } from '@/modules/common/ui/components/card';
 import { usePaymentsContext } from '@/modules/express/contexts/PaymentsContext';
-import { PriceEstimation } from '@/modules/express/models/priceEstimation';
-import {
-  estimateBase,
-  estimateFeeWithBase,
-  estimateFeeWithQuote,
-  estimateQuote,
-} from '@/modules/express/utils/estimateFiat';
 
-export interface PreviewOrderCardProps {
-  amountCurrencyType: 'base' | 'quote';
-  amountCurrency: string;
-  baseCurrency: string;
-  quoteCurrency: string;
-  offers: PriceEstimation[];
-}
-
-const PreviewOrderCard: FC<PreviewOrderCardProps> = ({
-  amountCurrency,
-  amountCurrencyType,
-  quoteCurrency,
-  baseCurrency,
-  offers,
-}) => {
-  const { selectedPaymentId } = usePaymentsContext();
+const PreviewOrderCard: FC = () => {
+  const { baseAmount, fee, quoteAmount, baseCurrency, quoteCurrency } =
+    usePaymentsContext();
   const t = useTranslations('PreviewOrder');
-
-  let quoteAmount = '';
-  let baseAmount = '';
-  let fee = '';
-
-  const currentOffer = offers.find((o) => o.payment_method === selectedPaymentId);
-  const price = currentOffer?.price ?? '0';
-  const feePercent = currentOffer?.fee_percentage ?? '0.2';
-
-  if (amountCurrencyType === 'quote') {
-    quoteAmount = amountCurrency;
-    baseAmount = estimateBase(amountCurrency, price, feePercent);
-    fee = estimateFeeWithQuote(amountCurrency, price, feePercent);
-  }
-  if (amountCurrencyType === 'base') {
-    baseAmount = amountCurrency;
-    quoteAmount = estimateQuote(amountCurrency, price, feePercent);
-    fee = estimateFeeWithBase(amountCurrency, feePercent);
-  }
 
   return (
     <Card>

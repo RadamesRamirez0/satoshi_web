@@ -1,27 +1,22 @@
 'use client';
 
-import React, { createContext, FC, PropsWithChildren, useState } from 'react';
+import React, { createContext, FC, PropsWithChildren } from 'react';
 
-export interface PaymentsContextValues {
-  selectedPaymentId?: string | null;
-  setSelectedPaymentId: (paymentId?: string) => void;
-}
+import {
+  usePayments,
+  UsePaymentsProps,
+  UsePaymentsValues,
+} from '@/modules/express/hooks/usePayments';
 
-export const PaymentsContext = createContext({} as PaymentsContextValues);
+export const PaymentsContext = createContext({} as UsePaymentsValues);
 
-export const PaymentsProvider: FC<PropsWithChildren & { defaultPayment?: string }> = ({
+export const PaymentsProvider: FC<PropsWithChildren & UsePaymentsProps> = ({
   children,
-  defaultPayment,
+  ...props
 }) => {
-  const [selectedPaymentId, setSelectedPaymentId] = useState<string | undefined>(
-    defaultPayment,
-  );
+  const payments = usePayments(props);
 
-  return (
-    <PaymentsContext.Provider value={{ selectedPaymentId, setSelectedPaymentId }}>
-      {children}
-    </PaymentsContext.Provider>
-  );
+  return <PaymentsContext.Provider value={payments}>{children}</PaymentsContext.Provider>;
 };
 
 export const usePaymentsContext = () => React.useContext(PaymentsContext);

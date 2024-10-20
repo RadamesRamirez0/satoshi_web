@@ -16,7 +16,8 @@ export interface PaymentsOffersProps {
 }
 const PaymentsOffers: FC<PaymentsOffersProps> = ({ offers, payments }) => {
   const t = useTranslations('PaymentMethods');
-  const { selectedPaymentId, setSelectedPaymentId } = usePaymentsContext();
+  const { selectedPaymentId, setSelectedPaymentId, handleCreateOrder } =
+    usePaymentsContext();
 
   return (
     <div className='flex-1 space-y-8'>
@@ -38,7 +39,11 @@ const PaymentsOffers: FC<PaymentsOffersProps> = ({ offers, payments }) => {
           );
         })}
       </CardGroup>
-      <Button size='lg' className='w-full text-xl font-bold'>
+      <Button
+        size='lg'
+        className='w-full text-xl font-bold'
+        onClick={() => void handleCreateOrder()}
+      >
         {t('createOrder')}
       </Button>
     </div>

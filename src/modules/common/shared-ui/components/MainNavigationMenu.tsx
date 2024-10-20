@@ -33,7 +33,7 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
           <Link href='/express'>{t('buyCrypto')}</Link>
         </NavigationItem>
         <NavigationItem>
-          <Link href='/p2p'>{t('p2p')}</Link>
+          <Link href='/p2p/announcements'>{t('p2p')}</Link>
         </NavigationItem>
       </ul>
       <ul className='flex items-center gap-4'>

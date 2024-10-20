@@ -6,12 +6,12 @@ import { Card, CardContent, CardFooter } from '@/modules/common/ui/components/ca
 import { Combobox } from '@/modules/common/ui/components/combobox';
 import { ComboboxItem } from '@/modules/common/ui/components/comboboxItem';
 import { InputWidget } from '@/modules/common/ui/components/inputWidget';
-import { TabsContent } from '@/modules/common/ui/components/tabs';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
 } from '@/modules/common/ui/components/tooltip';
+import { TabsContent } from '@/modules/common/ui/components/widget-tabs';
 import { ExpressAction } from '@/modules/express/components/ExpressAction';
 import { useExpressContext } from '@/modules/express/contexts/ExpressContext';
 import { OrderType } from '@/modules/express/models/orderType';

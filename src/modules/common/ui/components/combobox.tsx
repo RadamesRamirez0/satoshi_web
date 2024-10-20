@@ -70,7 +70,7 @@ function Combobox<T>({
                 role='combobox'
                 aria-expanded={open}
                 className={cn(
-                  ' justify-between text-gray-400 text-base font-medium group',
+                  'justify-between text-gray-400 text-base font-medium group h-[2.875rem]',
 
                   label && 'text-whiteBG/80 hover:text-whiteBG',
                   triggerClassName,

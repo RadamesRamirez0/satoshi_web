@@ -1,7 +1,7 @@
 export type DTORecord = Record<string, string | null> | undefined;
 
 export interface ApiEndpoint {
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   url: string;
   contentType?: 'json' | 'x-www-form-urlencoded';
 }
@@ -23,6 +23,14 @@ export interface ApiEndpointPost<R, B, P = DTORecord, Q = DTORecord> extends Api
 }
 export interface ApiEndpointPut<R, B, P = DTORecord> extends ApiEndpoint {
   method?: 'PUT';
+  body?: B;
+  pathParams?: P;
+  response?: R;
+  headers?: Record<string, string>;
+}
+
+export interface ApiEndpointPatch<R, B, P = DTORecord> extends ApiEndpoint {
+  method?: 'PATCH';
   body?: B;
   pathParams?: P;
   response?: R;

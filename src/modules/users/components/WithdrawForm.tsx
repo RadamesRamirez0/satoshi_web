@@ -88,9 +88,9 @@ const WithdrawForm = () => {
         <Input
           id='amount'
           numeric
-          state={amount}
-          setState={setAmount}
           decimals={currency?.precision ?? 8}
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
         />
       </span>
     </section>

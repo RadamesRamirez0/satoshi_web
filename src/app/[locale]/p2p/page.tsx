@@ -1,3 +1,7 @@
-import P2PView from '@/modules/p2p/views/P2PView';
+import { redirect } from '@/modules/common/i18n/routing';
 
-export default P2PView;
+export default function P2PPage() {
+  redirect('/p2p/announcements');
+
+  return null;
+}

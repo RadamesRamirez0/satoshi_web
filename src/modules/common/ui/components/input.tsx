@@ -1,6 +1,6 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import * as React from 'react';
-import { AutoNumericInput } from 'react-autonumeric';
+import { NumericFormat } from 'react-number-format';
 
 import { cn } from '@/modules/common/ui/lib/utils';
 
@@ -13,7 +13,7 @@ export interface InputProps
   decimals?: number;
 }
 
-const inputVariants = cva(
+export const inputVariants = cva(
   [
     'flex  w-full rounded-md caret-primary font-medium  border border-input autofill:bg-transparent',
     ' border-zinc-700  bg-transparent px-3 py-2.5 text-base shadow-sm transition-all focus-visible:border-ring',
@@ -42,26 +42,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       autoComplete = 'off',
       numeric = false,
       decimals = 2,
-      state,
-      setState,
+
       ...props
     },
     ref,
   ) => {
     if (numeric) {
       return (
-        <AutoNumericInput
-          inputProps={{
-            type,
-            className: cn(inputVariants({ error }), className),
-            ...props,
-          }}
-          valueState={{ state: state ?? '', stateSetter: setState ?? (() => {}) }}
-          autoNumericOptions={{
-            decimalPlaces: decimals,
-            roundingMethod: 'D',
-            allowDecimalPadding: 'floats',
-          }}
+        <NumericFormat
+          allowNegative={false}
+          decimalScale={decimals}
+          thousandSeparator
+          className={cn(inputVariants({ error }), className)}
         />
       );
     }

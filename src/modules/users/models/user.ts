@@ -7,4 +7,5 @@ export interface User {
   phone_number_is_verified: boolean;
   partner_id: string;
   kyc_level: number;
+  alias: string;
 }

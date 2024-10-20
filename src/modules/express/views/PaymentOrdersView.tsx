@@ -56,19 +56,14 @@ const PaymentsOrdersView: FC<PaymentsOrdersViewProps> = async ({
     .map((e) => e.value.data as PriceEstimation);
 
   return (
-    <div className='flex gap-12 items-start'>
-      <PaymentsProvider defaultPayment={offers[0].payment_method}>
+    <div className='flex gap-12 justify-between items-start'>
+      <PaymentsProvider
+        defaultPayment={offers[0]?.payment_method ?? undefined}
+        {...{ amountCurrency, amountCurrencyType, offers, baseCurrency, quoteCurrency }}
+      >
         <PaymentsOffers offers={offers} payments={payments.data} />
         <div className='flex-1'>
-          <PreviewOrderCard
-            offers={offers}
-            {...{
-              amountCurrency,
-              amountCurrencyType,
-              baseCurrency,
-              quoteCurrency,
-            }}
-          />
+          <PreviewOrderCard />
         </div>
       </PaymentsProvider>
     </div>

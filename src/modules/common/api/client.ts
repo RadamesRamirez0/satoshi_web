@@ -2,6 +2,7 @@ import { apiUrl } from '@/modules/common/constants/env';
 import {
   ApiEndpointDelete,
   ApiEndpointGet,
+  ApiEndpointPatch,
   ApiEndpointPost,
   ApiEndpointPut,
 } from '@/modules/common/interfaces/apiEndpoint';
@@ -77,6 +78,35 @@ export const put = async <R, B, P>({
 
     const res = await fetch(`${baseUrl ?? apiUrl}${finalUrl}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type':
+          contentType === 'json'
+            ? 'application/json'
+            : 'application/x-www-form-urlencoded',
+        ...headers,
+      },
+      body: JSON.stringify(body),
+    });
+
+    return (await res.json()) as R;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const patch = async <R, B, P>({
+  url,
+  body,
+  pathParams,
+  contentType = 'json',
+  baseUrl,
+  headers,
+}: ApiEndpointPatch<B, P> & { baseUrl?: string }): Promise<R | undefined> => {
+  try {
+    const finalUrl = formatPathParams(url, pathParams as Record<string, string>);
+
+    const res = await fetch(`${baseUrl ?? apiUrl}${finalUrl}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type':
           contentType === 'json'

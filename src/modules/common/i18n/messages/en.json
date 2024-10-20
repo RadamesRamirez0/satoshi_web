@@ -147,12 +147,42 @@
   "PaymentMethods": {
     "unitPrice": "Unit price",
     "bestOffer": "Best offer",
-    "createOrder": "Create order"
+    "createOrder": "Create order",
+    "createOrderKycError": "You must complete KYC to create an order",
+    "createOrderSuccess": "Order created successfully",
+    "createOrderRequired": "You must select a payment method",
+    "createOrderError": "An error ocurred. Try again later"
   },
   "PreviewOrder": {
     "title": "Order Preview",
     "youPay": "You pay",
     "youReceive": "You receive",
     "fee": "Fee"
+  },
+  "CreateAnnouncement": {
+    "title": "Create Announcement",
+    "base": "Base currency",
+    "quote": "Quote currency",
+    "paymentMethod": "Payment Method",
+    "paymentMethodPlaceholder": "Select Payment Method",
+    "paymentMethodRequired": "You must select a payment method",
+    "price": "Price",
+    "pricePlaceholder": "Price",
+    "priceRequired": "You must enter a price",
+    "amount": "Amount",
+    "amountPlaceholder": "Amount",
+    "amountRequired": "You must enter an amount",
+    "create": "Create",
+    "createSuccess": "Announcement created successfully",
+    "createError": "An error ocurred. Try again later",
+    "fixedPrice": "Fixed",
+    "VariablePrice": "Variable",
+    "priceType": "Price type",
+    "announcementType": "Announcement type",
+    "buy": "Buy",
+    "sell": "Sell",
+    "yourPrice": "Your price",
+    "step1": "Set Type & Price",
+    "step2": "Set Total Amount & Payment Method"
   }
 }

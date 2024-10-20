@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
-import { Tabs, TabsList, TabsTrigger } from '@/modules/common/ui/components/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/modules/common/ui/components/widget-tabs';
 import { BuySellContent } from '@/modules/express/components/BuySellContent';
 import { useExpressContext } from '@/modules/express/contexts/ExpressContext';
 
