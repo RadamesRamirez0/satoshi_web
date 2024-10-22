@@ -18,20 +18,19 @@ const ComboboxItem = forwardRef(function <T>(
   ref: React.ForwardedRef<React.ElementRef<typeof CommandPrimitive.Item>>,
 ) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { onChange, setOpen, value: selectedValue, setLabel } = useComboboxContext();
+  const { onChange, setOpen, value: selectedValue } = useComboboxContext();
 
   return (
     <CommandPrimitive.Item
       ref={ref}
       className={cn(
-        'flex group items-center bg-zinc-700 cursor-default select-none justify-start  px-5 py-2 text-sm outline-none h-14 hover:bg-primary transition-colors  [&_[data-slot=sublabel]]:hover:text-primary-200 [&_[data-slot=label]]:hover:text-black [&_[data-slot=label]]:hover:transition-colors',
+        'flex group items-center bg-background cursor-default select-none justify-start  px-5 py-2 text-sm outline-none h-14 hover:bg-primary transition-colors  [&_[data-slot=sublabel]]:hover:text-primary-200 [&_[data-slot=label]]:hover:text-black [&_[data-slot=label]]:hover:transition-colors',
         className,
       )}
       onSelect={() => {
         setOpen(false);
 
         onChange(value);
-        setLabel(children as string);
       }}
       {...props}
     >

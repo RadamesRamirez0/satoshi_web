@@ -14,7 +14,7 @@ const CurrencyLabel: FC<CurrencyLabelProps> = ({ value, className, decimals = 2 
       allowNegative={false}
       decimalScale={decimals}
       thousandSeparator
-      className={cn('bg-transparent text-2xl font-bold', className)}
+      className={cn('bg-transparent text-2xl font-bold outline-none ', className)}
       readOnly
       value={value}
       valueIsNumericString

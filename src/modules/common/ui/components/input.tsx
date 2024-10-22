@@ -16,9 +16,10 @@ export interface InputProps
 export const inputVariants = cva(
   [
     'flex  w-full rounded-md caret-primary font-medium  border border-input autofill:bg-transparent',
-    ' border-zinc-700  bg-transparent px-3 py-2.5 text-base shadow-sm transition-all focus-visible:border-ring',
+    ' border-zinc-700  bg-transparent px-3 py-2.5 text-base shadow-sm transition-all  focus-visible:border-ring',
     ' file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground',
     ' focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+    'hover:border-ring focus:border-ring focus:ring-ring focus:ring-1',
   ],
   {
     variants: {

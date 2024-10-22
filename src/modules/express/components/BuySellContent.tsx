@@ -80,7 +80,7 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                 onChange={setPayCurrency}
                 value={payCurrency}
                 align='end'
-                defaultLabel={payCurrency?.symbol}
+                label={payCurrency?.symbol}
               >
                 {(type === 'buy' ? fiatCurrencies : cryptoCurrencies)?.map((c) => (
                   <ComboboxItem key={c.id} value={c} subLabel={c.name}>
@@ -111,7 +111,7 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                 triggerClassName='absolute right-4 top-0 bottom-0 m-auto z-10'
                 onChange={setReceiveCurrency}
                 value={receiveCurrency}
-                defaultLabel={receiveCurrency?.symbol}
+                label={receiveCurrency?.symbol}
                 align='end'
               >
                 {(type === 'buy' ? cryptoCurrencies : fiatCurrencies)?.map((c) => (

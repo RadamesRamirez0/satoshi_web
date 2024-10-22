@@ -12,16 +12,13 @@ import {
   CardFooter,
   CardHeader,
 } from '@/modules/common/ui/components/card';
-import { getRedirect } from '@/modules/common/utils/getRedirect';
 
-const LoginCard = async () => {
+const LoginCard = async ({ redirectTo }: { redirectTo?: string }) => {
   const t = await getTranslations('Login');
   const session = getSession();
   if (session) {
     redirect('/');
   }
-
-  const redirectTo = getRedirect('auth');
 
   return (
     <Card className='px-6 min-w-[25rem] border py-6'>

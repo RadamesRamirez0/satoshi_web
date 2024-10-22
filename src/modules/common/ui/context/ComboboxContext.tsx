@@ -5,10 +5,9 @@ import React, { createContext, PropsWithChildren, useState } from 'react';
 interface ComboboxContextValues<T> {
   open: boolean;
   value: T;
-  label?: string;
+
   setOpen: (open: boolean) => void;
   onChange: (value: T) => void;
-  setLabel: (label: string) => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,7 +27,6 @@ export function ComboboxProvider<T>({
   value,
 }: ComboboxProviderProps<T>): JSX.Element {
   const [open, setOpen] = useState(false);
-  const [label, setLabel] = useState<string>();
 
   return (
     <ComboboxContext.Provider
@@ -37,8 +35,6 @@ export function ComboboxProvider<T>({
         value,
         setOpen,
         onChange,
-        label,
-        setLabel,
       }}
     >
       {children}

@@ -10,31 +10,22 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/modules/common/ui/components/tabs';
+import { useCreateAnnouncementContext } from '@/modules/p2p/contexts/CreateAnnouncementContext';
 
-export interface AnnouncementPriceTypeProps {
-  priceType?: string;
-  setPriceType: (priceType: string) => void;
-  priceTypeError: string;
-  price?: string;
-  setPrice: (price: string) => void;
-  currency?: string;
-}
-
-const AnnouncementPriceType: FC<AnnouncementPriceTypeProps> = ({
-  priceType,
-  priceTypeError,
-  setPriceType,
-  price,
-  setPrice,
-  currency,
-}) => {
+const AnnouncementPriceType: FC = () => {
   const t = useTranslations('CreateAnnouncement');
+  const { formik } = useCreateAnnouncementContext();
+
+  const { price_type, quote, price } = formik.values;
 
   return (
     <>
       <Label className='text-xl'>{t('priceType')}</Label>
-      <Tabs onValueChange={setPriceType} value={priceType}>
-        <TabsList className='flex w-64' error={!!priceTypeError}>
+      <Tabs
+        onValueChange={(v) => void formik.setFieldValue('price_type', v)}
+        value={price_type}
+      >
+        <TabsList className='flex w-64' error={!!formik.errors.price_type}>
           <TabsTrigger className='flex-1' value='fixed'>
             {t('fixedPrice')}
           </TabsTrigger>
@@ -48,14 +39,15 @@ const AnnouncementPriceType: FC<AnnouncementPriceTypeProps> = ({
             <InputIncrementer
               className='w-min'
               value={price}
-              onValueChange={(v) => setPrice(v.value)}
+              onValueChange={(v) => void formik.setFieldValue('price', v.value)}
               fixedDecimalScale
+              decimals={2}
             />
           </span>
           <span>
             <p>{t('yourPrice')}</p>
             <span className='flex'>
-              <p className='text-2xl font-bold'>{currency?.toUpperCase()} $</p>
+              <p className='text-2xl font-bold'>{quote?.symbol.toUpperCase()} $</p>
               <CurrencyLabel value={price ? price : '0.00'} />
             </span>
           </span>

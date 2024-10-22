@@ -4,38 +4,45 @@ import { cn } from '@/modules/common/ui/lib/utils';
 
 export interface StepsProps {
   orientation: 'horizontal' | 'vertical';
-  steps: string[];
-  currentStep: number;
+  steps: { label: string; value: string }[];
+  currentStep: string;
 }
 
 const Steps: FC<StepsProps> = ({ steps, currentStep }) => {
+  const currentStepIndex = steps.findIndex((v) => v.value === currentStep);
+
   return (
     <>
       <div className='flex  items-center w-full justify-between'>
-        {steps.map((s) => (
-          <p key={s}>{s}</p>
+        {steps.map((v) => (
+          <p key={v.value} className='text-center'>
+            {v.label}
+          </p>
         ))}
       </div>
       <div className='flex  items-center w-full justify-between'>
-        {steps.map((s, i) => (
-          <>
+        {steps.map((v, i) => (
+          <React.Fragment key={v.value}>
             <div
+              key={v.value}
               className={cn(
-                `rounded-md bg-muted size-10 flex items-center justify-center text-lg font-bold transition-colors`,
-                currentStep === i + 1 && 'bg-blue-500 text-white',
-                currentStep > i + 1 && 'bg-primary text-background',
+                `rounded-md bg-muted size-10 flex items-center justify-center text-lg font-bold transition-colors ring ring-primary z-10`,
+                currentStepIndex > i && 'bg-primary text-background  ',
+                currentStepIndex === i && 'bg-primary text-background ring-primary/60 ',
+                currentStepIndex < i && 'text-whiteBG ring-primary/60',
               )}
             >
               {i + 1}
             </div>
 
             <div
+              key={v.value}
               className={cn(
                 'h-1.5 bg-muted w-12 flex-1 last:hidden transition-colors',
-                currentStep > i + 1 && 'bg-primary',
+                currentStepIndex > i && 'bg-primary',
               )}
             ></div>
-          </>
+          </React.Fragment>
         ))}
       </div>
     </>

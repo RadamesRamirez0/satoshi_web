@@ -4,6 +4,7 @@ import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { PopoverContentProps } from '@radix-ui/react-popover';
 import { useTranslations } from 'next-intl';
 import { PropsWithChildren } from 'react';
+import { CgSpinner } from 'react-icons/cg';
 
 import { Button, ButtonProps } from '@/modules/common/ui/components/button';
 import {
@@ -37,7 +38,10 @@ interface ComboboxProps<T> extends PropsWithChildren {
   id: string;
   align?: PopoverContentProps['align'];
   dropdownAsTriggerWidth?: boolean;
+  label?: string;
   defaultLabel?: string;
+  loading?: boolean;
+  onBlur?: React.FocusEventHandler<HTMLButtonElement> | undefined;
 }
 
 function Combobox<T>({
@@ -52,16 +56,19 @@ function Combobox<T>({
   searcher,
   searcherPlaceholder,
   id,
+  label,
+  loading,
   defaultLabel,
   variant = 'ghost',
   size = 'sm',
+  onBlur,
 }: ComboboxProps<T>): JSX.Element {
   const t = useTranslations('Combobox');
 
   return (
     <ComboboxProvider {...{ onChange, value }}>
       <ComboboxConsumer>
-        {({ open, setOpen, label }) => (
+        {({ open, setOpen }) => (
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
@@ -71,14 +78,20 @@ function Combobox<T>({
                 aria-expanded={open}
                 className={cn(
                   'justify-between text-gray-400 text-base font-medium group h-[2.875rem]',
-
-                  label && 'text-whiteBG/80 hover:text-whiteBG',
+                  label && 'text-whiteBG/90 hover:text-whiteBG',
                   triggerClassName,
                 )}
                 size={size}
+                onBlur={onBlur}
               >
-                <div className='flex items-center gap-2 text-ellipsis overflow-hidden'>
-                  {label ?? defaultLabel}
+                <div
+                  className={cn('flex items-center gap-2 text-ellipsis overflow-hidden')}
+                >
+                  {loading ? (
+                    <CgSpinner className='animate-spin  text-zinc-900 size-5' />
+                  ) : (
+                    (label ?? defaultLabel)
+                  )}
                 </div>
                 <ChevronDownIcon className='size-5 ml-2 text-whiteBG/80 group-hover:text-whiteBG transition-colors' />
               </Button>
@@ -87,6 +100,7 @@ function Combobox<T>({
               align={align}
               className={cn(
                 'p-0',
+                'border border-zinc-700',
                 dropdownAsTriggerWidth && 'w-popover-trigger max-h-popover-content',
               )}
             >

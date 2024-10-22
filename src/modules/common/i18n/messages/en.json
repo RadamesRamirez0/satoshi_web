@@ -183,6 +183,40 @@
     "sell": "Sell",
     "yourPrice": "Your price",
     "step1": "Set Type & Price",
-    "step2": "Set Total Amount & Payment Method"
+    "step2": "Set Total Amount & Payment Method",
+    "step3": "Preview",
+    "next": "Next",
+
+    "previous": "Previous",
+    "confirmation": "Are you sure?",
+    "confirmationDescription": "You are about to create an announcement. Please review the information before proceeding."
+  },
+  "UserPaymentMethods": {
+    "title": "Select Payment Method",
+    "add": "Add new"
+  },
+  "AddUserPaymentMethod": {
+    "title": "Add Payment Method",
+    "setPaymentMethod": "Set Payment Method",
+    "description": "Add supported payment methods",
+    "tip": "Tips: The added payment method will be shown to the buyer during the transaction to accept fiat transfers. Please ensure that the information is correct, real, and matches your KYC information on Satoshi.",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "requiredField": "This field is required"
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "create": "Create",
+    "send": "Send",
+    "retry": "Retry",
+    "ok": "Ok"
   }
 }

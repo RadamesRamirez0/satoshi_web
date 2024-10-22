@@ -20,8 +20,8 @@ interface HintProps
     VariantProps<typeof hintTextVariants>,
     HTMLAttributes<HTMLParagraphElement> {}
 
-const hintText: FC<HintProps> = ({ variant, className, ...props }) => {
+const HintText: FC<HintProps> = ({ variant, className, ...props }) => {
   return <p className={cn(hintTextVariants({ variant, className }))} {...props} />;
 };
 
-export default hintText;
+export default HintText;

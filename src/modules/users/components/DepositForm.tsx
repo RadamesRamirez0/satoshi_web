@@ -73,7 +73,7 @@ const DepositForm = () => {
           variant='outline'
           searcher
           dropdownAsTriggerWidth
-          defaultLabel={currency?.symbol}
+          label={currency?.symbol}
           size='input'
         >
           {currencies.map((c) => (

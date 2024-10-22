@@ -2,10 +2,10 @@ import React from 'react';
 
 import LoginCard from '@/modules/auth/components/LoginCard';
 
-const LoginView = () => {
+const LoginView = ({ redirectTo }: { redirectTo?: string }) => {
   return (
     <div className='flex justify-center items-center h-full'>
-      <LoginCard />
+      <LoginCard redirectTo={redirectTo} />
     </div>
   );
 };
