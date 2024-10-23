@@ -6,6 +6,6 @@ import {
 
 export const createBuyOrder: ApiEndpointPost<CreateBuyOrderResponse, CreateBuyOrderDTO> =
   {
-    url: '/v1/fiat-ramp/create_buy_order',
+    url: '/v1/fiat-ramp/create_order',
     method: 'POST',
   };

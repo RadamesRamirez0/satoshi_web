@@ -29,7 +29,7 @@ export const estimateQuote = (base: string, price: string, fee: string): string 
 export const estimateFeeWithBase = (base: string, fee: string): string => {
   const formatedBase = truncateDecimals(parseFloat(base), 8);
 
-  const feee = formatedBase / (1 - parseFloat(fee)) - formatedBase;
+  const feee = formatedBase * (parseFloat(fee) / 100);
 
   return feee.toString();
 };
@@ -46,7 +46,7 @@ export const estimateFeeWithQuote = (
 
   const base = truncateDecimals(receive, 8);
 
-  const feee = base * parseFloat(fee);
+  const feee = base * (parseFloat(fee) / 100);
 
   return feee.toString();
 };

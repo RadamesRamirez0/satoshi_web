@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
 import { toast } from '@/modules/common/utils/toast';
+import { OrderType } from '@/modules/express/models/orderType';
 import { PriceEstimation } from '@/modules/express/models/priceEstimation';
 import {
   estimateBase,
@@ -30,6 +31,7 @@ export interface UsePaymentsProps {
   amountCurrencyType: 'base' | 'quote';
   baseCurrency: string;
   quoteCurrency: string;
+  orderType: OrderType;
 }
 
 export const usePayments = ({
@@ -39,6 +41,7 @@ export const usePayments = ({
   amountCurrencyType,
   baseCurrency,
   quoteCurrency,
+  orderType,
 }: UsePaymentsProps): UsePaymentsValues => {
   const [selectedPaymentId, setSelectedPaymentId] = useState<string | undefined>(
     defaultPayment,
@@ -75,7 +78,8 @@ export const usePayments = ({
 
     const res = await p2pRepository.createBuyOrder({
       body: {
-        amount_in_from_currency: quoteAmount,
+        order_type: orderType,
+        amount_in_from_currency: baseAmount,
         from_currency_id: quoteCurrency,
         to_currency_id: baseCurrency,
         payment_method_id: selectedPaymentId,

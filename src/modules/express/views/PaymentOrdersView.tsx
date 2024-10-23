@@ -39,8 +39,8 @@ const PaymentsOrdersView: FC<PaymentsOrdersViewProps> = async ({
       queryParams: {
         base_currency: baseCurrency,
         quote_currency: quoteCurrency,
-        amount_in_quoute_currency:
-          amountCurrencyType === 'quote' ? amountCurrency : undefined,
+        amount_in_quote_currency:
+          amountCurrencyType === 'base' ? amountCurrency : undefined,
         order_type: orderType,
         payment_method: p.id,
       },
@@ -51,6 +51,8 @@ const PaymentsOrdersView: FC<PaymentsOrdersViewProps> = async ({
     (e) => e.status === 'fulfilled',
   );
 
+  console.log(estimationsAvailables);
+
   const offers = estimationsAvailables
     .filter((e) => e.value.data !== null)
     .map((e) => e.value.data as PriceEstimation);
@@ -59,7 +61,14 @@ const PaymentsOrdersView: FC<PaymentsOrdersViewProps> = async ({
     <div className='flex gap-12 justify-between items-start'>
       <PaymentsProvider
         defaultPayment={offers[0]?.payment_method ?? undefined}
-        {...{ amountCurrency, amountCurrencyType, offers, baseCurrency, quoteCurrency }}
+        {...{
+          amountCurrency,
+          amountCurrencyType,
+          offers,
+          baseCurrency,
+          quoteCurrency,
+          orderType,
+        }}
       >
         <PaymentsOffers offers={offers} payments={payments.data} />
         <div className='flex-1'>

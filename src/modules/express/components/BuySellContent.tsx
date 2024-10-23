@@ -1,10 +1,12 @@
 import { useTranslations } from 'next-intl';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import { TooltipWithIcon } from '@/modules/common/shared-ui/components/TooltipWithIcon';
+import { Button } from '@/modules/common/ui/components/button';
 import { Card, CardContent, CardFooter } from '@/modules/common/ui/components/card';
 import { Combobox } from '@/modules/common/ui/components/combobox';
 import { ComboboxItem } from '@/modules/common/ui/components/comboboxItem';
+import { Dialog, DialogTrigger } from '@/modules/common/ui/components/dialog';
 import { InputWidget } from '@/modules/common/ui/components/inputWidget';
 import {
   Tooltip,
@@ -13,6 +15,7 @@ import {
 } from '@/modules/common/ui/components/tooltip';
 import { TabsContent } from '@/modules/common/ui/components/widget-tabs';
 import { ExpressAction } from '@/modules/express/components/ExpressAction';
+import SelectPaymentMethod from '@/modules/express/components/SelectPaymentMethod';
 import { useExpressContext } from '@/modules/express/contexts/ExpressContext';
 import { OrderType } from '@/modules/express/models/orderType';
 
@@ -21,6 +24,7 @@ export interface BuySellContent {
 }
 
 export const BuySellContent: FC<BuySellContent> = ({ type }) => {
+  const [selectingPayment, setSelectingPayment] = useState(false);
   let payDecimals = 2;
   let receiveDecimals = 8;
 
@@ -46,6 +50,8 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
     setReceiveCurrency,
     base,
     quote,
+    setPaymentMethod,
+    paymentMethod,
   } = useExpressContext();
 
   return (
@@ -68,7 +74,7 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
               }}
               error={type === 'buy' ? isErrorQuote : false}
               placeholder={
-                type === 'buy' && data
+                type === 'sell' && data
                   ? `Min ${data.minimum_order_amount} Max ${data.maximum_order_amount}`
                   : ''
               }
@@ -99,7 +105,7 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                 void handleReceive(e.target.value);
               }}
               placeholder={
-                type === 'sell' && data
+                type === 'buy' && data
                   ? `Min ${data.minimum_order_amount} Max ${data.maximum_order_amount}`
                   : ''
               }
@@ -145,6 +151,20 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                 </span>
               )}
             </TooltipProvider>
+            <Dialog open={selectingPayment} onOpenChange={setSelectingPayment}>
+              <DialogTrigger asChild>
+                <Button
+                  className='w-full text-lg py-6 h-min justify-start rounded-xl'
+                  variant='outline'
+                >
+                  {paymentMethod?.name ?? t('selectPaymentMethod')}
+                </Button>
+              </DialogTrigger>
+              <SelectPaymentMethod
+                onSubmit={(p) => setPaymentMethod(p)}
+                onClose={() => setSelectingPayment(false)}
+              />
+            </Dialog>
             <ExpressAction />
           </CardFooter>
         </form>

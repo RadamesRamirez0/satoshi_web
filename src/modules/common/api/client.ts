@@ -19,6 +19,8 @@ export const get = async <R, Q, P>({
     const queryParamsParsed = formatQueryParams(queryParams as Record<string, string>);
     const finalUrl = `${formatPathParams(url, pathParams as Record<string, string>)}${queryParamsParsed}`;
 
+    console.log(finalUrl);
+
     const res = await fetch(`${baseUrl ?? apiUrl}${finalUrl}`, {
       method: 'GET',
       headers,

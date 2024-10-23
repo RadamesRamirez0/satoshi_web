@@ -1,7 +1,10 @@
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
+import { Button } from '@/modules/common/ui/components/button';
 import AdvantagesSection from '@/modules/express/components/AdvantagesSection';
 import { P2PTable } from '@/modules/p2p/components/P2PTable';
+import { PaymentMethod } from '@/modules/p2p/models/paymentMethod';
 
 export interface Order {
   advertiser: string;
@@ -22,7 +25,15 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA', 'Santander'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
   {
     id: '2',
@@ -35,7 +46,15 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
   {
     id: '3',
@@ -48,7 +67,15 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
   {
     id: '4',
@@ -61,7 +88,15 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
   {
     id: '5',
@@ -74,7 +109,15 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
   {
     id: '6',
@@ -87,7 +130,15 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA', 'Santander'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
   {
     id: '7',
@@ -100,7 +151,15 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
   {
     id: '8',
@@ -113,7 +172,15 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA', 'Mercado Pago'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
   {
     id: '9',
@@ -126,7 +193,15 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
   {
     id: '10',
@@ -139,7 +214,15 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
   {
     id: '11',
@@ -152,7 +235,15 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
   {
     id: '12',
@@ -165,13 +256,26 @@ export const announcements = [
     available: '38076.94',
     minOrder: '100.00',
     maxOrder: '1000.00',
-    payments: ['Bank Transfer', 'BBVA'],
+    payments: [
+      {
+        id: '1',
+        name: 'Bank Transfer',
+        description: 'Bank Transfer',
+        enable: true,
+        required_data: {},
+      },
+    ] as PaymentMethod[],
   },
 ];
 
 const P2PView = () => {
+  const t = useTranslations('P2PView');
+
   return (
     <div>
+      <div className='flex justify-end w-full '>
+        <Button>{t('newAnnouncement')}</Button>
+      </div>
       <P2PTable {...{ announcements }} />
       <AdvantagesSection />
     </div>

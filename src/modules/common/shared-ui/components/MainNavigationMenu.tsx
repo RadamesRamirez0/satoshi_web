@@ -1,4 +1,5 @@
 import { DownloadIcon, GlobeIcon } from '@radix-ui/react-icons';
+import { headers } from 'next/headers';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import * as React from 'react';
@@ -16,12 +17,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/modules/common/ui/components/popover';
+import { cn } from '@/modules/common/ui/lib/utils';
 
 export type MainNavegationMenuProps = object;
 
 export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
   const t = await getTranslations('MainNavigationMenu');
   const session = getSession();
+  const headerList = headers();
+
+  const path = headerList.get('x-current-path');
 
   return (
     <nav className='flex items-center justify-between h-16 px-6 bg-muted text-background rounded-2xl m-4 '>
@@ -29,10 +34,12 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
         <li className='mr-6'>
           <Image src='/svg/satoshi_logo.svg' width={119} height={31} alt='Satoshi Logo' />
         </li>
-        <NavigationItem>
+        <NavigationItem className={cn(path?.includes('/express') && 'text-primary')}>
           <Link href='/express'>{t('buyCrypto')}</Link>
         </NavigationItem>
-        <NavigationItem>
+        <NavigationItem
+          className={cn(path?.includes('/p2p/announcements') && 'text-primary')}
+        >
           <Link href='/p2p/announcements'>{t('p2p')}</Link>
         </NavigationItem>
       </ul>

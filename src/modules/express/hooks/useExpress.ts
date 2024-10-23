@@ -13,6 +13,7 @@ import { PriceEstimation } from '@/modules/express/models/priceEstimation';
 import { expressRepository } from '@/modules/express/repository';
 import { PriceEstimationDTO } from '@/modules/express/repository/dtos/priceEstimationDto';
 import { estimateBase, estimateQuote } from '@/modules/express/utils/estimateFiat';
+import { PaymentMethod } from '@/modules/p2p/models/paymentMethod';
 
 export interface UseExpressValues {
   data?: PriceEstimation;
@@ -34,6 +35,8 @@ export interface UseExpressValues {
   setReceiveCurrency: Dispatch<SetStateAction<Currency | undefined>>;
   base: string;
   quote: string;
+  paymentMethod?: PaymentMethod;
+  setPaymentMethod: Dispatch<SetStateAction<PaymentMethod | undefined>>;
 }
 
 export interface InitialExpressValues {
@@ -53,8 +56,9 @@ const useExpress = (): UseExpressValues => {
   const [base, setBase] = useState<string>('');
   const [fiatCurrencies, setFiatCurrencies] = useState<Currency[]>();
   const [cryptoCurrencies, setCryptoCurrencies] = useState<Currency[]>();
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>();
 
-  const getData = async (values: Omit<PriceEstimationDTO, 'payment_method'>) =>
+  const getData = async (values: PriceEstimationDTO) =>
     await expressRepository.getPriceEstimation({
       queryParams: {
         ...values,
@@ -135,10 +139,11 @@ const useExpress = (): UseExpressValues => {
       base_currency: base,
       quote_currency: quote,
       order_type: orderType,
-      amount_in_quoute_currency: orderType === 'buy' ? pay : receive,
+      amount_in_quote_currency: (orderType === 'buy' ? receive : pay) || '0.0001',
+      payment_method: paymentMethod?.id ?? undefined,
     }).then((r) => {
       if (!r.data) {
-        setData(undefined);
+        // setData(undefined);
 
         return;
       }
@@ -156,38 +161,29 @@ const useExpress = (): UseExpressValues => {
     const intervalId = setInterval(fetchData, 15000);
 
     return () => clearInterval(intervalId);
-  }, [base, quote, orderType, pay, receive]);
+  }, [base, quote, orderType, pay, receive, paymentMethod]);
 
   useEffect(() => {
-    const quote = orderType === 'buy' ? pay : receive;
-    console.log(quote);
-    const precision =
-      orderType === 'buy' ? payCurrency?.precision : receiveCurrency?.precision;
+    // const quote = orderType === 'buy' ? pay : receive;
+    // console.log(quote);
+    // const precision =
+    //   orderType === 'buy' ? payCurrency?.precision : receiveCurrency?.precision;
 
-    const isError: boolean =
-      parseFloat(
-        Autonumeric.unformat(quote, {
-          decimalPlaces: precision,
-          allowDecimalPadding: 'floats',
-        }).toString(),
-      ) < parseFloat(data?.minimum_order_amount ?? '100') ||
-      parseFloat(
-        Autonumeric.unformat(quote, {
-          decimalPlaces: precision,
-          allowDecimalPadding: 'floats',
-        }).toString(),
-      ) > parseFloat(data?.maximum_order_amount ?? '2000');
+    // const isError: boolean =
+    //   parseFloat(
+    //     Autonumeric.unformat(quote, {
+    //       decimalPlaces: precision,
+    //       allowDecimalPadding: 'floats',
+    //     }).toString(),
+    //   ) < parseFloat(data?.minimum_order_amount ?? '100') ||
+    //   parseFloat(
+    //     Autonumeric.unformat(quote, {
+    //       decimalPlaces: precision,
+    //       allowDecimalPadding: 'floats',
+    //     }).toString(),
+    //   ) > parseFloat(data?.maximum_order_amount ?? '2000');
 
-    console.log(
-      data?.minimum_order_amount,
-      quote,
-      Autonumeric.unformat(quote, {
-        decimalPlaces: precision,
-        allowDecimalPadding: 'floats',
-      }).toString(),
-    );
-
-    setIsErrorQuote(isError);
+    setIsErrorQuote(false);
   }, [pay, receive]);
 
   useEffect(() => {
@@ -248,6 +244,8 @@ const useExpress = (): UseExpressValues => {
     setReceiveCurrency,
     base,
     quote,
+    paymentMethod,
+    setPaymentMethod,
   };
 };
 

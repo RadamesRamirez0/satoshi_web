@@ -6,6 +6,7 @@ import { CgLogOut } from 'react-icons/cg';
 import { FaRegCircleUser } from 'react-icons/fa6';
 
 import { logout } from '@/app/api/auth/logoutAction';
+import { getSession } from '@/app/api/auth/sessionAction';
 import { Link } from '@/modules/common/i18n/routing';
 import NavDropdownItem from '@/modules/common/shared-ui/components/NavDropdownItem';
 import {
@@ -14,19 +15,29 @@ import {
   NavigationAccordionTrigger,
 } from '@/modules/common/shared-ui/components/NavigationAccordion';
 import { Button } from '@/modules/common/ui/components/button';
+import { usersRepository } from '@/modules/users/repository';
 
 export type UserNavDropdownProps = object;
 
 const UserNavDropdown: FC<UserNavDropdownProps> = async () => {
   const t = await getTranslations('UserDropdown');
+  const session = await getSession();
+
+  if (!session) {
+    return null;
+  }
+
+  const user = await usersRepository.userMe({ token: session.token });
 
   return (
     <>
-      <div className='flex px-6 py-4 justify-between'>
+      <div className='flex px-6 py-4'>
         <FaRegCircleUser className='size-12' />
-        <div>
-          <p className='text-lg font-semibold text-primary'>Radames Ramírez</p>
-          {/* <p className='text-sm text-zinc-200'>radameskalel@gmail.com</p> */}
+        <div className='flex-1 flex justify-center'>
+          <span>
+            <p className='text-lg font-semibold text-primary'>{user.data?.alias}</p>
+            <p className='text-sm text-zinc-200'>{user.data?.email}</p>
+          </span>
         </div>
       </div>
 

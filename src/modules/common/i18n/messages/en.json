@@ -22,7 +22,8 @@
     "estimatedPrice": "Estimated price",
     "estimatedPriceTooltip": "This is estimated based on the available advertisements on P2P Zone. Click on Select Payment Method to view actual prices.",
     "feeRate": "Fee rate",
-    "feeRateTooltip": "Upon order completion, the processing fee is automatically deducted from the total crypto quantity when seller release the crypto to buyer"
+    "feeRateTooltip": "Upon order completion, the processing fee is automatically deducted from the total crypto quantity when seller release the crypto to buyer",
+    "orderCreated": "Order created successfully"
   },
   "HowTo": {
     "buyMainTitle": "How to buy {base} via P2P Express",
@@ -218,5 +219,32 @@
     "send": "Send",
     "retry": "Retry",
     "ok": "Ok"
+  },
+  "P2PView": {
+    "newAnnouncement": "New Announcement"
+  },
+  "SelectPaymentMethod": {
+    "title": "Select Payment Method"
+  },
+  "OrderView": {
+    "title": "Order Created, Pay the Seller within",
+    "orderId": "Order ID",
+    "fiatAmount": "Fiat Amount",
+    "price": "Price",
+    "receiveQuantity": "Receive Quantity",
+    "step1": "Order Created",
+    "step2": "Transfer the fiat amount",
+    "step3buying": "Notify Seller",
+    "step3selling": "Release Crypto",
+    "releaseCrypto": "Release Crypto",
+    "releaseCryptoDescription": "After receiving the fiat amount, remember to click the button below to release the crypto to the buyer.",
+    "notifySeller": "I have transferred the fiat amount",
+    "notifySellerDescrption": "After payment, remember to click the button below to notify the seller. The seller will then release the crypto to you.",
+    "cancelOrder": "Cancel Order",
+    "cryptoReleased": "Crypto released successfully",
+    "notifySellerSuccess": "Notified seller successfully",
+    "pendingRelease": "Pending Release",
+    "orderCompleted": "Order Completed",
+    "orderCanceled": "Order Canceled"
   }
 }

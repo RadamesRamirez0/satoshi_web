@@ -7,7 +7,7 @@ export interface PriceEstimationDTO {
   quote_currency: string;
   order_type: OrderType;
   payment_method?: string;
-  amount_in_quoute_currency?: string;
+  amount_in_quote_currency?: string;
 }
 
 export type PriceEstimationResponse = ApiResponse<PriceEstimation> | ApiErrorResponse;

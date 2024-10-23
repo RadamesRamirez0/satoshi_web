@@ -1,14 +1,19 @@
 import React, { FC, PropsWithChildren } from 'react';
 
 import { Button } from '@/modules/common/ui/components/button';
+import { cn } from '@/modules/common/ui/lib/utils';
 
-const NavigationItem: FC<PropsWithChildren> = ({ children }) => {
+export interface NavigationItemProps extends PropsWithChildren {
+  className?: string;
+}
+
+const NavigationItem: FC<NavigationItemProps> = ({ children, className }) => {
   return (
     <li>
       <Button
         variant='string'
         size='lg'
-        className='h-16  rounded-none px-2 font-bold'
+        className={cn('h-16  rounded-none px-2 font-bold', className)}
         asChild
       >
         {children}
