@@ -37,6 +37,7 @@ module.exports = {
     'plugin:import/warnings',
     'plugin:import/typescript',
     'plugin:@next/next/recommended',
+    'plugin:@tanstack/query/recommended',
   ],
   plugins: ['react-hooks'],
   rules: {

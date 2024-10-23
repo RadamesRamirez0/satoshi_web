@@ -1,8 +1,7 @@
 import { ApiEndpointGet } from '@/modules/common/interfaces/apiEndpoint';
-import { GetOrderResponse } from '@/modules/p2p/repository/dtos/getOrderDto';
+import { GetOrderDTO, GetOrderResponse } from '@/modules/p2p/repository/dtos/getOrderDto';
 
-export const getOrder: ApiEndpointGet<GetOrderResponse> = {
+export const getOrder: ApiEndpointGet<GetOrderResponse, undefined, GetOrderDTO> = {
   url: '/v1/fiat-ramp/view_order/{order_id}',
   method: 'GET',
-  pathParams: { order_id: '' },
 };

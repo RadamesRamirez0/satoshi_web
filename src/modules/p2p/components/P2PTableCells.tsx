@@ -1,23 +1,24 @@
-import { CheckIcon } from '@radix-ui/react-icons';
+import { CheckIcon, ClockIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import React from 'react';
 
+import { useRouter } from '@/modules/common/i18n/routing';
 import { Button } from '@/modules/common/ui/components/button';
 import { cn } from '@/modules/common/ui/lib/utils';
+import { capitalizeSnakedWords } from '@/modules/common/utils/strings';
 import { paymentsColors } from '@/modules/p2p/constants/paymentsColors';
-import { PaymentMethod } from '@/modules/p2p/models/paymentMethod';
 
 export interface AdvertiserCellProps
   extends React.TdHTMLAttributes<HTMLTableCellElement> {
   username: string;
-  orders: string;
-  completion: string;
-  commendRate: string;
+  // orders: string;
+  // completion: string;
+  // commendRate: string;
   transactionTime: number;
 }
 
 export const AdvertiserCell = React.forwardRef<HTMLTableCellElement, AdvertiserCellProps>(
-  ({ className, username, orders, completion, ...props }, ref) => (
+  ({ className, username, transactionTime, ...props }, ref) => (
     <td
       ref={ref}
       className={cn(
@@ -38,21 +39,21 @@ export const AdvertiserCell = React.forwardRef<HTMLTableCellElement, AdvertiserC
         alt='Satoshi Logo'
         className='w-24'
       />
-      <div className='flex items-center gap-2 font-medium text-sm'>
+      {/* <div className='flex items-center gap-2 font-medium text-sm'>
         <p>{`${orders} orders`}</p>
         <p>|</p>
         <p>{`${completion} completion`}</p>
-      </div>
-      {/* <div className='flex items-center gap-2 text-sm font-medium'>
-        <span className='flex items-center gap-2'>
+      </div> */}
+      <div className='flex items-center gap-2 text-sm font-medium'>
+        {/* <span className='flex items-center gap-2'>
           <FaThumbsUp className='size-3 ' />
           {commendRate}
-        </span>
+        </span> */}
         <span className='flex items-center gap-2'>
           <ClockIcon className='size-3' />
-          {transactionTime} min
+          {transactionTime / 60} min
         </span>
-      </div> */}
+      </div>
     </td>
   ),
 );
@@ -106,7 +107,7 @@ export const AvailableCell = React.forwardRef<HTMLTableCellElement, AvailableCel
 AvailableCell.displayName = 'AvailableCell';
 
 export interface PaymentCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
-  payments: PaymentMethod[];
+  payments: string[];
 }
 
 export const PaymentCell = React.forwardRef<HTMLTableCellElement, PaymentCellProps>(
@@ -121,14 +122,14 @@ export const PaymentCell = React.forwardRef<HTMLTableCellElement, PaymentCellPro
     >
       <div className=''>
         {payments.map((payment) => (
-          <div key={payment.id} className='flex items-center gap-1 font-bold'>
+          <div key={payment} className='flex items-center gap-1 font-bold'>
             <div
               className={cn(
-                'size-3 bg-white shrink-0',
-                `bg-[${paymentsColors[payment.id]}]`,
+                'h-3.5 w-1 rounded-xl bg-white shrink-0',
+                `bg-[${paymentsColors[payment]}]`,
               )}
             />
-            <p>{payment.name}</p>
+            <p>{capitalizeSnakedWords(payment)}</p>
           </div>
         ))}
       </div>
@@ -142,19 +143,23 @@ export interface TradeCellProps extends React.TdHTMLAttributes<HTMLTableCellElem
 }
 
 export const TradeCell = React.forwardRef<HTMLTableCellElement, TradeCellProps>(
-  ({ className, ...props }, ref) => (
-    <td
-      ref={ref}
-      className={cn(
-        'py-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] flex items-center justify-end px-2',
-        className,
-      )}
-      {...props}
-    >
-      <Button variant='green' className='font-bold'>
-        Buy TBTC
-      </Button>
-    </td>
-  ),
+  ({ className, announcementId, ...props }, ref) => {
+    const router = useRouter();
+
+    return (
+      <td
+        ref={ref}
+        className={cn(
+          'py-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] flex items-center justify-end px-2',
+          className,
+        )}
+        {...props}
+      >
+        <Button variant='green' className='font-bold' onClick={() => {}}>
+          Buy TBTC
+        </Button>
+      </td>
+    );
+  },
 );
 TradeCell.displayName = 'TradeCell';

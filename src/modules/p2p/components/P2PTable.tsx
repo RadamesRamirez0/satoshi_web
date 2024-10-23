@@ -1,3 +1,6 @@
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
 
 import {
@@ -24,13 +27,26 @@ import {
   PriceCell,
   TradeCell,
 } from '@/modules/p2p/components/P2PTableCells';
-import { announcements } from '@/modules/p2p/views/P2PView';
+import { p2pRepository } from '@/modules/p2p/repository';
 
-export interface P2PTableProps {
-  announcements: typeof announcements;
-}
+export const P2PTable: FC = () => {
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ['announcements'],
+    queryFn: () => p2pRepository.getAnnouncements({}),
+  });
 
-export const P2PTable: FC<P2PTableProps> = ({ announcements }) => {
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading announcements</div>; // Puedes mejorar el manejo de errores aquí
+  }
+
+  if (!data?.data.length) {
+    return <div>No announcements available</div>;
+  }
+
   return (
     <Table className='w-full overflow-clip'>
       <TableHeader>
@@ -43,27 +59,30 @@ export const P2PTable: FC<P2PTableProps> = ({ announcements }) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {announcements.map(
+        {data.data.map(
           ({
-            available,
-            commendRate,
-            completion,
+            amount,
+
             id,
-            maxOrder,
-            minOrder,
-            orders,
-            payments,
+            maximum_time_for_transaction_completion,
+            maximum_order_size,
+            minimum_order_size,
+            user_alias,
             price,
-            transactionTime,
-            username,
+            payment_method,
           }) => (
             <TableRow key={id}>
               <AdvertiserCell
-                {...{ username, completion, orders, commendRate, transactionTime }}
+                username={user_alias}
+                transactionTime={maximum_time_for_transaction_completion}
               />
-              <PriceCell {...{ price }} />
-              <AvailableCell {...{ available, minOrder, maxOrder }} />
-              <PaymentCell {...{ payments }} />
+              <PriceCell price={price} />
+              <AvailableCell
+                available={amount}
+                maxOrder={maximum_order_size}
+                minOrder={minimum_order_size}
+              />
+              <PaymentCell payments={[payment_method]} />
               <TradeCell announcementId={id} />
             </TableRow>
           ),

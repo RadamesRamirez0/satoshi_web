@@ -51,8 +51,6 @@ const PaymentsOrdersView: FC<PaymentsOrdersViewProps> = async ({
     (e) => e.status === 'fulfilled',
   );
 
-  console.log(estimationsAvailables);
-
   const offers = estimationsAvailables
     .filter((e) => e.value.data !== null)
     .map((e) => e.value.data as PriceEstimation);
