@@ -65,7 +65,7 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
   return (
     <div>
       <span className='flex gap-1'>
-        <h2 className='text-whiteBG text-2xl font-bold'>
+        <h2 className='text-whiteBG text-2xl font-bold inline-flex items-center flex-wrap'>
           {t(
             order.status === 'pending'
               ? 'title'
@@ -73,13 +73,15 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
                 ? 'pendingRelease'
                 : 'orderCompleted',
           )}{' '}
+          <span className='inline-block ml-1'>
+            <OrderTransactionTimer
+              createdAt={order.creation_timestamp}
+              timeToComplete={order.maximum_time_for_transaction_completion.toString()}
+            />
+          </span>
         </h2>
-        <OrderTransactionTimer
-          createdAt={order.creation_timestamp}
-          timeToComplete={order.maximum_time_for_transaction_completion.toString()}
-        />
       </span>
-      <span className='flex gap-1 items-center'>
+      <span className='flex flex-col md:flex-row gap-1 md:items-center'>
         <p className='text-whiteBG/80 font-bold'>{t('orderId')}</p>
         <p className='text-whiteBG font-bold'>{order.id}</p>
       </span>
@@ -106,7 +108,7 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
             {Object.entries(order.payment_method_data).map(([key, value]) => (
               <span className='flex justify-between w-full font-bold' key={key}>
                 <p className='text-whiteBG/80'>{capitalizeSnakedWords(key)}</p>
-                <p>{value.toUpperCase()}</p>
+                <p className='text-end'>{value.toUpperCase()}</p>
               </span>
             ))}
           </SimpleCard>

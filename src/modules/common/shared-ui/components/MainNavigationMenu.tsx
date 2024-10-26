@@ -128,7 +128,7 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
                 alt='Satoshi Logo'
               />
 
-              <span className='w-full flex gap-3'>
+              <span className={cn('w-full  gap-3 hidden', !session && 'flex')}>
                 <Button variant='secondary' size='default' asChild className='flex-1'>
                   <Link href='/auth/login'>{t('logIn')}</Link>
                 </Button>
