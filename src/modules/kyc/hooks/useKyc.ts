@@ -19,7 +19,7 @@ export const useKyc = (): UseKycValues => {
   const [loadingToken, setLoadingToken] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!session.token) {
+    if (!session?.token) {
       return;
     }
     setLoadingToken(true);

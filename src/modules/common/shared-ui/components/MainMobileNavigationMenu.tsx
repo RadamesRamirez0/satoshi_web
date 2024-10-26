@@ -34,7 +34,7 @@ export const MobileMenu = () => {
       </div>
       <div className='pt-4 pb-3 border-t border-gray-700'>
         <div className='flex items-center px-5'>
-          {session.token && (
+          {session?.token && (
             <>
               <Button className='text-base w-full justify-center' asChild>
                 <Link href='/users/me/deposit'>
@@ -44,7 +44,7 @@ export const MobileMenu = () => {
               </Button>
             </>
           )}
-          {!session.token && (
+          {!session?.token && (
             <>
               <Button
                 variant='secondary'
@@ -61,7 +61,7 @@ export const MobileMenu = () => {
           )}
         </div>
         <div className='mt-3 px-2 space-y-1'>
-          {session.token && <UserNavDropdown />}
+          {session?.token && <UserNavDropdown />}
           <L10nDropdown />
         </div>
       </div>

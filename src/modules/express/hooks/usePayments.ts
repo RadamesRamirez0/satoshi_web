@@ -70,6 +70,10 @@ export const usePayments = ({
   }
 
   const handleCreateOrder = async () => {
+    if (!session?.token) {
+      return;
+    }
+
     if (!selectedPaymentId) {
       toast.error(t('createOrderRequired'));
 

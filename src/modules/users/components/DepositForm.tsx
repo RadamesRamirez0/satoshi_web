@@ -33,7 +33,7 @@ const DepositForm = () => {
   }, []);
 
   useEffect(() => {
-    if (!currency?.id || !session.token) {
+    if (!currency?.id || !session?.token) {
       return;
     }
 
