@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { Toaster } from 'react-hot-toast';
@@ -10,6 +10,15 @@ export const metadata: Metadata = {
   description: 'La forma más fácil de comprar cripto.',
 };
 
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: 'device-width',
+  height: 'device-height',
+  minimumScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  colorScheme: 'dark',
+};
 export default async function LocaleLayout({
   children,
 }: {

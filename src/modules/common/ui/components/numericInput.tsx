@@ -18,7 +18,7 @@ export const NumericInput: FC<NumericInputProps> = ({
   ...props
 }) => {
   return (
-    <div className='relative w-min'>
+    <div className='relative md:w-min'>
       <NumericFormat
         {...props}
         allowNegative={false}

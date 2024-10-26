@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import React from 'react';
 
 import { getSession } from '@/app/api/auth/sessionAction';
+import { Link } from '@/modules/common/i18n/routing';
 import { Button } from '@/modules/common/ui/components/button';
 import { CardGroup, CardGroupItem } from '@/modules/common/ui/components/card-group';
 import { cn } from '@/modules/common/ui/lib/utils';
@@ -28,7 +29,7 @@ const DashboardVerificationSteps = async () => {
       <CardGroupItem
         value='1'
         id='step1'
-        className='col-span-3 data-[state=checked]:col-span-6 flex gap-4'
+        className='col-span-12 md:col-span-3 md:data-[state=checked]:col-span-6 flex gap-4'
       >
         <span className='flex flex-col text-left  items-start justify-between gap-8 w-full h-full'>
           <p className='text-xl font-bold block group-data-[state=checked]:hidden'>
@@ -66,7 +67,7 @@ const DashboardVerificationSteps = async () => {
       <CardGroupItem
         value='2'
         id='step2'
-        className='col-span-3 data-[state=checked]:col-span-6 flex gap-4'
+        className='col-span-12 md:col-span-3 md:data-[state=checked]:col-span-6 flex gap-4'
       >
         <span className='flex flex-col text-left  items-start justify-between gap-8 w-full h-full'>
           <p className='text-xl font-bold block group-data-[state=checked]:hidden'>
@@ -105,7 +106,7 @@ const DashboardVerificationSteps = async () => {
       <CardGroupItem
         value='3'
         id='step3'
-        className='col-span-3 data-[state=checked]:col-span-6 flex gap-4'
+        className='col-span-12 md:col-span-3 md:data-[state=checked]:col-span-6 flex gap-4'
       >
         <span className='flex flex-col text-left  items-start justify-between gap-8 w-full h-full'>
           <p className='text-xl font-bold block group-data-[state=checked]:hidden'>
@@ -124,7 +125,9 @@ const DashboardVerificationSteps = async () => {
           >
             {user.data?.email_is_verified && user.data.kyc_level === 1 && (
               <Button asChild>
-                <div>{t('step3Action')}</div>
+                <Link href='/express'>
+                  <div>{t('step3Action')}</div>
+                </Link>
               </Button>
             )}
 

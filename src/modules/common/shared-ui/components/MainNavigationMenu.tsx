@@ -1,4 +1,4 @@
-import { DownloadIcon, GlobeIcon } from '@radix-ui/react-icons';
+import { DownloadIcon, GlobeIcon, HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { headers } from 'next/headers';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/modules/common/ui/components/popover';
+import { Sheet, SheetContent, SheetTrigger } from '@/modules/common/ui/components/sheet';
 import { cn } from '@/modules/common/ui/lib/utils';
 
 export type MainNavegationMenuProps = object;
@@ -29,16 +30,21 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
   const path = headerList.get('x-current-path');
 
   return (
-    <nav className='flex items-center justify-between h-16 px-6 bg-muted text-background rounded-2xl m-4 '>
-      <ul className='flex items-center'>
+    <nav className='flex items-center justify-between h-16  px-6 bg-muted text-background rounded-2xl m-4'>
+      <ul className='flex items-center h-16'>
         <li className='mr-6'>
           <Image src='/svg/satoshi_logo.svg' width={119} height={31} alt='Satoshi Logo' />
         </li>
-        <NavigationItem className={cn(path?.includes('/express') && 'text-primary')}>
+        <NavigationItem
+          className={cn(path?.includes('/express') && 'text-primary', 'hidden md:flex')}
+        >
           <Link href='/express'>{t('buyCrypto')}</Link>
         </NavigationItem>
         <NavigationItem
-          className={cn(path?.includes('/p2p/announcements') && 'text-primary')}
+          className={cn(
+            path?.includes('/p2p/announcements') && 'text-primary',
+            'hidden md:flex',
+          )}
         >
           <Link href='/p2p/announcements'>{t('p2p')}</Link>
         </NavigationItem>
@@ -46,7 +52,7 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
       <ul className='flex items-center gap-4'>
         {session && (
           <>
-            <li className='pr-2'>
+            <li className='pr-2 hidden md:flex'>
               <Button className='text-base' asChild>
                 <Link href='/users/me/deposit'>
                   <DownloadIcon className='w-5 h-5 mr-2' />
@@ -76,19 +82,19 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
         )}
         {!session && (
           <>
-            <li>
+            <li className='hidden md:flex'>
               <Button variant='secondary' size='default' asChild>
                 <Link href='/auth/login'>{t('logIn')}</Link>
               </Button>
             </li>
-            <li>
+            <li className='hidden md:flex'>
               <Button size='default' asChild>
                 <Link href='/auth/register'>{t('signUp')}</Link>
               </Button>
             </li>
           </>
         )}
-        <li>
+        <li className={cn(session && 'hidden md:flex')}>
           <Popover>
             <PopoverTrigger asChild>
               <Button variant='string' size='icon'>
@@ -105,6 +111,51 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
               <L10nDropdown />
             </PopoverContent>
           </Popover>
+        </li>
+
+        <li className='md:hidden'>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant='string' size='icon'>
+                <HamburgerMenuIcon className='size-6' />
+              </Button>
+            </SheetTrigger>
+            <SheetContent className='flex flex-col' side='right'>
+              <Image
+                src='/svg/satoshi_logo.svg'
+                width={119}
+                height={31}
+                alt='Satoshi Logo'
+              />
+
+              <span className='w-full flex gap-3'>
+                <Button variant='secondary' size='default' asChild className='flex-1'>
+                  <Link href='/auth/login'>{t('logIn')}</Link>
+                </Button>
+                <Button size='default' asChild className='flex-1'>
+                  <Link href='/auth/register'>{t('signUp')}</Link>
+                </Button>
+              </span>
+              <ul>
+                <NavigationItem
+                  className={cn(
+                    path?.includes('/express') && 'text-primary',
+                    'w-full justify-start',
+                  )}
+                >
+                  <Link href='/express'>{t('buyCrypto')}</Link>
+                </NavigationItem>
+                <NavigationItem
+                  className={cn(
+                    path?.includes('/p2p/announcements') && 'text-primary',
+                    'text-left w-full justify-start',
+                  )}
+                >
+                  <Link href='/p2p/announcements'>{t('p2p')}</Link>
+                </NavigationItem>
+              </ul>
+            </SheetContent>
+          </Sheet>
         </li>
       </ul>
     </nav>

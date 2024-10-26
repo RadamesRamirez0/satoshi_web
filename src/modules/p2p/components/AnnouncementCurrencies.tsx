@@ -21,7 +21,7 @@ const AnnouncementCurrencies: FC = () => {
   const { base, quote } = formik.values;
 
   return (
-    <span className='flex gap-12 items-start'>
+    <span className='flex flex-col md:flex-row  md:gap-12 items-start'>
       <div>
         <span className='flex flex-col'>
           <Label className='text-xl' htmlFor='base'>
@@ -71,7 +71,7 @@ const AnnouncementCurrencies: FC = () => {
           {formik.errors.base ?? '.'}
         </HintText>
       </div>
-      <ArrowRightIcon className='size-5  mt-10 text-primary' />
+      <ArrowRightIcon className='size-5   md:mt-10 text-primary hidden md:flex' />
       <div>
         <span className='flex flex-col'>
           <Label className='text-xl' htmlFor='quote'>

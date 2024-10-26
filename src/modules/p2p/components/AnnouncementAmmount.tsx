@@ -13,14 +13,14 @@ const AnnouncementAmmount = () => {
 
   return (
     <div className='space-y-6 pb-4'>
-      <span>
+      <span className='flex flex-col'>
         <Label className='text-lg' htmlFor='amount'>
           Total Amount
         </Label>
         <NumericInput
           id='amount'
           placeholder='Enter the amount'
-          className='w-[28rem]'
+          className='w-full  md:w-[28rem]'
           value={amount}
           onValueChange={(v) => void formik.setFieldValue('amount', v.value)}
           decimals={8}
@@ -39,8 +39,8 @@ const AnnouncementAmmount = () => {
       </span>
       <div>
         <Label className='text-lg'>Order Limit</Label>
-        <span className='flex items-center mt-2 gap-4'>
-          <span className='relative'>
+        <span className='flex flex-col md:flex-row items-center mt-2 md:gap-4'>
+          <span className='relative w-full md:w-auto'>
             <Label className='text-base text-whiteBG/80' htmlFor='minimum_order_size'>
               Minimum size
             </Label>
@@ -48,7 +48,7 @@ const AnnouncementAmmount = () => {
               id='minimum_order_size'
               onBlur={formik.handleBlur}
               placeholder='Enter the amount'
-              className='w-[12.5rem]'
+              className='w-full md:w-[12.5rem]'
               value={formik.values.minimum_order_size}
               onValueChange={(v) =>
                 void formik.setFieldValue('minimum_order_size', v.value)
@@ -69,8 +69,8 @@ const AnnouncementAmmount = () => {
               {formik.errors.minimum_order_size ?? '.'}
             </HintText>
           </span>
-          <p className='text-2xl font-bold pt-4'>~</p>
-          <span className='relative '>
+          <p className='text-2xl font-bold pt-4 hidden md:flex'>~</p>
+          <span className='relative w-full md:auto'>
             <Label className='text-base text-whiteBG/80' htmlFor='maximum_order_size'>
               Maximum size
             </Label>
@@ -78,7 +78,7 @@ const AnnouncementAmmount = () => {
               id='maximum_order_size'
               onBlur={formik.handleBlur}
               placeholder='Enter the amount'
-              className='w-[12.5rem]'
+              className='md:w-[12.5rem]'
               value={formik.values.maximum_order_size}
               onValueChange={(v) =>
                 void formik.setFieldValue('maximum_order_size', v.value)

@@ -6,7 +6,7 @@ const AdvantagesSection = async () => {
   const t = await getTranslations('Advantages');
 
   return (
-    <section className='space-y-8 pt-32 flex gap-4'>
+    <section className='space-y-8 pt-32 flex gap-4 flex-col md:flex-row'>
       <span className='flex-1 space-y-8'>
         <h2 className='text-5xl font-bold pb-8 '>{t('mainTitle')}</h2>
         <article className='space-y-2'>

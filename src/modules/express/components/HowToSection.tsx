@@ -15,7 +15,7 @@ const HowToSection = () => {
   return (
     <section className='flex flex-col gap-8'>
       <h2 className='text-5xl font-bold'>{t(`${orderType}MainTitle`, { base })}</h2>
-      <article className='flex w-full gap-4'>
+      <article className='flex flex-col md:flex-row w-full gap-4'>
         <Card className='flex-1'>
           <CardContent className='space-y-6 pt-8 pb-12'>
             <Image

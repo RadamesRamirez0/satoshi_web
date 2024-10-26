@@ -78,9 +78,9 @@ const AnnouncementPriceType: FC = () => {
                 percent
               />
             </span>
-            <span>
+            <span className='w-full'>
               <p>{t('yourPrice')}</p>
-              <span className='flex'>
+              <span className='flex w-full'>
                 <p className='text-2xl font-bold'>{quote?.symbol.toUpperCase()} $</p>
                 <CurrencyLabel value={price ? price : '0.00'} />
               </span>
