@@ -33,7 +33,7 @@ const HowToSection = () => {
           <CardContent className='space-y-6 pt-8 pb-12'>
             <Image
               src='/svg/buyStep2.svg'
-              alt='Satoshi Logo'
+              alt='Step 2'
               width={960}
               height={540}
               className='w-full'
@@ -47,10 +47,10 @@ const HowToSection = () => {
         <Card className='flex-1'>
           <CardContent className='space-y-6 pt-8 pb-12'>
             <Image
-              src='/svg/satoshi_logo.svg'
-              alt='Satoshi Logo'
-              width={119}
-              height={31}
+              src='/svg/buyStep3.svg'
+              alt='Step 3'
+              width={960}
+              height={540}
               className='w-full'
             />
             <h3 className='text-xl font-bold'>

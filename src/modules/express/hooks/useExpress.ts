@@ -13,7 +13,6 @@ import { PriceEstimation } from '@/modules/express/models/priceEstimation';
 import { expressRepository } from '@/modules/express/repository';
 import { PriceEstimationDTO } from '@/modules/express/repository/dtos/priceEstimationDto';
 import { estimateBase, estimateQuote } from '@/modules/express/utils/estimateFiat';
-import { PaymentMethod } from '@/modules/p2p/models/paymentMethod';
 
 export interface UseExpressValues {
   data?: PriceEstimation;
@@ -35,8 +34,8 @@ export interface UseExpressValues {
   setReceiveCurrency: Dispatch<SetStateAction<Currency | undefined>>;
   base: string;
   quote: string;
-  paymentMethod?: PaymentMethod;
-  setPaymentMethod: Dispatch<SetStateAction<PaymentMethod | undefined>>;
+  paymentMethod?: string;
+  setPaymentMethod: Dispatch<SetStateAction<string | undefined>>;
 }
 
 export interface InitialExpressValues {
@@ -56,7 +55,7 @@ const useExpress = (): UseExpressValues => {
   const [base, setBase] = useState<string>('');
   const [fiatCurrencies, setFiatCurrencies] = useState<Currency[]>();
   const [cryptoCurrencies, setCryptoCurrencies] = useState<Currency[]>();
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>();
+  const [paymentMethod, setPaymentMethod] = useState<string>();
 
   const getData = async (values: PriceEstimationDTO) =>
     await expressRepository.getPriceEstimation({
@@ -140,7 +139,7 @@ const useExpress = (): UseExpressValues => {
       quote_currency: quote,
       order_type: orderType,
       amount_in_quote_currency: (orderType === 'buy' ? receive : pay) || '0.0001',
-      payment_method: paymentMethod?.id ?? undefined,
+      payment_method: paymentMethod ?? undefined,
     }).then((r) => {
       if (!r.data) {
         // setData(undefined);

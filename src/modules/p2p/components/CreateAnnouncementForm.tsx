@@ -10,6 +10,7 @@ import {
   TabsTrigger as MainTabsTrigger,
 } from '@/modules/common/ui/components/main-tabs';
 import Steps from '@/modules/common/ui/components/steps';
+import { AnnouncementNavigation } from '@/modules/p2p/components/AnnouncementNavigation';
 import { CreateAnnouncementPaymentStep } from '@/modules/p2p/components/CreateAnnouncementPaymentStep';
 import { CreateAnnouncementPriceStep } from '@/modules/p2p/components/CreateAnnouncementPriceStep';
 import { useCreateAnnouncementContext } from '@/modules/p2p/contexts/CreateAnnouncementContext';
@@ -30,8 +31,9 @@ const CreateAnnouncementForm = () => {
         ]}
         currentStep={currentStep}
       />
-      <form className='border rounded-lg overflow-hidden'>
+      <form className='border rounded-lg overflow-hidden' onSubmit={formik.handleSubmit}>
         <MainTabs
+          id='type'
           onValueChange={(v) => void formik.setFieldValue('type', v)}
           value={formik.values.type}
         >
@@ -58,6 +60,8 @@ const CreateAnnouncementForm = () => {
             {currentStep === 'payment' && <CreateAnnouncementPaymentStep />}
           </MainTabsContent>
         </MainTabs>
+
+        <AnnouncementNavigation />
       </form>
     </div>
   );

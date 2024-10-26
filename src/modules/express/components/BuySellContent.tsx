@@ -14,10 +14,12 @@ import {
   TooltipProvider,
 } from '@/modules/common/ui/components/tooltip';
 import { TabsContent } from '@/modules/common/ui/components/widget-tabs';
+import { capitalizeSnakedWords } from '@/modules/common/utils/strings';
 import { ExpressAction } from '@/modules/express/components/ExpressAction';
 import SelectPaymentMethod from '@/modules/express/components/SelectPaymentMethod';
 import { useExpressContext } from '@/modules/express/contexts/ExpressContext';
 import { OrderType } from '@/modules/express/models/orderType';
+import UserPaymentMethods from '@/modules/users/components/UserPaymentMethods';
 
 export interface BuySellContent {
   type: OrderType;
@@ -157,13 +159,24 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                   className='w-full text-lg py-6 h-min justify-start rounded-xl'
                   variant='outline'
                 >
-                  {paymentMethod?.name ?? t('selectPaymentMethod')}
+                  {paymentMethod
+                    ? capitalizeSnakedWords(paymentMethod)
+                    : t('selectPaymentMethod')}
                 </Button>
               </DialogTrigger>
-              <SelectPaymentMethod
-                onSubmit={(p) => setPaymentMethod(p)}
-                onClose={() => setSelectingPayment(false)}
-              />
+              {type === 'buy' && (
+                <SelectPaymentMethod
+                  onSubmit={(p) => setPaymentMethod(p.id)}
+                  onClose={() => setSelectingPayment(false)}
+                />
+              )}
+              {type === 'sell' && (
+                <UserPaymentMethods
+                  onSubmit={(p) => setPaymentMethod(p.payment_method_id)}
+                  onClose={() => setSelectingPayment(false)}
+                  modal
+                />
+              )}
             </Dialog>
             <ExpressAction />
           </CardFooter>

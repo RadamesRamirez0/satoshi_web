@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import React from 'react';
 
+import { Link } from '@/modules/common/i18n/routing';
 import { QueryClientWrap } from '@/modules/common/shared-ui/components/QueryClientWrap';
 import { Button } from '@/modules/common/ui/components/button';
 import AdvantagesSection from '@/modules/express/components/AdvantagesSection';
@@ -19,7 +20,9 @@ const P2PView = async () => {
   return (
     <div>
       <div className='flex justify-end w-full '>
-        <Button>{t('newAnnouncement')}</Button>
+        <Button asChild>
+          <Link href='/p2p/announcements/create'>{t('newAnnouncement')}</Link>
+        </Button>
       </div>
       <QueryClientWrap>
         <P2PTable />

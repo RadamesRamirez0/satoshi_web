@@ -190,7 +190,8 @@
 
     "previous": "Previous",
     "confirmation": "Are you sure?",
-    "confirmationDescription": "You are about to create an announcement. Please review the information before proceeding."
+    "confirmationDescription": "You are about to create an announcement. Please review the information before proceeding.",
+    "variable": "Variable Price Margin"
   },
   "UserPaymentMethods": {
     "title": "Select Payment Method",

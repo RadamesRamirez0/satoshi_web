@@ -15,16 +15,15 @@ const Steps: FC<StepsProps> = ({ steps, currentStep }) => {
     <>
       <div className='flex  items-center w-full justify-between'>
         {steps.map((v) => (
-          <p key={v.value} className='text-center'>
+          <p key={`${v.value}-a`} className='text-center'>
             {v.label}
           </p>
         ))}
       </div>
       <div className='flex  items-center w-full justify-between'>
         {steps.map((v, i) => (
-          <React.Fragment key={v.value}>
+          <React.Fragment key={`${v.value}-2`}>
             <div
-              key={v.value}
               className={cn(
                 `rounded-md bg-muted size-10 flex items-center justify-center text-lg font-bold transition-colors ring ring-primary z-10`,
                 currentStepIndex > i && 'bg-primary text-background  ',
@@ -36,7 +35,6 @@ const Steps: FC<StepsProps> = ({ steps, currentStep }) => {
             </div>
 
             <div
-              key={v.value}
               className={cn(
                 'h-1.5 bg-muted w-12 flex-1 last:hidden transition-colors',
                 currentStepIndex > i && 'bg-primary',

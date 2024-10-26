@@ -6,10 +6,11 @@ import { inputVariants } from '@/modules/common/ui/components/input';
 import { NumericInputProps } from '@/modules/common/ui/components/numericInput';
 import { cn } from '@/modules/common/ui/lib/utils';
 
-export const InputIncrementer: FC<NumericInputProps> = ({
+export const InputIncrementer: FC<NumericInputProps & { percent?: boolean }> = ({
   className,
   error,
   decimals = 2,
+  percent = false,
   ...props
 }) => {
   return (
@@ -22,7 +23,8 @@ export const InputIncrementer: FC<NumericInputProps> = ({
         className={cn(
           inputVariants({ error }),
           className,
-          'pl-[3.75rem] pr-[3.75rem] peer',
+          'hover:border-x-transparent',
+          'pl-[3.75rem] pr-[3.75rem] peer text-center',
         )}
         valueIsNumericString
         {...props}
@@ -33,6 +35,8 @@ export const InputIncrementer: FC<NumericInputProps> = ({
         className={cn(
           'absolute left-0 bottom-0 h-full w-12 flex items-center justify-center bg-muted rounded-r-none rounded-l-md border border-zinc-700',
           'peer-focus-visible:border-ring text-2xl',
+          'peer-hover:border-r-ring',
+          'hover:border-ring',
           error && 'focus-visible:ring-red-500',
         )}
         onClick={() => {
@@ -40,7 +44,11 @@ export const InputIncrementer: FC<NumericInputProps> = ({
           if (isNaN(value)) {
             return;
           }
-          const decrement = `0.${'0'.repeat(decimals - 1)}1`;
+          let decrement = '1';
+
+          if (!percent) {
+            decrement = `0.${'0'.repeat(decimals - 1)}1`;
+          }
 
           props.onValueChange?.(
             {
@@ -60,6 +68,8 @@ export const InputIncrementer: FC<NumericInputProps> = ({
         className={cn(
           'absolute right-0 top-0 h-full w-12 flex items-center justify-center bg-muted rounded-l-none rounded-r-md border border-zinc-700',
           'peer-focus-visible:border-ring text-2xl',
+          'peer-hover:border-l-ring',
+          'hover:border-ring',
           error && 'focus-visible:ring-red-500',
         )}
         onClick={() => {
@@ -67,7 +77,11 @@ export const InputIncrementer: FC<NumericInputProps> = ({
           if (isNaN(value)) {
             return;
           }
-          const increment = `0.${'0'.repeat(decimals - 1)}1`;
+          let increment = '1';
+
+          if (!percent) {
+            increment = `0.${'0'.repeat(decimals - 1)}1`;
+          }
 
           props.onValueChange?.(
             {

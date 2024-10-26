@@ -14,7 +14,9 @@ const AnnouncementAmmount = () => {
   return (
     <div className='space-y-6 pb-4'>
       <span>
-        <Label className='text-lg'>Total Amount</Label>
+        <Label className='text-lg' htmlFor='amount'>
+          Total Amount
+        </Label>
         <NumericInput
           id='amount'
           placeholder='Enter the amount'
@@ -39,7 +41,9 @@ const AnnouncementAmmount = () => {
         <Label className='text-lg'>Order Limit</Label>
         <span className='flex items-center mt-2 gap-4'>
           <span className='relative'>
-            <Label className='text-base text-whiteBG/80'>Minimum size</Label>
+            <Label className='text-base text-whiteBG/80' htmlFor='minimum_order_size'>
+              Minimum size
+            </Label>
             <NumericInput
               id='minimum_order_size'
               onBlur={formik.handleBlur}
@@ -67,7 +71,9 @@ const AnnouncementAmmount = () => {
           </span>
           <p className='text-2xl font-bold pt-4'>~</p>
           <span className='relative '>
-            <Label className='text-base text-whiteBG/80'>Maximum size</Label>
+            <Label className='text-base text-whiteBG/80' htmlFor='maximum_order_size'>
+              Maximum size
+            </Label>
             <NumericInput
               id='maximum_order_size'
               onBlur={formik.handleBlur}

@@ -37,9 +37,9 @@ const AddUserPaymentMethod = ({ onClose }: AddUserPaymentMethodProps) => {
   return (
     <>
       {!selectedMethod && (
-        <DialogContent>
-          <h2>{t('title')}</h2>
-          <p>{t('description')}</p>
+        <DialogContent className='space-y-2'>
+          <h2 className='text-xl font-bold'>{t('title')}</h2>
+          <p className='text-sm text-whiteBG/80'>{t('description')}</p>
           {paymentMethods
             ?.filter((m) => m.enable)
             .map((m) => (
@@ -58,8 +58,8 @@ const AddUserPaymentMethod = ({ onClose }: AddUserPaymentMethodProps) => {
         </DialogContent>
       )}
       {selectedMethod && (
-        <DialogContent className='scroll-y-auto'>
-          <h2>{t('setPaymentMethod')}</h2>
+        <DialogContent className='scroll-y-auto space-y-4'>
+          <h2 className='text-xl font-bold'>{t('setPaymentMethod')}</h2>
           <span className='w-full rounded-xl gap-2 p-4 flex text-sm bg-yellow-300/20 items-start'>
             <InfoCircledIcon className='size-3 text-yellow-300 shrink-0' />
             {t('tip')}

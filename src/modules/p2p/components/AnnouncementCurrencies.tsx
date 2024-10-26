@@ -24,7 +24,9 @@ const AnnouncementCurrencies: FC = () => {
     <span className='flex gap-12 items-start'>
       <div>
         <span className='flex flex-col'>
-          <Label className='text-xl'>{t('base')}</Label>
+          <Label className='text-xl' htmlFor='base'>
+            {t('base')}
+          </Label>
           <Combobox
             align='start'
             id='base'
@@ -72,7 +74,9 @@ const AnnouncementCurrencies: FC = () => {
       <ArrowRightIcon className='size-5  mt-10 text-primary' />
       <div>
         <span className='flex flex-col'>
-          <Label className='text-xl'>{t('quote')}</Label>
+          <Label className='text-xl' htmlFor='quote'>
+            {t('quote')}
+          </Label>
           <Combobox
             onBlur={formik.handleBlur}
             align='start'

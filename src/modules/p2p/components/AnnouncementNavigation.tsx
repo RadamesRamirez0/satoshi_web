@@ -21,31 +21,41 @@ export const AnnouncementNavigation: FC = () => {
     !!formik.errors.amount ||
     !!formik.errors.maximum_order_size ||
     !!formik.errors.minimum_order_size ||
-    !formik.errors.payment_method;
+    !formik.values.payment_method?.id;
 
   return (
     <div className='fixed bg-background bottom-0 left-0 h-20 border-t w-full flex items-center justify-end px-8 space-x-4'>
       {currentStep !== 'price' && (
-        <Button size='lg' variant='outline' onClick={() => handlePreviousStep()}>
+        <Button
+          type='button'
+          size='lg'
+          variant='outline'
+          onClick={() => handlePreviousStep()}
+        >
           <ChevronLeftIcon className='size-5 mr-2' />
           {t('previous')}
         </Button>
       )}
 
       {currentStep === 'price' && (
-        <Button size='lg' onClick={() => handleNextStep()} disabled={errorsPrice}>
+        <Button
+          type='button'
+          size='lg'
+          onClick={() => handleNextStep()}
+          disabled={errorsPrice}
+        >
           {t('next')}
           <ChevronRightIcon className='size-5 ml-2' />
         </Button>
       )}
       {currentStep === 'payment' && (
         <Button
+          type='submit'
           size='lg'
-          onClick={() => void formik.submitForm()}
           disabled={errorsPayment}
+          loading={formik.isSubmitting}
         >
           {t('create')}
-          <ChevronRightIcon className='size-5 ml-2' />
         </Button>
       )}
     </div>
