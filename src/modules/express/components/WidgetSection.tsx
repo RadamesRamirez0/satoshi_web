@@ -12,8 +12,10 @@ const WidgetSection = () => {
   return (
     <section className='md:pt-12 flex flex-col md:flex-row  justify-between items-center pb-32'>
       <article className='space-y-4'>
-        <h1 className='text-2xl md:text-6xl font-black leading-none'>P2P Express</h1>
-        <h2 className='text-2xl md:text-6xl font-black leading-none'>
+        <h1 className='text-2xl md:text-6xl font-black leading-none md:leading-normal'>
+          P2P Express
+        </h1>
+        <h2 className='text-2xl md:text-6xl font-black leading-none md:leading-normal'>
           {t('title', { base, quote, type: orderType })}
         </h2>
         <p className='pb-2 md:pb-0 text-xl font-medium text-zinc-300'>
