@@ -135,8 +135,8 @@ const useExpress = (): UseExpressValues => {
 
   const fetchData = () => {
     void getData({
-      base_currency: base,
-      quote_currency: quote,
+      base_currency: base.toLowerCase(),
+      quote_currency: quote.toLowerCase(),
       order_type: orderType,
       amount_in_quote_currency: (orderType === 'buy' ? receive : pay) || undefined,
       payment_method: paymentMethod ?? undefined,
