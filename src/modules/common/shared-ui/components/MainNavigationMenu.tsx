@@ -6,7 +6,7 @@ import * as React from 'react';
 import { FC } from 'react';
 import { FaRegCircleUser } from 'react-icons/fa6';
 
-import { getSession } from '@/app/api/auth/lib/session';
+import { getSession } from '@/app/api/auth/sessionAction';
 import { Link } from '@/modules/common/i18n/routing';
 import L10nDropdown from '@/modules/common/shared-ui/components/L10nDropdown';
 import NavigationItem from '@/modules/common/shared-ui/components/NavigationItem';
@@ -24,7 +24,7 @@ export type MainNavegationMenuProps = object;
 
 export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
   const t = await getTranslations('MainNavigationMenu');
-  const session = getSession();
+  const session = await getSession();
   const headerList = headers();
 
   const path = headerList.get('x-current-path');

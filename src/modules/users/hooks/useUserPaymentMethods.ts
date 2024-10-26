@@ -13,10 +13,14 @@ export interface UseUserPaymentMethodsValues {
 
 export const useUserPaymentMethods = (): UseUserPaymentMethodsValues => {
   const [methods, setMethods] = useState<UserPaymentMethod[]>([]);
-  const { token } = useSession();
+  const session = useSession();
 
   const fetchMethods = async () => {
-    const res = await usersRepository.getPaymentMethods({ token });
+    if (!session?.token) {
+      return;
+    }
+
+    const res = await usersRepository.getPaymentMethods({ token: session.token });
 
     if (res.error || !res.data) {
       return;
@@ -26,7 +30,14 @@ export const useUserPaymentMethods = (): UseUserPaymentMethodsValues => {
   };
 
   const addMethod = async (method: AddPaymentMethodDTO) => {
-    const res = await usersRepository.addPaymentMethod({ token, body: method });
+    if (!session?.token) {
+      return;
+    }
+
+    const res = await usersRepository.addPaymentMethod({
+      token: session.token,
+      body: method,
+    });
 
     if (res.error || !res.data) {
       return;
@@ -36,11 +47,11 @@ export const useUserPaymentMethods = (): UseUserPaymentMethodsValues => {
   };
 
   useEffect(() => {
-    if (!token) {
+    if (!session?.token) {
       return;
     }
     void fetchMethods();
-  }, [token]);
+  }, [session?.token]);
 
   return {
     fetchMethods,

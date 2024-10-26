@@ -41,7 +41,7 @@ export const useCreateAnnouncement = (): UseCreateAnnouncementValues => {
     'price',
   );
   const [loadingCurrencies, setLoadingCurrencies] = useState(false);
-  const { token } = useSession();
+  const session = useSession();
   const router = useRouter();
 
   const formik = useFormik({
@@ -67,12 +67,12 @@ export const useCreateAnnouncement = (): UseCreateAnnouncementValues => {
       price,
       ...payload
     }) => {
-      if (!base || !quote || !payment_method) {
+      if (!base || !quote || !payment_method || !session?.token) {
         return;
       }
 
       const res = await p2pRepository.createAnnouncement({
-        token,
+        token: session.token,
         body: {
           base: base.symbol,
           quote: quote.symbol,

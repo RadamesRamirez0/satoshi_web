@@ -27,7 +27,7 @@ const AddUserPaymentForm = ({
 }: AddUserPaymentFormProps) => {
   const t = useTranslations('AddUserPaymentMethod');
 
-  const { token } = useSession();
+  const session = useSession();
   const initialValues = Object.keys(requiredData).reduce(
     (acc, key) => {
       acc[key] = '';
@@ -49,8 +49,12 @@ const AddUserPaymentForm = ({
       ),
     }),
     onSubmit: async (values) => {
+      if (!session?.token) {
+        return;
+      }
+
       const res = await usersRepository.addPaymentMethod({
-        token,
+        token: session.token,
         body: { id_payment_method: idPaymentMethod, payment_method_data: values },
       });
 

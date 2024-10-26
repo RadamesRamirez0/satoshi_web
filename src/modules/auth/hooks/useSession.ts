@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react';
 
 import { getSession } from '@/app/api/auth/sessionAction';
+import { Session } from '@/modules/auth/types/tokenPayload';
 
-export interface UseSessionValues {
-  token?: string;
-}
+export type UseSessionValues = Session | undefined;
 
 export const useSession = (): UseSessionValues => {
-  const [token, setToken] = useState<string>();
+  const [session, setSession] = useState<Session>();
 
   useEffect(() => {
     void getSession().then((session) => {
       if (session) {
-        setToken(session.token);
+        setSession(session);
       }
     });
   }, []);
 
-  return { token };
+  return session;
 };

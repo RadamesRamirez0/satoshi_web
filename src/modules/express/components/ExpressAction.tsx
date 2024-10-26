@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
 import { Link, useRouter } from '@/modules/common/i18n/routing';
@@ -7,11 +7,8 @@ import { Button } from '@/modules/common/ui/components/button';
 import { toast } from '@/modules/common/utils/toast';
 import { useExpressContext } from '@/modules/express/contexts/ExpressContext';
 import { p2pRepository } from '@/modules/p2p/repository';
-import { User } from '@/modules/users/models/user';
-import { usersRepository } from '@/modules/users/repository';
 
 export const ExpressAction = () => {
-  const [user, setUser] = useState<User>();
   const t = useTranslations('BuySell');
   const session = useSession();
   const router = useRouter();
@@ -28,7 +25,7 @@ export const ExpressAction = () => {
   } = useExpressContext();
 
   const createOrder = () => {
-    if (!session.token || !paymentMethod) {
+    if (!session || !paymentMethod) {
       return;
     }
 
@@ -56,20 +53,7 @@ export const ExpressAction = () => {
       });
   };
 
-  useEffect(() => {
-    if (!session.token) {
-      return;
-    }
-    void usersRepository.userMe({ token: session.token }).then((d) => {
-      if (!d.data) {
-        return;
-      }
-
-      setUser(d.data);
-    });
-  }, [session.token]);
-
-  if (user?.email_is_verified && user.kyc_level === 1) {
+  if (session?.user.email_is_verified && session.user.kyc_level === 1) {
     return (
       <Button
         className='w-full rounded-xl'
@@ -91,7 +75,7 @@ export const ExpressAction = () => {
     );
   }
 
-  if (user?.email_is_verified === false) {
+  if (session?.user.email_is_verified === false) {
     return (
       <Button className='w-full rounded-xl' variant='orange' size='xl'>
         {t('verifyEmail')}
@@ -99,7 +83,7 @@ export const ExpressAction = () => {
     );
   }
 
-  if (user?.kyc_level === 0) {
+  if (session?.user.kyc_level === 0) {
     return (
       <Button className='w-full rounded-xl' variant='blue' size='xl' asChild>
         <Link href='/users/me/kyc'>{t('verifyIdentity')}</Link>

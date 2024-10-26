@@ -20,7 +20,7 @@ export const login = async ({
     return { detail: t('defaultError') };
   }
 
-  createSession(res.access_token);
+  await createSession(res.access_token);
 
   return res;
 };

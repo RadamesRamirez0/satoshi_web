@@ -19,15 +19,19 @@ export interface OrderViewProps {
 }
 
 const OrderView: FC<OrderViewProps> = ({ id }) => {
-  const { token } = useSession();
+  const session = useSession();
   const t = useTranslations('OrderView');
   const [me, setMe] = React.useState<UserMeResponse>();
   const [order, setOrder] = React.useState<GetOrderResponse>();
 
   const getOrder = () => {
+    if (!session?.token) {
+      return;
+    }
+
     void p2pRepository
       .getOrder({
-        token,
+        token: session.token,
         pathParams: { order_id: id },
       })
       .then((response) => {
@@ -36,16 +40,16 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
   };
 
   useEffect(() => {
-    if (!token) {
+    if (!session?.token) {
       return;
     }
 
-    void usersRepository.userMe({ token }).then((response) => {
+    void usersRepository.userMe({ token: session.token }).then((response) => {
       setMe(response);
     });
 
     getOrder();
-  }, [token]);
+  }, [session?.token]);
 
   if ((order && 'detail' in order) || !order) {
     return <div>{order?.detail}</div>;

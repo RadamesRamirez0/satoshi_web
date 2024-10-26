@@ -1,8 +1,11 @@
+import { User } from '@/modules/users/models/user';
+
 export interface TokenPayload {
   sub: string;
   exp: string;
 }
 
-export interface TokenWithPayload extends TokenPayload {
+export interface Session extends TokenPayload {
   token: string;
+  user: User;
 }

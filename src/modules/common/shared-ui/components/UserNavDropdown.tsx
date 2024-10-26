@@ -15,7 +15,6 @@ import {
   NavigationAccordionTrigger,
 } from '@/modules/common/shared-ui/components/NavigationAccordion';
 import { Button } from '@/modules/common/ui/components/button';
-import { usersRepository } from '@/modules/users/repository';
 
 export type UserNavDropdownProps = object;
 
@@ -27,7 +26,7 @@ const UserNavDropdown: FC<UserNavDropdownProps> = async () => {
     return null;
   }
 
-  const user = await usersRepository.userMe({ token: session.token });
+  const { user } = session;
 
   return (
     <>
@@ -35,8 +34,8 @@ const UserNavDropdown: FC<UserNavDropdownProps> = async () => {
         <FaRegCircleUser className='size-12' />
         <div className='flex-1 flex justify-center'>
           <span>
-            <p className='text-lg font-semibold text-primary'>{user.data?.alias}</p>
-            <p className='text-sm text-zinc-200'>{user.data?.email}</p>
+            <p className='text-lg font-semibold text-primary'>{user.alias}</p>
+            <p className='text-sm text-zinc-200'>{user.email}</p>
           </span>
         </div>
       </div>

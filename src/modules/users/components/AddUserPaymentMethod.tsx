@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
 import { Button } from '@/modules/common/ui/components/button';
-import { DialogContent } from '@/modules/common/ui/components/dialog';
+import { DialogContent, DialogTitle } from '@/modules/common/ui/components/dialog';
 import { cn } from '@/modules/common/ui/lib/utils';
 import { PaymentMethod } from '@/modules/p2p/models/paymentMethod';
 import { p2pRepository } from '@/modules/p2p/repository';
@@ -17,28 +17,28 @@ export interface AddUserPaymentMethodProps {
 const AddUserPaymentMethod = ({ onClose }: AddUserPaymentMethodProps) => {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>();
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>();
-  const { token } = useSession();
+  const session = useSession();
 
   const t = useTranslations('AddUserPaymentMethod');
 
   useEffect(() => {
-    if (!token) {
+    if (!session?.token) {
       return;
     }
 
-    void p2pRepository.paymentMethods({ token }).then((methods) => {
+    void p2pRepository.paymentMethods({ token: session.token }).then((methods) => {
       if (methods.error || !methods.data) {
         return;
       }
       setPaymentMethods(methods.data);
     });
-  }, [token]);
+  }, [session?.token]);
 
   return (
     <>
       {!selectedMethod && (
-        <DialogContent className='space-y-2'>
-          <h2 className='text-xl font-bold'>{t('title')}</h2>
+        <DialogContent className='space-y-2' aria-describedby=''>
+          <DialogTitle className='text-xl font-bold'>{t('title')}</DialogTitle>
           <p className='text-sm text-whiteBG/80'>{t('description')}</p>
           {paymentMethods
             ?.filter((m) => m.enable)
@@ -58,8 +58,8 @@ const AddUserPaymentMethod = ({ onClose }: AddUserPaymentMethodProps) => {
         </DialogContent>
       )}
       {selectedMethod && (
-        <DialogContent className='scroll-y-auto space-y-4'>
-          <h2 className='text-xl font-bold'>{t('setPaymentMethod')}</h2>
+        <DialogContent className='scroll-y-auto space-y-4' aria-describedby=''>
+          <DialogTitle className='text-xl font-bold'>{t('setPaymentMethod')}</DialogTitle>
           <span className='w-full rounded-xl gap-2 p-4 flex text-sm bg-yellow-300/20 items-start'>
             <InfoCircledIcon className='size-3 text-yellow-300 shrink-0' />
             {t('tip')}

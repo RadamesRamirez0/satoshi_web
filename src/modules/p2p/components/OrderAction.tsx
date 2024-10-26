@@ -17,15 +17,15 @@ export interface OrderActionProps {
 
 const OrderAction = ({ buying, orderId, status, postSubmit }: OrderActionProps) => {
   const t = useTranslations('OrderView');
-  const { token } = useSession();
+  const session = useSession();
 
   const handleReleaseCrypto = async () => {
-    if (!token) {
+    if (!session?.token) {
       return;
     }
 
     await p2pRepository.releasePaidOrder({
-      token,
+      token: session.token,
       body: { order_id: orderId },
     });
     postSubmit();
@@ -34,12 +34,12 @@ const OrderAction = ({ buying, orderId, status, postSubmit }: OrderActionProps) 
   };
 
   const handleNotifySeller = async () => {
-    if (!token) {
+    if (!session?.token) {
       return;
     }
 
     await p2pRepository.markOrderAsPaid({
-      token,
+      token: session.token,
       body: { order_id: orderId },
     });
 

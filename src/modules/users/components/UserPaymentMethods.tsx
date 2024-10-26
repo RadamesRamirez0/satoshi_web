@@ -7,6 +7,7 @@ import { Button } from '@/modules/common/ui/components/button';
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
   DialogTrigger,
 } from '@/modules/common/ui/components/dialog';
 import { cn } from '@/modules/common/ui/lib/utils';
@@ -37,8 +38,11 @@ const UserPaymentMethods: FC<UserPaymentMethodsProps> = ({
     <UserPaymentMethodsProvider>
       <UserPaymentMethodsContext.Consumer>
         {({ methods, fetchMethods }) => (
-          <Component className={cn(!modal && 'border  p-4 rounded-lg')}>
-            <h2 className='text-xl font-bold'>{t('title')}</h2>
+          <Component
+            className={cn(!modal && 'border  p-4 rounded-lg')}
+            aria-describedby=''
+          >
+            <DialogTitle className='text-xl font-bold'>{t('title')}</DialogTitle>
             <div className='mt-4 space-y-3'>
               {methods
                 .filter((m) => m.enable)

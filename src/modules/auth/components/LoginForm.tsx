@@ -30,6 +30,7 @@ const LoginForm: FC<LoginFormProps> = ({ redirectTo }) => {
     touched,
     errors,
     isSubmitting,
+    setSubmitting,
   } = useFormik({
     initialValues: { email: '', password: '' },
     validationSchema: Yup.object({
@@ -37,7 +38,9 @@ const LoginForm: FC<LoginFormProps> = ({ redirectTo }) => {
       password: Yup.string().required(t('passwordRequired')),
     }),
     onSubmit: async ({ email, password }) => {
+      setSubmitting(true);
       const res = await login({ username: email, password });
+      setSubmitting(false);
       if ('detail' in res) {
         toast.error(res.detail);
 

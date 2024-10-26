@@ -32,7 +32,7 @@ export const register = async (values: RegisterDTO): Promise<RegisterResponse> =
     return { error: t('defaultError'), data: null };
   }
 
-  createSession(loginRes.access_token);
+  await createSession(loginRes.access_token);
 
   return res;
 };

@@ -138,7 +138,7 @@ const useExpress = (): UseExpressValues => {
       base_currency: base,
       quote_currency: quote,
       order_type: orderType,
-      amount_in_quote_currency: (orderType === 'buy' ? receive : pay) || '0.0001',
+      amount_in_quote_currency: (orderType === 'buy' ? receive : pay) || undefined,
       payment_method: paymentMethod ?? undefined,
     }).then((r) => {
       if (!r.data) {
