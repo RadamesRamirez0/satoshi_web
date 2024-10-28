@@ -18,7 +18,7 @@ const RegisterCard = async () => {
   const redirectTo = getRedirect('auth');
 
   return (
-    <Card className='px-6 w-full mx-2 md:mx-0 md:min-w-[25rem] border py-6'>
+    <Card className='px-6 w-full mx-2 md:w-auto md:mx-0 md:min-w-[25rem] border py-6'>
       <CardHeader className='flex flex-col space-y-10'>
         <Image
           src='/svg/satoshi_logo.svg'
