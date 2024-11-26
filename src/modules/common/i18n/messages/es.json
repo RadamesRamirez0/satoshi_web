@@ -104,7 +104,11 @@
     "step3Title": "Tu primera compra",
     "step3CompleteTitle": "¡Todo listo! Realiza tu primera transacción",
     "step3Body": "Te enviaremos un correo electrónico con un enlace para confirmar tu dirección de correo electrónico",
-    "step3Action": "Comprar/Vender Cripto"
+    "step3Action": "Comprar/Vender Cripto",
+    "step4Title": "Your first purchase",
+    "step4CompleteTitle": "You're all set! Make your first transaction",
+    "step4Body": "We will send you an email with a link to confirm your email address",
+    "step4Action": "Buy/Sell Crypto"
   },
   "UserDropdown": {
     "dashboard": "Perfil",
@@ -249,5 +253,12 @@
   },
   "UserMe": {
     "updatingAliasError": "Ocurrió un error al actualizar tu alias"
+  },
+  "PhoneOTP": {
+    "title": "Confirm your phone number",
+    "description": "We will send you an SMS with an OTP code to your number",
+    "skipLabel": "Do it later",
+    "phoneLabel": "Enter your phone number",
+    "sendAction": "Send OTP"
   }
 }
