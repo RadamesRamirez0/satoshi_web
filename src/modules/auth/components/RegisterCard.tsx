@@ -4,8 +4,13 @@ import React from 'react';
 
 import { getSession } from '@/app/api/auth/lib/session';
 import RegisterForm from '@/modules/auth/components/RegisterForm';
-import { redirect } from '@/modules/common/i18n/routing';
-import { Card, CardContent, CardHeader } from '@/modules/common/ui/components/card';
+import { Link, redirect } from '@/modules/common/i18n/routing';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/modules/common/ui/components/card';
 import { getRedirect } from '@/modules/common/utils/getRedirect';
 
 const RegisterCard = async () => {
@@ -32,6 +37,16 @@ const RegisterCard = async () => {
       <CardContent className='pt-2'>
         <RegisterForm redirectTo={redirectTo} />
       </CardContent>
+      <CardFooter className='flex-col items-start'>
+        <div>
+          <Link
+            href='/auth/login'
+            className='text-primary/80 hover:text-primary text-sm font-semibold transition-colors'
+          >
+            {t('loginLabel')}
+          </Link>
+        </div>
+      </CardFooter>
     </Card>
   );
 };

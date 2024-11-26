@@ -5,9 +5,11 @@ import { inputVariants } from '@/modules/common/ui/components/input';
 import { cn } from '@/modules/common/ui/lib/utils';
 
 export interface NumericInputProps extends NumericFormatProps, PropsWithChildren {
+  containerClassName?: string;
   decimals?: number;
   error?: boolean;
   trailingText?: string;
+  thousandSeparator?: boolean;
 }
 
 export const NumericInput: FC<NumericInputProps> = ({
@@ -15,15 +17,17 @@ export const NumericInput: FC<NumericInputProps> = ({
   error,
   className,
   trailingText,
+  containerClassName,
+  thousandSeparator = true,
   ...props
 }) => {
   return (
-    <div className='relative md:w-min'>
+    <div className={cn('relative md:w-min', containerClassName)}>
       <NumericFormat
         {...props}
         allowNegative={false}
         decimalScale={decimals}
-        thousandSeparator
+        thousandSeparator={thousandSeparator}
         className={cn(inputVariants({ error }), trailingText && 'pr-16', className)}
       />
       {trailingText && (

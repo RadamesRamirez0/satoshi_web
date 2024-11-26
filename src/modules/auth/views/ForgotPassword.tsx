@@ -1,17 +1,19 @@
 'use client';
 
+import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import { useFormik } from 'formik';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import { object, string } from 'yup';
 
 import { authRepository } from '@/modules/auth/repository';
-import { useRouter } from '@/modules/common/i18n/routing';
-import { Button } from '@/modules/common/ui/components/button';
+import { Link, useRouter } from '@/modules/common/i18n/routing';
+import { Button, buttonVariants } from '@/modules/common/ui/components/button';
 import { Card, CardContent, CardHeader } from '@/modules/common/ui/components/card';
 import HintText from '@/modules/common/ui/components/hintText';
 import { Input } from '@/modules/common/ui/components/input';
 import { Label } from '@/modules/common/ui/components/label';
+import { cn } from '@/modules/common/ui/lib/utils';
 import { toast } from '@/modules/common/utils/toast';
 
 const ForgotPasswordView = () => {
@@ -45,7 +47,18 @@ const ForgotPasswordView = () => {
     <div className='flex justify-center items-center h-full'>
       <Card className='w-[25rem]'>
         <CardHeader className='space-y-8'>
-          <h1 className='text-xl font-black'>{t('title')}</h1>
+          <span className='flex gap-3 items-center'>
+            <Link
+              href='/auth/login'
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'px-0 py-0 p-1.5 h-auto border-none',
+              )}
+            >
+              <ChevronLeftIcon className='size-4' />
+            </Link>
+            <h1 className='text-xl font-black'>{t('title')}</h1>
+          </span>
           <p className='text-lg'>{t('description')}</p>
         </CardHeader>
         <CardContent>

@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import React, { FC, useState } from 'react';
 
+import { useSession } from '@/modules/auth/hooks/useSession';
 import { TooltipWithIcon } from '@/modules/common/shared-ui/components/TooltipWithIcon';
 import { Button } from '@/modules/common/ui/components/button';
 import { Card, CardContent, CardFooter } from '@/modules/common/ui/components/card';
@@ -34,6 +35,9 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
     payDecimals = 8;
     receiveDecimals = 2;
   }
+
+  const session = useSession();
+
   const t = useTranslations('BuySell');
   const {
     handlePay,
@@ -148,21 +152,23 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                       {t('feeRate')}
                     </TooltipWithIcon>
                     <TooltipContent>{t('feeRateTooltip')}</TooltipContent>
-                    <p className='font-bold'>{data.fee_percentage}</p>
+                    <p className='font-bold'>{data.fee_percentage}%</p>
                   </Tooltip>
                 </span>
               )}
             </TooltipProvider>
             <Dialog open={selectingPayment} onOpenChange={setSelectingPayment}>
               <DialogTrigger asChild>
-                <Button
-                  className='w-full text-lg py-6 h-min justify-start rounded-xl'
-                  variant='outline'
-                >
-                  {paymentMethod
-                    ? capitalizeSnakedWords(paymentMethod)
-                    : t('selectPaymentMethod')}
-                </Button>
+                {session?.token && (
+                  <Button
+                    className='w-full text-lg py-6 h-min justify-start rounded-xl'
+                    variant='outline'
+                  >
+                    {paymentMethod
+                      ? capitalizeSnakedWords(paymentMethod)
+                      : t('selectPaymentMethod')}
+                  </Button>
+                )}
               </DialogTrigger>
               {type === 'buy' && (
                 <SelectPaymentMethod

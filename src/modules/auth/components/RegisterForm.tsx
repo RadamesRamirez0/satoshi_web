@@ -143,7 +143,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ redirectTo }) => {
               .includes(false) || !isValid
           }
         >
-          Register
+          {t('mainAction')}
         </Button>
       </span>
     </form>

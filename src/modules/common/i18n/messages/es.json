@@ -77,7 +77,7 @@
     "passwordMinLength": "La contraseña debe tener al menos 8 caracteres",
     "forgotPassword": "Olvidé mi contraseña",
     "tosRequired": "Debes aceptar los términos y condiciones",
-    "mainAction": "Iniciar sesión",
+    "mainAction": "Registrate",
     "registerLabel": "Crear una cuenta Satoshi",
     "terms1": "Acepto los ",
     "terms2": "términos y condiciones del servicio",
@@ -87,7 +87,8 @@
     "specialChars": "Contiene caracteres especiales",
     "toastSuccess": "Cuenta creada exitosamente",
     "defaultError": "Ocurrió un error. Inténtalo de nuevo más tarde",
-    "emailTakenError": "Correo ya registrado"
+    "emailTakenError": "Correo ya registrado",
+    "loginLabel": "Inicia sesión"
   },
   "Verification": {
     "completedStep": "Completado",
@@ -218,7 +219,9 @@
     "ok": "Aceptar"
   },
   "P2PView": {
-    "newAnnouncement": "Nuevo anuncio"
+    "newAnnouncement": "Nuevo anuncio",
+    "buy": "Compra",
+    "sell": "Venta"
   },
   "SelectPaymentMethod": {
     "title": "Selecciona el método de pago"
@@ -243,5 +246,8 @@
     "pendingRelease": "Liberación pendiente",
     "orderCompleted": "Orden completada",
     "orderCanceled": "Orden cancelada"
+  },
+  "UserMe": {
+    "updatingAliasError": "Ocurrió un error al actualizar tu alias"
   }
 }

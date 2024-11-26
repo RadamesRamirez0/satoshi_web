@@ -2,6 +2,7 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 
+import { useSession } from '@/modules/auth/hooks/useSession';
 import { Badge } from '@/modules/common/ui/components/badge';
 import { Button } from '@/modules/common/ui/components/button';
 import {
@@ -30,9 +31,14 @@ const UserPaymentMethods: FC<UserPaymentMethodsProps> = ({
   onClose,
   onSubmit,
 }) => {
+  const session = useSession();
   const Component = modal ? DialogContent : 'div';
   const t = useTranslations('UserPaymentMethods');
   const [openAdd, setOpenAdd] = useState(false);
+
+  if (!session?.token) {
+    return null;
+  }
 
   return (
     <UserPaymentMethodsProvider>

@@ -27,7 +27,7 @@ export const CardGroupItem = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        'rounded-2xl text-card-foreground shadow border p-6 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 transition-all group',
+        'rounded-2xl text-card-foreground shadow border py-6 px-4 data-[state=checked]:p-6 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 transition-all group',
         className,
       )}
       {...props}

@@ -6,6 +6,7 @@ import { useRouter } from '@/modules/common/i18n/routing';
 import { Button } from '@/modules/common/ui/components/button';
 import { cn } from '@/modules/common/ui/lib/utils';
 import { capitalizeSnakedWords } from '@/modules/common/utils/strings';
+import { OrderType } from '@/modules/express/models/orderType';
 import { paymentsColors } from '@/modules/p2p/constants/paymentsColors';
 
 export interface AdvertiserCellProps
@@ -61,10 +62,11 @@ AdvertiserCell.displayName = 'AdvertiserCell';
 
 export interface PriceCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
   price: string;
+  quote: string;
 }
 
 export const PriceCell = React.forwardRef<HTMLTableCellElement, PriceCellProps>(
-  ({ className, price, ...props }, ref) => (
+  ({ className, price, quote, ...props }, ref) => (
     <td
       ref={ref}
       className={cn(
@@ -74,7 +76,7 @@ export const PriceCell = React.forwardRef<HTMLTableCellElement, PriceCellProps>(
       {...props}
     >
       <p className='font-bold text-xl'>{price}</p>
-      <p className='font-bold text-lg'>MXN</p>
+      <p className='font-bold text-lg'>{quote.toUpperCase()}</p>
     </td>
   ),
 );
@@ -84,10 +86,12 @@ export interface AvailableCellProps extends React.TdHTMLAttributes<HTMLTableCell
   available: string;
   minOrder: string;
   maxOrder: string;
+  quote: string;
+  base: string;
 }
 
 export const AvailableCell = React.forwardRef<HTMLTableCellElement, AvailableCellProps>(
-  ({ className, available, minOrder, maxOrder, ...props }, ref) => (
+  ({ className, available, minOrder, maxOrder, base, quote, ...props }, ref) => (
     <td
       ref={ref}
       className={cn(
@@ -96,10 +100,12 @@ export const AvailableCell = React.forwardRef<HTMLTableCellElement, AvailableCel
       )}
       {...props}
     >
-      <p className='pb-2'>{available} TBTC</p>
+      <p className='pb-2'>
+        {available} {base.toUpperCase()}
+      </p>
       <span className='flex gap-1'>
-        <p>{`$${minOrder} MXN -`}</p>
-        <p>{` $${maxOrder} MXN`}</p>
+        <p>{`$${minOrder} ${quote.toUpperCase()} -`}</p>
+        <p>{` $${maxOrder} ${quote.toUpperCase()}`}</p>
       </span>
     </td>
   ),
@@ -140,10 +146,11 @@ PaymentCell.displayName = 'PaymentCell';
 
 export interface TradeCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
   announcementId: string;
+  announcementType: OrderType;
 }
 
 export const TradeCell = React.forwardRef<HTMLTableCellElement, TradeCellProps>(
-  ({ className, announcementId, ...props }, ref) => {
+  ({ className, announcementId, announcementType, ...props }, ref) => {
     const router = useRouter();
 
     return (
@@ -155,8 +162,12 @@ export const TradeCell = React.forwardRef<HTMLTableCellElement, TradeCellProps>(
         )}
         {...props}
       >
-        <Button variant='green' className='font-bold' onClick={() => {}}>
-          Buy TBTC
+        <Button
+          variant={announcementType === 'buy' ? 'green' : 'orange'}
+          className='font-bold'
+          onClick={() => {}}
+        >
+          {announcementType === 'buy' ? 'Buy TBTC' : 'Sell TBTC'}
         </Button>
       </td>
     );

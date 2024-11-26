@@ -31,6 +31,10 @@ const SelectPaymentMethod = ({ onClose, onSubmit }: SelectPaymentMethodProps) =>
     });
   }, [session?.token]);
 
+  if (!session?.token) {
+    return null;
+  }
+
   return (
     <>
       <DialogContent aria-describedby=''>

@@ -77,7 +77,7 @@
     "passwordMinLength": "Password must be at least 8 characters",
     "forgotPassword": "I forgot my password",
     "tosRequired": "You must accept the terms and conditions",
-    "mainAction": "Log In",
+    "mainAction": "Register",
     "registerLabel": "Create a Satoshi account",
     "terms1": "I accept the ",
     "terms2": "terms and conditions of service",
@@ -87,7 +87,8 @@
     "specialChars": "Contains special characters",
     "toastSuccess": "Succesfully created account",
     "defaultError": "An error ocurred. Try again later",
-    "emailTakenError": "Email already registered"
+    "emailTakenError": "Email already registered",
+    "loginLabel": "Log In"
   },
   "Verification": {
     "completedStep": "Completed",
@@ -98,15 +99,20 @@
     "step1Body": "We will send you an email with a link to confirm your email address",
     "step1Action": "Send email",
 
-    "step2Title": "Verify your identity",
-    "step2CompleteTitle": "Now verify your identity",
-    "step2Body": "We will ask for your official ID and a video of your face",
-    "step2Action": "Start KYC",
+    "step2Title": "Verify phone",
+    "step2CompleteTitle": "Verify your phone number",
+    "step2Body": "We verify your phone number with OTP",
+    "step2Action": "Send OTP",
 
-    "step3Title": "Your first purchase",
-    "step3CompleteTitle": "You're all set! Make your first transaction",
-    "step3Body": "We will send you an email with a link to confirm your email address",
-    "step3Action": "Buy/Sell Crypto"
+    "step3Title": "Verify your identity",
+    "step3CompleteTitle": "Now verify your identity",
+    "step3Body": "We will ask for your official ID and a video of your face",
+    "step3Action": "Start KYC",
+
+    "step4Title": "Your first purchase",
+    "step4CompleteTitle": "You're all set! Make your first transaction",
+    "step4Body": "We will send you an email with a link to confirm your email address",
+    "step4Action": "Buy/Sell Crypto"
   },
   "UserDropdown": {
     "dashboard": "Profile",
@@ -222,7 +228,9 @@
     "ok": "Ok"
   },
   "P2PView": {
-    "newAnnouncement": "New Announcement"
+    "newAnnouncement": "New Announcement",
+    "buy": "Buy",
+    "sell": "Sell"
   },
   "SelectPaymentMethod": {
     "title": "Select Payment Method"
@@ -247,5 +255,15 @@
     "pendingRelease": "Pending Release",
     "orderCompleted": "Order Completed",
     "orderCanceled": "Order Canceled"
+  },
+  "UserMe": {
+    "updatingAliasError": "An error ocurred updating your alias"
+  },
+  "PhoneOTP": {
+    "title": "Confirm your phone number",
+    "description": "We will send you an SMS with an OTP code to your number",
+    "skipLabel": "Do it later",
+    "phoneLabel": "Enter your phone number",
+    "sendAction": "Send OTP"
   }
 }

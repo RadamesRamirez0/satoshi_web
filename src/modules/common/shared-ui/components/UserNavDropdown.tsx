@@ -30,9 +30,9 @@ const UserNavDropdown: FC<UserNavDropdownProps> = async () => {
 
   return (
     <>
-      <div className='flex px-6 py-4'>
+      <div className='flex px-6 py-4 gap-3'>
         <FaRegCircleUser className='size-12' />
-        <div className='flex-1 flex justify-center'>
+        <div className='flex-1 flex justify-start'>
           <span>
             <p className='text-lg font-semibold text-primary'>{user.alias}</p>
             <p className='text-sm text-zinc-200'>{user.email}</p>

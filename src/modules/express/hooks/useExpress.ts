@@ -134,6 +134,10 @@ const useExpress = (): UseExpressValues => {
   };
 
   const fetchData = () => {
+    if (!base || !quote) {
+      return;
+    }
+
     void getData({
       base_currency: base.toLowerCase(),
       quote_currency: quote.toLowerCase(),
@@ -142,8 +146,6 @@ const useExpress = (): UseExpressValues => {
       payment_method: paymentMethod ?? undefined,
     }).then((r) => {
       if (!r.data) {
-        // setData(undefined);
-
         return;
       }
 
