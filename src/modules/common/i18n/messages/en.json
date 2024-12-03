@@ -15,6 +15,7 @@
     "loginSign": "Log In / Sign Up",
     "verifyIdentity": "Verify identity",
     "verifyEmail": "Verify email",
+    "verifyPhone": "Verify phone number",
     "selectPaymentMethod": "Select Payment Method",
     "sell": "Sell",
     "sellingSpend": "You sell",
@@ -77,6 +78,9 @@
     "passwordMinLength": "Password must be at least 8 characters",
     "forgotPassword": "I forgot my password",
     "tosRequired": "You must accept the terms and conditions",
+    "invitationRequired": "You need an invitation code",
+    "invitation": "Invitation code",
+    "invitationPlaceholder": "Enter your invitation code",
     "mainAction": "Register",
     "registerLabel": "Create a Satoshi account",
     "terms1": "I accept the ",
@@ -96,7 +100,7 @@
 
     "step1Title": "Verify email",
     "step1CompleteTitle": "First, verify your email address",
-    "step1Body": "We will send you an email with a link to confirm your email address",
+    "step1Body": "We will send you an email with a OTP code to confirm your email address",
     "step1Action": "Send email",
 
     "step2Title": "Verify phone",
@@ -111,7 +115,7 @@
 
     "step4Title": "Your first purchase",
     "step4CompleteTitle": "You're all set! Make your first transaction",
-    "step4Body": "We will send you an email with a link to confirm your email address",
+    "step4Body": "Make an announcement or take the best offer",
     "step4Action": "Buy/Sell Crypto"
   },
   "UserDropdown": {
@@ -254,6 +258,7 @@
     "notifySellerSuccess": "Notified seller successfully",
     "pendingRelease": "Pending Release",
     "orderCompleted": "Order Completed",
+    "orderAppeal": "Order on Appeal",
     "orderCanceled": "Order Canceled"
   },
   "UserMe": {
@@ -261,9 +266,19 @@
   },
   "PhoneOTP": {
     "title": "Confirm your phone number",
-    "description": "We will send you an SMS with an OTP code to your number",
+    "description": "We will send you a SMS with an OTP code to your number",
     "skipLabel": "Do it later",
     "phoneLabel": "Enter your phone number",
-    "sendAction": "Send OTP"
+    "sendAction": "Send OTP",
+    "otpLabel": "Enter the OTP code sent to your phone",
+    "sendAgain": "Send again"
+  },
+  "EmailOTP": {
+    "title": "Confirm your email address",
+    "description": "We sent you an Email with an OTP code",
+    "skipLabel": "Do it later",
+    "sendAction": "Send OTP",
+    "otpLabel": "Enter the OTP code sent to your email",
+    "sendAgain": "Send again"
   }
 }

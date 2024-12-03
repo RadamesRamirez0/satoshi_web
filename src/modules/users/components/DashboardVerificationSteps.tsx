@@ -1,26 +1,66 @@
-import { CheckIcon, TimerIcon } from '@radix-ui/react-icons';
-import { getTranslations } from 'next-intl/server';
-import React from 'react';
+'use client';
 
-import { getSession } from '@/app/api/auth/sessionAction';
+import { CheckIcon, TimerIcon } from '@radix-ui/react-icons';
+import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import React, { useEffect, useState } from 'react';
+
+import { useSession } from '@/modules/auth/hooks/useSession';
 import { Link } from '@/modules/common/i18n/routing';
 import { Button } from '@/modules/common/ui/components/button';
 import { CardGroup, CardGroupItem } from '@/modules/common/ui/components/card-group';
 import { Dialog, DialogTrigger } from '@/modules/common/ui/components/dialog';
 import { cn } from '@/modules/common/ui/lib/utils';
+import EmailOTP from '@/modules/users/components/EmailOTP';
 import PhoneOTP from '@/modules/users/components/PhoneOTP';
 import { usersRepository } from '@/modules/users/repository';
+import { UserMeResponse } from '@/modules/users/repository/dtos/userMeDto';
 
-const DashboardVerificationSteps = async () => {
-  const t = await getTranslations('Verification');
+const DashboardVerificationSteps = () => {
+  const params = useSearchParams();
+  const t = useTranslations('Verification');
+  const [user, setUser] = useState<UserMeResponse>();
+  const [openEmail, setOpenEmail] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const session = await getSession();
+  const session = useSession();
 
-  const user = await usersRepository.userMe({
-    token: session?.token ?? '',
-  });
+  const getMe = async () => {
+    const user = await usersRepository.userMe({
+      token: session?.token ?? '',
+    });
 
-  const currentValue = !user.data?.email_is_verified
+    setUser(user);
+  };
+
+  useEffect(() => {
+    if (!session?.token) {
+      return;
+    }
+    void getMe();
+  }, [session?.token]);
+
+  useEffect(() => {
+    const verification = params.get('verification');
+
+    if (!verification) {
+      return;
+    }
+
+    if (verification === 'email' && !user?.data?.email_is_verified) {
+      setOpenEmail(true);
+
+      return;
+    }
+
+    if (verification === 'phone' && !user?.data?.phone_number_is_verified) {
+      setOpen(true);
+
+      return;
+    }
+  }, [params]);
+
+  const currentValue = !user?.data?.email_is_verified
     ? '1'
     : !user.data.phone_number_is_verified
       ? '2'
@@ -46,7 +86,7 @@ const DashboardVerificationSteps = async () => {
             <p className='hidden group-data-[state=checked]:block'>{t('step1Body')}</p>
           </div>
 
-          {user.data?.email_is_verified ? (
+          {user?.data?.email_is_verified ? (
             <p className='text-lg text-green-500 font-bold flex items-center  gap-1'>
               <CheckIcon className='size-6' />
               {t('completedStep')}
@@ -57,9 +97,14 @@ const DashboardVerificationSteps = async () => {
                 'flex justify-between w-full flex-col items-start group-data-[state=checked]:items-center group-data-[state=checked]:flex-row gap-3',
               )}
             >
-              <Button asChild>
-                <div>{t('step1Action')}</div>
-              </Button>
+              <Dialog open={openEmail} onOpenChange={setOpenEmail}>
+                <DialogTrigger asChild>
+                  <Button asChild onClick={() => {}}>
+                    <div>{t('step1Action')}</div>
+                  </Button>
+                </DialogTrigger>
+                <EmailOTP isOpen={openEmail} />
+              </Dialog>
               <p className='text-lg text-zinc-500 font-bold flex items-center gap-1'>
                 <TimerIcon className='size-6' />
                 {t('pendingStep')}
@@ -84,7 +129,7 @@ const DashboardVerificationSteps = async () => {
             <p className='hidden group-data-[state=checked]:block'>{t('step2Body')}</p>
           </div>
 
-          {user.data?.phone_number_is_verified ? (
+          {user?.data?.phone_number_is_verified ? (
             <p className='text-lg text-green-500 font-bold flex items-center gap-1'>
               <CheckIcon className='size-6' />
               {t('completedStep')}
@@ -95,14 +140,23 @@ const DashboardVerificationSteps = async () => {
                 'flex justify-between w-full flex-col items-start group-data-[state=checked]:items-center group-data-[state=checked]:flex-row gap-3',
               )}
             >
-              <Dialog>
+              <Dialog
+                open={open}
+                onOpenChange={(v) => {
+                  if (!v) {
+                    void getMe();
+                  }
+                  setOpen(v);
+                }}
+              >
                 <DialogTrigger asChild>
-                  <Button>
+                  <Button asChild>
                     <div>{t('step2Action')}</div>
                   </Button>
                 </DialogTrigger>
-                <PhoneOTP />
+                <PhoneOTP postSubmit={() => setOpen(false)} />
               </Dialog>
+
               <p className='text-lg text-zinc-500 font-bold flex items-center gap-1'>
                 <TimerIcon className='size-6' />
                 {t('pendingStep')}
@@ -127,7 +181,7 @@ const DashboardVerificationSteps = async () => {
             <p className='hidden group-data-[state=checked]:block'>{t('step3Body')}</p>
           </div>
 
-          {user.data?.kyc_level === 1 ? (
+          {user?.data?.kyc_level === 1 ? (
             <p className='text-lg text-green-500 font-bold flex items-center gap-1'>
               <CheckIcon className='size-6' />
               {t('completedStep')}
@@ -139,7 +193,9 @@ const DashboardVerificationSteps = async () => {
               )}
             >
               <Button asChild>
-                <div>{t('step3Action')}</div>
+                <Link href='/users/me/kyc'>
+                  <div>{t('step3Action')}</div>
+                </Link>
               </Button>
 
               <p className='text-lg text-zinc-500 font-bold flex items-center gap-1'>
@@ -170,7 +226,7 @@ const DashboardVerificationSteps = async () => {
               'flex justify-between w-full flex-col items-start group-data-[state=checked]:items-center group-data-[state=checked]:flex-row gap-3',
             )}
           >
-            {user.data?.email_is_verified && user.data.kyc_level === 1 && (
+            {user?.data?.email_is_verified && user.data.kyc_level === 1 && (
               <Button asChild>
                 <Link href='/express'>
                   <div>{t('step4Action')}</div>

@@ -9,16 +9,6 @@ const buttonVariants = cva(
   'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
-      size: {
-        default: 'h-9 px-4 py-2',
-        xs: 'h-8 rounded-md px-3 text-xs',
-        sm: 'h-10 rounded-md px-3 text-sm',
-        md: 'h-12 rounded-lg px-8 text-base font-medium',
-        lg: 'h-12 rounded-lg px-8 text-lg font-semibold',
-        xl: 'h-16 rounded-x px-3 text-xl font-semibold',
-        icon: 'size-8',
-        input: 'px-3 py-2.5 text-base',
-      },
       variant: {
         default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
         blue: 'bg-cyan-600 text-whiteBG shadow hover:bg-cyan-600/90',
@@ -36,6 +26,16 @@ const buttonVariants = cva(
         darkString:
           ' hover:text-primary text-background px-0 py-0 h-auto flex items-center',
         link: 'text-primary underline-offset-4 hover:underline px-0 py-0',
+      },
+      size: {
+        default: 'h-9 px-4 py-2',
+        xs: 'h-8 rounded-md px-3 text-xs',
+        sm: 'h-10 rounded-md px-3 text-sm',
+        md: 'h-12 rounded-lg px-8 text-base font-medium',
+        lg: 'h-12 rounded-lg px-8 text-lg font-semibold',
+        xl: 'h-16 rounded-x px-3 text-xl font-semibold',
+        icon: 'h-auto w-auto rounded-full',
+        input: 'px-3 py-2.5 text-base',
       },
     },
     defaultVariants: {

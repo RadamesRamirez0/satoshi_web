@@ -5,5 +5,6 @@ import {
 } from '@/modules/users/repository/dtos/confirmEmailDto';
 
 export const confirmEmail: ApiEndpointPut<ConfirmEmailResponse, ConfirmEmailDTO> = {
-  url: '/v1/users/confirm-email',
+  url: '/v1/users/confirm-email-otp',
+  method: 'PUT',
 };

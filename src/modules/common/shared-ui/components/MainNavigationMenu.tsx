@@ -33,7 +33,14 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
     <nav className='flex items-center justify-between h-16  px-6 bg-muted text-background rounded-2xl m-4'>
       <ul className='flex items-center h-16'>
         <li className='mr-6'>
-          <Image src='/svg/satoshi_logo.svg' width={119} height={31} alt='Satoshi Logo' />
+          <Link href='/'>
+            <Image
+              src='/svg/satoshi_logo.svg'
+              width={119}
+              height={31}
+              alt='Satoshi Logo'
+            />
+          </Link>
         </li>
         <NavigationItem
           className={cn(path?.includes('/express') && 'text-primary', 'hidden md:flex')}
@@ -63,7 +70,7 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
             <li>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant='string' size='icon'>
+                  <Button variant='string' size='icon' className='size-8'>
                     <FaRegCircleUser className='w-full h-full' />
                   </Button>
                 </PopoverTrigger>
@@ -97,7 +104,7 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
         <li className={cn(session && 'hidden md:flex')}>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant='string' size='icon'>
+              <Button variant='string' size='icon' className='size-8'>
                 <GlobeIcon className='w-full h-full' />
               </Button>
             </PopoverTrigger>

@@ -10,6 +10,7 @@ export interface UseKycValues {
   token?: string;
   loadingToken: boolean;
   error?: string;
+  getToken: () => Promise<string>;
 }
 
 export const useKyc = (): UseKycValues => {
@@ -17,6 +18,20 @@ export const useKyc = (): UseKycValues => {
   const [kycToken, setKycToken] = useState<KycToken>();
   const [error, setError] = useState<string>();
   const [loadingToken, setLoadingToken] = useState<boolean>(false);
+  const [userId, setUserId] = useState('');
+
+  const getToken = async (): Promise<string> => {
+    setLoadingToken(true);
+    try {
+      return (await getKycToken(userId)).token;
+    } catch {
+      setError('Error');
+    } finally {
+      setLoadingToken(false);
+    }
+
+    return '';
+  };
 
   useEffect(() => {
     if (!session?.token) {
@@ -27,6 +42,7 @@ export const useKyc = (): UseKycValues => {
     void usersRepository
       .userMe({ token: session.token })
       .then((r) => {
+        setUserId(r.data?.id ?? '');
         void getKycToken(r.data?.id ?? '')
           .then((r) => {
             setKycToken(r);
@@ -41,11 +57,12 @@ export const useKyc = (): UseKycValues => {
       .finally(() => {
         setLoadingToken(false);
       });
-  }, []);
+  }, [session?.token]);
 
   return {
     ...kycToken,
     loadingToken,
     error,
+    getToken,
   };
 };

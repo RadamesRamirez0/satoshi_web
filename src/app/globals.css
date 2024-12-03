@@ -154,4 +154,7 @@ its autocomplete list */
     clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
     @apply -ml-10;
   }
+  .beauty-scroll {
+    @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-primary  scrollbar-corner-transparent;
+  }
 }

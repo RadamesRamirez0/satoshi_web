@@ -1,5 +1,7 @@
+import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { cva, VariantProps } from 'class-variance-authority';
 import * as React from 'react';
+import { useState } from 'react';
 import { NumericFormat } from 'react-number-format';
 
 import { cn } from '@/modules/common/ui/lib/utils';
@@ -19,13 +21,13 @@ export const inputVariants = cva(
     'border-zinc-700 bg-transparent px-3 py-2.5 text-base shadow-sm transition-all focus-visible:border-ring',
     'file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground',
     'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-    'hover:border-ring focus:border-ring focus:ring-ring focus:ring-1',
+    'hover:border-ring focus:border-ring focus:ring-ring focus:ring-1 focus-visible:none',
   ],
   {
     variants: {
       error: {
         false: '',
-        true: 'focus-visible:border-red-600 focus-visible:ring-red-600 border-red-600',
+        true: 'hover:border-red-600 hover:ring-1 hover:ring-red-600 focus-visible:border-red-600 focus-visible:ring-red-600 border-red-600',
       },
     },
     defaultVariants: {
@@ -48,6 +50,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
+    const [showPassword, setShowPassword] = useState(false);
+
     if (numeric) {
       return (
         <NumericFormat
@@ -56,6 +60,37 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           thousandSeparator
           className={cn(inputVariants({ error }), className)}
         />
+      );
+    }
+
+    if (type === 'password') {
+      return (
+        <div className='relative'>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            autoComplete={autoComplete}
+            className={cn(inputVariants({ error }), className)}
+            ref={ref}
+            {...props}
+          />
+          {showPassword && (
+            <EyeClosedIcon
+              className='absolute right-0 bottom-0 top-0 m-auto mr-3'
+              onClick={() => {
+                setShowPassword(false);
+              }}
+            />
+          )}
+
+          {!showPassword && (
+            <EyeOpenIcon
+              className='absolute right-0 bottom-0 top-0 m-auto mr-3'
+              onClick={() => {
+                setShowPassword(true);
+              }}
+            />
+          )}
+        </div>
       );
     }
 

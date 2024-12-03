@@ -7,14 +7,10 @@ import KycPlaceholder from '@/modules/kyc/components/KycPlaceholder';
 import { useKyc } from '@/modules/kyc/hooks/useKyc';
 
 export const KycView = () => {
-  const { token, loadingToken, error } = useKyc();
+  const { token, loadingToken, error, getToken } = useKyc();
 
-  if (loadingToken) {
+  if (!token || loadingToken) {
     return <KycPlaceholder />;
-  }
-
-  if (!token) {
-    return <div>Token not found</div>;
   }
 
   if (error) {
@@ -24,9 +20,7 @@ export const KycView = () => {
   return (
     <SumsubWebSdk
       accessToken={token}
-      expirationHandler={() => {}}
-      config={{}}
-
+      expirationHandler={getToken}
       // options={}
       // onMessage={messageHandler}
       // onError={errorHandler}

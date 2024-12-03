@@ -1,16 +1,20 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
+import { apiUrl } from '@/modules/common/constants/env';
+import Chat, { NewMessage } from '@/modules/common/shared-ui/components/Chat';
 import SimpleCard from '@/modules/common/shared-ui/components/simpleCard';
 import { Separator } from '@/modules/common/ui/components/separator';
 import { capitalizeSnakedWords } from '@/modules/common/utils/strings';
 import OrderAction from '@/modules/p2p/components/OrderAction';
 import OrderTransactionTimer from '@/modules/p2p/components/OrderTransactionTimer';
+import { Message } from '@/modules/p2p/models/message';
 import { p2pRepository } from '@/modules/p2p/repository';
 import { GetOrderResponse } from '@/modules/p2p/repository/dtos/getOrderDto';
+import { SendMessageResponse } from '@/modules/p2p/repository/dtos/sendMessageDto';
 import { usersRepository } from '@/modules/users/repository';
 import { UserMeResponse } from '@/modules/users/repository/dtos/userMeDto';
 
@@ -21,8 +25,35 @@ export interface OrderViewProps {
 const OrderView: FC<OrderViewProps> = ({ id }) => {
   const session = useSession();
   const t = useTranslations('OrderView');
-  const [me, setMe] = React.useState<UserMeResponse>();
-  const [order, setOrder] = React.useState<GetOrderResponse>();
+  const [me, setMe] = useState<UserMeResponse>();
+  const [order, setOrder] = useState<GetOrderResponse>();
+  const [messages, setMessages] = useState<Message[]>();
+
+  const getImage = async (
+    messageId: string,
+  ): Promise<{ url: string; type: string } | undefined> => {
+    if (!session?.token) {
+      return;
+    }
+
+    const res = await fetch(`${apiUrl}/v1/chat/attachments/${messageId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${session.token}`,
+      },
+    }).catch(() => false);
+
+    if (typeof res === 'boolean') {
+      return;
+    }
+
+    const blob = await res.blob();
+
+    return {
+      url: URL.createObjectURL(blob),
+      type: res.headers.get('content-type') ?? 'image/png',
+    };
+  };
 
   const getOrder = () => {
     if (!session?.token) {
@@ -39,6 +70,55 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
       });
   };
 
+  const getMessages = () => {
+    if (!order || !session?.token || 'detail' in order) {
+      return;
+    }
+    void p2pRepository
+      .getMessages({ pathParams: { operation_id: order.id }, token: session.token })
+      .then((m) => {
+        if (m.data) {
+          setMessages(m.data);
+        }
+      });
+  };
+
+  const sendMessage = async (message: NewMessage) => {
+    if (!session?.token || !order || 'detail' in order) {
+      return false;
+    }
+
+    const formData = new FormData();
+
+    formData.append('operation_id', order.id);
+    formData.append('message', message.message);
+    if (message.file) {
+      formData.append('file', message.file);
+    }
+
+    const res = await fetch(`${apiUrl}/v1/chat/messages/`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${session.token}`,
+      },
+    }).catch(() => false);
+
+    if (typeof res === 'boolean') {
+      return false;
+    }
+
+    const json = (await res.json()) as SendMessageResponse;
+
+    getMessages();
+
+    if (json.error) {
+      return false;
+    }
+
+    return true;
+  };
+
   useEffect(() => {
     if (!session?.token) {
       return;
@@ -51,8 +131,21 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
     getOrder();
   }, [session?.token]);
 
-  if ((order && 'detail' in order) || !order) {
-    return <div>{order?.detail}</div>;
+  useEffect(() => {
+    getMessages();
+    const interval = setInterval(() => {
+      getMessages();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [session?.token, order]);
+
+  if (order && 'detail' in order) {
+    return <div>{order.detail}</div>;
+  }
+
+  if (!order) {
+    return <>order not found</>;
   }
 
   if ((me && (me.error || !me.data)) || !me) {
@@ -63,80 +156,92 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
   const buying = userType === 'taker' && order.order_type === 'buy';
 
   return (
-    <div>
-      <span className='flex gap-1'>
-        <h2 className='text-whiteBG text-2xl font-bold inline-flex items-center flex-wrap'>
-          {t(
-            order.status === 'pending'
-              ? 'title'
-              : order.status === 'waiting_seller_release'
-                ? 'pendingRelease'
-                : 'orderCompleted',
-          )}{' '}
-          <span className='inline-block ml-1'>
-            <OrderTransactionTimer
-              createdAt={order.creation_timestamp}
-              timeToComplete={order.maximum_time_for_transaction_completion.toString()}
-            />
+    <div className='flex gap-6 justify-between'>
+      <div>
+        <span className='flex gap-1'>
+          <h2 className='text-whiteBG text-2xl font-bold inline-flex items-center flex-wrap'>
+            {t(
+              order.status === 'pending'
+                ? 'title'
+                : order.status === 'waiting_seller_release'
+                  ? 'pendingRelease'
+                  : order.status === 'on_appeal'
+                    ? 'orderAppeal'
+                    : 'orderCompleted',
+            )}{' '}
+            <span className='inline-block ml-1'>
+              {!['on_appeal', 'complete'].includes(order.status) && (
+                <OrderTransactionTimer
+                  createdAt={order.creation_timestamp}
+                  timeToComplete={order.maximum_time_for_transaction_completion.toString()}
+                />
+              )}
+            </span>
+          </h2>
+        </span>
+        <span className='flex flex-col md:flex-row gap-1 md:items-center'>
+          <p className='text-whiteBG/80 font-bold'>{t('orderId')}</p>
+          <p className='text-whiteBG font-bold'>{order.id}</p>
+        </span>
+        <Separator className='my-4' />
+        <h3 className='text-xl font-bold pb-2'>{t('step1')}</h3>
+        <SimpleCard>
+          <span className='flex justify-between w-full font-bold'>
+            <p className='text-whiteBG/80'>{t('fiatAmount')}</p>
+            <p>{`${order.amount_to_send_in_to_currency} ${order.from_currency_id.toUpperCase()}`}</p>
           </span>
-        </h2>
-      </span>
-      <span className='flex flex-col md:flex-row gap-1 md:items-center'>
-        <p className='text-whiteBG/80 font-bold'>{t('orderId')}</p>
-        <p className='text-whiteBG font-bold'>{order.id}</p>
-      </span>
-      <Separator className='my-4' />
-      <h3 className='text-xl font-bold pb-2'>{t('step1')}</h3>
-      <SimpleCard>
-        <span className='flex justify-between w-full font-bold'>
-          <p className='text-whiteBG/80'>{t('fiatAmount')}</p>
-          <p>{`${order.amount_to_send_in_to_currency} ${order.from_currency_id.toUpperCase()}`}</p>
-        </span>
-        <span className='flex justify-between w-full font-bold'>
-          <p className='text-whiteBG/80'>{t('price')}</p>
-          <p>{`${order.price} ${order.from_currency_id.toUpperCase()}`}</p>
-        </span>
-        <span className='flex justify-between w-full font-bold'>
-          <p className='text-whiteBG/80'>{t('receiveQuantity')}</p>
-          <p>{`${order.amount_in_from_currency} ${order.to_currency_id.toUpperCase()}`}</p>
-        </span>
-      </SimpleCard>
-      {buying && (
-        <>
-          <h3 className='text-xl font-bold pb-2 pt-4'>{t('step2')}</h3>
-          <SimpleCard>
-            {Object.entries(order.payment_method_data).map(([key, value]) => (
-              <span className='flex justify-between w-full font-bold' key={key}>
-                <p className='text-whiteBG/80'>{capitalizeSnakedWords(key)}</p>
-                <p className='text-end'>{value.toUpperCase()}</p>
-              </span>
-            ))}
-          </SimpleCard>
-        </>
-      )}
-      {buying && order.status === 'pending' && (
-        <>
-          <h3 className='text-xl font-bold pt-4'>{t('step3buying')}</h3>
-          <p className='text-whiteBG/80 pb-2'>{t('notifySellerDescrption')}</p>
-        </>
-      )}
-      {!buying && order.status === 'waiting_seller_release' && (
-        <>
-          <h3 className='text-xl font-bold pt-4'>{t('step3selling')}</h3>
-          <p className='text-whiteBG/80 pb-2'>{t('releaseCryptoDescription')}</p>
-        </>
-      )}
-
-      <span className='flex items-center gap-3'>
+          <span className='flex justify-between w-full font-bold'>
+            <p className='text-whiteBG/80'>{t('price')}</p>
+            <p>{`${order.price} ${order.from_currency_id.toUpperCase()}`}</p>
+          </span>
+          <span className='flex justify-between w-full font-bold'>
+            <p className='text-whiteBG/80'>{t('receiveQuantity')}</p>
+            <p>{`${order.amount_in_from_currency} ${order.to_currency_id.toUpperCase()}`}</p>
+          </span>
+        </SimpleCard>
         {buying && (
-          <OrderAction
-            buying={buying}
-            orderId={order.id}
-            status={order.status}
-            postSubmit={getOrder}
-          />
+          <>
+            <h3 className='text-xl font-bold pb-2 pt-4'>{t('step2')}</h3>
+            <SimpleCard>
+              {Object.entries(order.payment_method_data).map(([key, value]) => (
+                <span className='flex  gap-3 justify-between w-full font-bold' key={key}>
+                  <p className='text-whiteBG/80'>{capitalizeSnakedWords(key)}</p>
+                  <p className='text-end'>{value.toUpperCase()}</p>
+                </span>
+              ))}
+            </SimpleCard>
+          </>
         )}
-      </span>
+        {buying && order.status === 'pending' && (
+          <>
+            <h3 className='text-xl font-bold pt-4'>{t('step3buying')}</h3>
+            <p className='text-whiteBG/80 pb-2'>{t('notifySellerDescrption')}</p>
+          </>
+        )}
+        {!buying && order.status === 'waiting_seller_release' && (
+          <>
+            <h3 className='text-xl font-bold pt-4'>{t('step3selling')}</h3>
+            <p className='text-whiteBG/80 pb-2'>{t('releaseCryptoDescription')}</p>
+          </>
+        )}
+
+        <span className='flex items-center gap-3'>
+          {buying && (
+            <OrderAction
+              buying={buying}
+              orderId={order.id}
+              status={order.status}
+              postSubmit={getOrder}
+            />
+          )}
+        </span>
+      </div>
+      <Chat
+        receiverName='Peer'
+        messages={messages ?? []}
+        onSend={sendMessage}
+        getImage={getImage}
+      />
     </div>
   );
 };

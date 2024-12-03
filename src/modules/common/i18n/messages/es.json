@@ -77,6 +77,9 @@
     "passwordMinLength": "La contraseña debe tener al menos 8 caracteres",
     "forgotPassword": "Olvidé mi contraseña",
     "tosRequired": "Debes aceptar los términos y condiciones",
+    "invitationRequired": "Necesitas un código de invitación",
+    "invitation": "Código de invitación",
+    "invitationPlaceholder": "Ingresa tu código de invitación",
     "mainAction": "Registrate",
     "registerLabel": "Crear una cuenta Satoshi",
     "terms1": "Acepto los ",
@@ -93,18 +96,26 @@
   "Verification": {
     "completedStep": "Completado",
     "pendingStep": "Pendiente",
+
     "step1Title": "Verifica el correo electrónico",
     "step1CompleteTitle": "Primero, verifica tu dirección de correo electrónico",
     "step1Body": "Te enviaremos un correo electrónico con un enlace para confirmar tu dirección de correo electrónico",
     "step1Action": "Enviar correo electrónico",
-    "step2Title": "Verifica tu identidad",
-    "step2CompleteTitle": "Ahora verifica tu identidad",
-    "step2Body": "Te pediremos tu identificación oficial y un video de tu rostro",
-    "step2Action": "Iniciar KYC",
-    "step3Title": "Tu primera compra",
-    "step3CompleteTitle": "¡Todo listo! Realiza tu primera transacción",
-    "step3Body": "Te enviaremos un correo electrónico con un enlace para confirmar tu dirección de correo electrónico",
-    "step3Action": "Comprar/Vender Cripto"
+
+    "step2Title": "Verifica tu teléfono",
+    "step2CompleteTitle": "Verifica tu número de teléfono",
+    "step2Body": "Verificaremos tu numero telefonico con un código OTP",
+    "step2Action": "Enviar código",
+
+    "step3Title": "Verifica tu identidad",
+    "step3CompleteTitle": "Ahora verifica tu identidad",
+    "step3Body": "Te pediremos tu identificación oficial y un video de tu rostro",
+    "step3Action": "Iniciar KYC",
+
+    "step4Title": "Tu primera compra",
+    "step4CompleteTitle": "¡Todo listo! Realiza tu primera transacción",
+    "step4Body": "Te enviaremos un correo electrónico con un enlace para confirmar tu dirección de correo electrónico",
+    "step4Action": "Comprar/Vender Cripto"
   },
   "UserDropdown": {
     "dashboard": "Perfil",
@@ -244,10 +255,28 @@
     "cryptoReleased": "Cripto liberado exitosamente",
     "notifySellerSuccess": "Vendedor notificado exitosamente",
     "pendingRelease": "Liberación pendiente",
-    "orderCompleted": "Orden completada",
-    "orderCanceled": "Orden cancelada"
+    "orderCompleted": "Orden Completada",
+    "orderAppeal": "Orden en Apelación",
+    "orderCanceled": "Orden Cancelada"
   },
   "UserMe": {
     "updatingAliasError": "Ocurrió un error al actualizar tu alias"
+  },
+  "PhoneOTP": {
+    "title": "Confirm your phone number",
+    "description": "We will send you a SMS with an OTP code to your number",
+    "skipLabel": "Do it later",
+    "phoneLabel": "Enter your phone number",
+    "sendAction": "Send OTP",
+    "otpLabel": "Enter the OTP code sent to your phone",
+    "sendAgain": "Send again"
+  },
+  "EmailOTP": {
+    "title": "Confirm your email address",
+    "description": "We sent you an Email with an OTP code",
+    "skipLabel": "Do it later",
+    "sendAction": "Send OTP",
+    "otpLabel": "Enter the OTP code sent to your email",
+    "sendAgain": "Send again"
   }
 }

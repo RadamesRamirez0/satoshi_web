@@ -77,8 +77,16 @@ export const ExpressAction = () => {
 
   if (session?.user.email_is_verified === false) {
     return (
-      <Button className='w-full rounded-xl' variant='orange' size='xl'>
-        {t('verifyEmail')}
+      <Button className='w-full rounded-xl' variant='orange' size='xl' asChild>
+        <Link href='/users/me?verification=email'>{t('verifyEmail')}</Link>
+      </Button>
+    );
+  }
+
+  if (session?.user.phone_number_is_verified === false) {
+    return (
+      <Button className='w-full rounded-xl' variant='green' size='xl' asChild>
+        <Link href='/users/me?verification=phone'>{t('verifyPhone')}</Link>
       </Button>
     );
   }

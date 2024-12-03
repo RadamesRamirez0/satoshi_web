@@ -24,6 +24,7 @@ const AddUserPaymentForm = ({
   postSubmit,
   requiredData,
   idPaymentMethod,
+  onCancel,
 }: AddUserPaymentFormProps) => {
   const t = useTranslations('AddUserPaymentMethod');
 
@@ -93,7 +94,7 @@ const AddUserPaymentForm = ({
         </span>
       ))}
       <div className='justify-end w-full flex gap-3 mt-8'>
-        <Button type='button' onClick={() => postSubmit()} variant='outline' size='md'>
+        <Button type='button' onClick={() => onCancel()} variant='outline' size='md'>
           {t('cancel')}
         </Button>
         <Button

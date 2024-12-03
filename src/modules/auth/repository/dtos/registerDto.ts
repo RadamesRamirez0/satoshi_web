@@ -5,6 +5,7 @@ export interface RegisterDTO {
   email: string;
   password: string;
   partner_id: string;
+  invitation_code: string;
 }
 
 export type RegisterResponse = ApiResponse<User>;

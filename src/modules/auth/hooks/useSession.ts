@@ -9,9 +9,19 @@ export const useSession = (): UseSessionValues => {
   const [session, setSession] = useState<Session>();
 
   useEffect(() => {
+    if (session) {
+      return;
+    }
+
+    const localSession = localStorage.getItem('session');
+    if (localSession) {
+      setSession(JSON.parse(localSession) as Session);
+    }
+
     void getSession().then((session) => {
       if (session) {
         setSession(session);
+        localStorage.setItem('session', JSON.stringify(session));
       }
     });
   }, []);

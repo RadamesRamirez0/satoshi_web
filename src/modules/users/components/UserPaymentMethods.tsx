@@ -94,6 +94,7 @@ const UserPaymentMethods: FC<UserPaymentMethodsProps> = ({
                   </Button>
                 </DialogTrigger>
                 <AddUserPaymentMethod
+                  isOpen={openAdd}
                   onClose={() => {
                     setOpenAdd(false);
                     void fetchMethods();

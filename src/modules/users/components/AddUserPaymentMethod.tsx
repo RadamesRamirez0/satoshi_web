@@ -12,9 +12,10 @@ import AddUserPaymentForm from '@/modules/users/components/AddUserPaymentForm';
 
 export interface AddUserPaymentMethodProps {
   onClose: () => void;
+  isOpen: boolean;
 }
 
-const AddUserPaymentMethod = ({ onClose }: AddUserPaymentMethodProps) => {
+const AddUserPaymentMethod = ({ onClose, isOpen }: AddUserPaymentMethodProps) => {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>();
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>();
   const session = useSession();
@@ -33,6 +34,13 @@ const AddUserPaymentMethod = ({ onClose }: AddUserPaymentMethodProps) => {
       setPaymentMethods(methods.data);
     });
   }, [session?.token]);
+
+  useEffect(() => {
+    if (isOpen) {
+      return;
+    }
+    setSelectedMethod(undefined);
+  }, [isOpen]);
 
   return (
     <>

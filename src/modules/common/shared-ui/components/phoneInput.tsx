@@ -42,11 +42,12 @@ const PhoneInput = ({
     <Input
       inputClass={cn(
         inputClass,
-        '!font-satoshi !text-whiteBG !py-2.5 !border-zinc-700 hover:!border-primary',
+        '!font-satoshi !text-whiteBG !py-2.5 !border-zinc-700 hover:!border-primary !bg-transparent',
       )}
       dropdownClass='!bg-background !text-popover-foreground !hover:bg-red-500 hover:[&>li]:!bg-white/10 !font-satoshi'
       containerClass='focus-visible:!outline-none'
       preferredCountries={['mx', 'us']}
+      country='mx'
       enableAreaCodes={enableAreaCodes}
       {...props}
     ></Input>

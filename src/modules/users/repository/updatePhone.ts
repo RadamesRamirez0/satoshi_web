@@ -6,4 +6,5 @@ import {
 
 export const updatePhone: ApiEndpointPut<UpdatePhoneResponse, UpdatePhoneDTO> = {
   url: '/v1/users/update-phone-number',
+  method: 'PUT',
 };

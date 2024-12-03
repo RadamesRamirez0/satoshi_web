@@ -6,4 +6,5 @@ import {
 
 export const updatePassword: ApiEndpointPut<UpdatePasswordResponse, UpdatePasswordDTO> = {
   url: '/v1/users/update-password',
+  method: 'PUT',
 };
