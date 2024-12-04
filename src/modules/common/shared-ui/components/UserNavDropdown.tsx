@@ -1,4 +1,4 @@
-import { DashboardIcon, GearIcon, GlobeIcon } from '@radix-ui/react-icons';
+import { DashboardIcon, GlobeIcon } from '@radix-ui/react-icons';
 import NativeLink from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import React, { FC } from 'react';
@@ -61,10 +61,10 @@ const UserNavDropdown: FC<UserNavDropdownProps> = async () => {
             </NavDropdownItem>
           </NavigationAccordionContent>
         </NavigationAccordionItem>
-        <NavDropdownItem>
+        {/* <NavDropdownItem>
           <GearIcon className='size-5' />
           {t('settings')}
-        </NavDropdownItem>
+        </NavDropdownItem> */}
       </div>
       <form action={logout}>
         <Button

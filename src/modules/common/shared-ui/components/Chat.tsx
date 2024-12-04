@@ -122,8 +122,8 @@ const Chat = ({ receiverName, messages, onSend, getImage }: ChatProps) => {
     <div className='border-2  rounded-3xl flex flex-col divide-y h-[80vh] min-w-[330px] max-w-[360px]  w-1/3 bg-muted overflow-hidden '>
       <DocumentViewer src={doc} onClose={() => setDoc(undefined)} />
       <span className='py-4 px-4 flex items-center gap-3'>
-        <FaRegCircleUser className='size-7' />
-        <h2 className='text-xl font-bold'>{receiverName}</h2>
+        <FaRegCircleUser className='size-7 shrink-0' />
+        <h2 className='text-lg font-bold'>{receiverName}</h2>
       </span>
       <div
         className='flex flex-col  p-4 h-full bg-background overflow-y-auto beauty-scroll'

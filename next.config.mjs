@@ -8,6 +8,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.bkacontent.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'satoshipayments.sfo3.cdn.digitaloceanspaces.com',
+      },
     ],
   },
 };

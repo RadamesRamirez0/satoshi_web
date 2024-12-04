@@ -1,11 +1,13 @@
 'use client';
 
 import { CheckIcon, Pencil1Icon } from '@radix-ui/react-icons';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaRegCircleUser } from 'react-icons/fa6';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
+import { apiUrl, baseImage } from '@/modules/common/constants/env';
 import { Button } from '@/modules/common/ui/components/button';
 import { Input } from '@/modules/common/ui/components/input';
 import { toast } from '@/modules/common/utils/toast';
@@ -20,6 +22,10 @@ const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
   const [alias, setAlias] = useState(initialAlias);
   const [editing, setEditing] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [updatingPhoto, setUpdatingPhoto] = useState(false);
+  const [photoProfile, setPhotoProfile] = useState<string>();
+  const [file, setFile] = useState<File>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const session = useSession();
   const t = useTranslations('UserMe');
@@ -44,10 +50,74 @@ const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
     setEditing(false);
   };
 
+  const handleUpdatePhoto = async () => {
+    if (!session || !file) {
+      return;
+    }
+
+    setUpdatingPhoto(true);
+    const formData = new FormData();
+
+    formData.append('file', file);
+    formData.append('file_type', 'profile_picture');
+
+    await fetch(`${apiUrl}/v1/users/upload_file`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${session.token}`,
+      },
+    }).catch(() => toast.error('Error uploading photo'));
+
+    setUpdatingPhoto(false);
+    setPhotoProfile(`${baseImage}${session.user.id}/profile_picture.jpg`);
+    setFile(undefined);
+  };
+
+  useEffect(() => {
+    void handleUpdatePhoto();
+  }, [file]);
+
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+    const url = `${baseImage}${session.user.id}/profile_picture.jpg`;
+    void fetch(url).then((res) => {
+      if (res.ok) {
+        setPhotoProfile(url);
+      }
+    });
+  }, [session]);
+
   return (
     <div className='flex items-start gap-4'>
-      <FaRegCircleUser className='size-14' />
-      <span className='flex flex-col  '>
+      <section>
+        <button
+          className='hover:opacity-80 transition-opacity group relative'
+          onClick={() => inputRef.current?.click()}
+        >
+          <input
+            type='file'
+            className='hidden'
+            ref={inputRef}
+            onChange={(e) => setFile(e.target.files?.[0])}
+          />
+          {photoProfile ? (
+            <Image
+              width={56}
+              height={56}
+              className='rounded-full'
+              src={photoProfile}
+              alt='photo'
+            />
+          ) : (
+            <FaRegCircleUser className='size-14 peer' />
+          )}
+          <Pencil1Icon className='absolute hidden p-3 text-primary peer-hover:block group-hover:block top-0 bottom-0 left-0 right-0 z-10 size-14 bg-black/60 rounded-full transition-all' />
+        </button>
+      </section>
+      <section className='flex flex-col  '>
         <span className='flex gap-3 items-center'>
           {!editing && <p className='text-2xl font-bold'>{alias}</p>}
           {editing && <Input value={alias} onChange={(e) => setAlias(e.target.value)} />}
@@ -73,7 +143,7 @@ const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
           )}
         </span>
         <p className='text-lg font-medium text-gray-400'>{email}</p>
-      </span>
+      </section>
     </div>
   );
 };

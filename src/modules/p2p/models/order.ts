@@ -17,4 +17,6 @@ export interface Order {
   amount_to_send_in_to_currency: string;
   maximum_time_for_transaction_completion: number;
   payment_method_data: Record<string, string>;
+  buyer_name: string;
+  seller_name: string;
 }

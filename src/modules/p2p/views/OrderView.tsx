@@ -237,7 +237,7 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
         </span>
       </div>
       <Chat
-        receiverName='Peer'
+        receiverName={buying ? order.seller_name : order.buyer_name}
         messages={messages ?? []}
         onSend={sendMessage}
         getImage={getImage}
