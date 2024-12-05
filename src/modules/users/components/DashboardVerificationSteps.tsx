@@ -181,7 +181,7 @@ const DashboardVerificationSteps = () => {
             <p className='hidden group-data-[state=checked]:block'>{t('step3Body')}</p>
           </div>
 
-          {user?.data?.kyc_level === 1 ? (
+          {user?.data?.kyc_level === 2 ? (
             <p className='text-lg text-green-500 font-bold flex items-center gap-1'>
               <CheckIcon className='size-6' />
               {t('completedStep')}
@@ -226,7 +226,7 @@ const DashboardVerificationSteps = () => {
               'flex justify-between w-full flex-col items-start group-data-[state=checked]:items-center group-data-[state=checked]:flex-row gap-3',
             )}
           >
-            {user?.data?.email_is_verified && user.data.kyc_level === 1 && (
+            {user?.data?.email_is_verified && [1, 2].includes(user.data.kyc_level) && (
               <Button asChild>
                 <Link href='/express'>
                   <div>{t('step4Action')}</div>

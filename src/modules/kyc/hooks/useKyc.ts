@@ -15,7 +15,7 @@ export interface UseKycValues {
 
 export const useKyc = (): UseKycValues => {
   const session = useSession();
-  const [kycToken, setKycToken] = useState<KycToken>();
+  const [kycToken, setKycToken] = useState<KycToken | undefined>();
   const [error, setError] = useState<string>();
   const [loadingToken, setLoadingToken] = useState<boolean>(false);
   const [userId, setUserId] = useState('');
@@ -57,6 +57,8 @@ export const useKyc = (): UseKycValues => {
       .finally(() => {
         setLoadingToken(false);
       });
+
+    return () => setKycToken(undefined);
   }, [session?.token]);
 
   return {

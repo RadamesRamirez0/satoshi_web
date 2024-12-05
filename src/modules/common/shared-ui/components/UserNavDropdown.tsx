@@ -3,7 +3,6 @@ import NativeLink from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import React, { FC } from 'react';
 import { CgLogOut } from 'react-icons/cg';
-import { FaRegCircleUser } from 'react-icons/fa6';
 
 import { logout } from '@/app/api/auth/logoutAction';
 import { getSession } from '@/app/api/auth/sessionAction';
@@ -15,6 +14,7 @@ import {
   NavigationAccordionTrigger,
 } from '@/modules/common/shared-ui/components/NavigationAccordion';
 import { Button } from '@/modules/common/ui/components/button';
+import PhotoProfile from '@/modules/users/components/PhotoProfile';
 
 export type UserNavDropdownProps = object;
 
@@ -31,7 +31,10 @@ const UserNavDropdown: FC<UserNavDropdownProps> = async () => {
   return (
     <>
       <div className='flex px-6 py-4 gap-3'>
-        <FaRegCircleUser className='size-12' />
+        <div className='size-12 shrink-0'>
+          <PhotoProfile />
+        </div>
+
         <div className='flex-1 flex justify-start'>
           <span>
             <p className='text-lg font-semibold text-primary'>{user.alias}</p>

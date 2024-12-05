@@ -124,7 +124,11 @@ const PhoneOTP = ({ postSubmit, onRegister = false }: PhoneOTPProps) => {
       {!otpSended && (
         <CardContent className='pt-2 space-y-2'>
           <Label>{t('phoneLabel')}</Label>
-          <PhoneInput value={phone} onChange={(value) => setPhone(value)} />
+          <PhoneInput
+            value={phone}
+            onChange={(value) => setPhone(value)}
+            onKeyDown={() => void updatePhone()}
+          />
           <Button className='mt-3' onClick={() => void updatePhone()}>
             {t('sendAction')}
           </Button>

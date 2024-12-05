@@ -1,24 +1,40 @@
 import { useEffect, useState } from 'react';
 
-import { baseImage } from '@/modules/common/constants/env';
+import { getPhoto } from '@/app/api/users/getPhoto';
+import { useSession } from '@/modules/auth/hooks/useSession';
 
-const usePhotoProfile = (userId: string): string | undefined => {
-  const [photo, setPhoto] = useState<string>();
+const usePhotoProfile = (userId?: string): [string | undefined, boolean] => {
+  const [photo, setPhoto] = useState<string | undefined>();
+  const [loadingPhoto, setLoadingPhoto] = useState(false);
+  const session = useSession();
 
   const checkIfExistsPhoto = async () => {
-    const url = `${baseImage}${userId}/profile_picture.jpg`;
-    const res = await fetch(url);
+    setLoadingPhoto(true);
+    if (!userId && !session?.user.id) {
+      return;
+    }
 
-    if (res.ok) {
+    try {
+      const url = await getPhoto(userId ?? session?.user.id ?? '');
+
+      console.log(url);
+      if (!url) {
+        return;
+      }
+
       setPhoto(url);
+    } catch {
+      setPhoto(undefined);
+    } finally {
+      setLoadingPhoto(false);
     }
   };
 
   useEffect(() => {
     void checkIfExistsPhoto();
-  }, [userId]);
+  }, [userId, session?.user.id]);
 
-  return photo;
+  return [photo, loadingPhoto];
 };
 
 export default usePhotoProfile;

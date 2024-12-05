@@ -1,16 +1,15 @@
 'use client';
 
 import { CheckIcon, Pencil1Icon } from '@radix-ui/react-icons';
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useRef, useState } from 'react';
-import { FaRegCircleUser } from 'react-icons/fa6';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
 import { apiUrl, baseImage } from '@/modules/common/constants/env';
 import { Button } from '@/modules/common/ui/components/button';
 import { Input } from '@/modules/common/ui/components/input';
 import { toast } from '@/modules/common/utils/toast';
+import PhotoProfile from '@/modules/users/components/PhotoProfile';
 import { usersRepository } from '@/modules/users/repository';
 
 export interface UserMeAliasProps {
@@ -78,23 +77,11 @@ const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
     void handleUpdatePhoto();
   }, [file]);
 
-  useEffect(() => {
-    if (!session) {
-      return;
-    }
-    const url = `${baseImage}${session.user.id}/profile_picture.jpg`;
-    void fetch(url).then((res) => {
-      if (res.ok) {
-        setPhotoProfile(url);
-      }
-    });
-  }, [session]);
-
   return (
     <div className='flex items-start gap-4'>
-      <section>
+      <section className='flex'>
         <button
-          className='hover:opacity-80 transition-opacity group relative'
+          className='hover:opacity-80 transition-opacity group relative size-18 flex-1 shrink-0'
           onClick={() => inputRef.current?.click()}
         >
           <input
@@ -103,18 +90,10 @@ const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
             ref={inputRef}
             onChange={(e) => setFile(e.target.files?.[0])}
           />
-          {photoProfile ? (
-            <Image
-              width={56}
-              height={56}
-              className='rounded-full'
-              src={photoProfile}
-              alt='photo'
-            />
-          ) : (
-            <FaRegCircleUser className='size-14 peer' />
-          )}
-          <Pencil1Icon className='absolute hidden p-3 text-primary peer-hover:block group-hover:block top-0 bottom-0 left-0 right-0 z-10 size-14 bg-black/60 rounded-full transition-all' />
+
+          <PhotoProfile key={photoProfile} className='w-[56px]' />
+
+          <Pencil1Icon className='absolute hidden p-3 text-primary peer-hover:block group-hover:block top-0 bottom-0 left-0 right-0 z-10 w-full h-full bg-black/60 rounded-full transition-all' />
         </button>
       </section>
       <section className='flex flex-col  '>

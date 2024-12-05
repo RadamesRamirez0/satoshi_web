@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import * as React from 'react';
 import { FC } from 'react';
-import { FaRegCircleUser } from 'react-icons/fa6';
 
 import { getSession } from '@/app/api/auth/sessionAction';
 import { Link } from '@/modules/common/i18n/routing';
@@ -19,6 +18,7 @@ import {
 } from '@/modules/common/ui/components/popover';
 import { Sheet, SheetContent, SheetTrigger } from '@/modules/common/ui/components/sheet';
 import { cn } from '@/modules/common/ui/lib/utils';
+import PhotoProfile from '@/modules/users/components/PhotoProfile';
 
 export type MainNavegationMenuProps = object;
 
@@ -71,7 +71,7 @@ export const MainNavigationMenu: FC<MainNavegationMenuProps> = async () => {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button variant='string' size='icon' className='size-8'>
-                    <FaRegCircleUser className='w-full h-full' />
+                    <PhotoProfile />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent
