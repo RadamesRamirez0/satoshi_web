@@ -142,7 +142,8 @@
     "subtitle": "Deposit funds to your Satoshi account",
     "selectCurrency": "Select currency",
     "network": "Network",
-    "address": "Address:"
+    "address": "Address:",
+    "instruction": "Deposita to this address, we will add the funds to your Satoshi wallet"
   },
   "Withdraw": {
     "title": "Withdraw",
@@ -150,7 +151,10 @@
     "selectCurrency": "Select currency",
     "network": "Network",
     "address": "Address",
-    "amount": "Amount"
+    "amount": "Amount",
+    "requestingWithdraw": "Requesting withdraw",
+    "successfullRequest": "Withdraw requested successfully",
+    "mainAction": "Request Withdraw"
   },
   "Combobox": {
     "noResults": "No results found"

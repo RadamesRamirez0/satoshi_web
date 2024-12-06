@@ -24,4 +24,5 @@ export const toast = {
     t.promise<T>(promise, msgs, {
       style: { backgroundColor: '#252C2C', color: '#E7E7E7' },
     }),
+  dismiss: (toastId: string): void => t.dismiss(toastId),
 };

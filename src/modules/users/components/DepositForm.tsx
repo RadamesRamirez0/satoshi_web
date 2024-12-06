@@ -3,6 +3,7 @@
 import { ClipboardIcon } from '@radix-ui/react-icons';
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useRef, useState } from 'react';
+import { CgSpinner } from 'react-icons/cg';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
 import { Button } from '@/modules/common/ui/components/button';
@@ -22,13 +23,14 @@ const DepositForm = () => {
   const [depositAddress, setDepositAddress] = useState<DepositAddress>();
   const [currencies, setCurrencies] = useState<Currency[]>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const t = useTranslations('Deposit');
   const session = useSession();
 
   useEffect(() => {
     void criptoRepository.getCurrencies({}).then((data) => {
-      setCurrencies(getCryptoCurrencies(data));
+      setCurrencies(getCryptoCurrencies(data).filter((c) => c.deposits_enable));
     });
   }, []);
 
@@ -37,6 +39,7 @@ const DepositForm = () => {
       return;
     }
 
+    setLoading(true);
     void criptoRepository
       .getDepositAddress({
         queryParams: { currency: currency.id },
@@ -44,7 +47,8 @@ const DepositForm = () => {
       })
       .then((d) => {
         setDepositAddress(d);
-      });
+      })
+      .finally(() => setLoading(false));
   }, [currency]);
 
   useEffect(() => {
@@ -107,28 +111,33 @@ const DepositForm = () => {
           value={depositAddress?.network ?? ''}
           readOnly
           disabled={!currency}
+          loading={loading}
         />
       </span>
+      {loading && <CgSpinner className='size-24 text-zinc-100 animate-spin' />}
       {depositAddress && (
-        <div className='flex gap-8 items-end  py-4'>
-          <div>
-            <canvas id='QR' ref={canvasRef} className='rounded-xl'></canvas>
-          </div>
-          <span className='flex flex-col py-6'>
-            <span className=' flex items-center gap-2'>
-              <p className='text-3xl font-bold'>{t('address')}</p>
-              <Button
-                variant='ghost'
-                size='icon'
-                onClick={() => {
-                  void navigator.clipboard.writeText(depositAddress.address);
-                }}
-              >
-                <ClipboardIcon className='h-5 w-5' />
-              </Button>
+        <div>
+          <p>{t('instruction')}</p>
+          <div className='flex gap-8 items-end  py-4'>
+            <div>
+              <canvas id='QR' ref={canvasRef} className='rounded-xl'></canvas>
+            </div>
+            <span className='flex flex-col py-6'>
+              <span className=' flex items-center gap-2'>
+                <p className='text-3xl font-bold'>{t('address')}</p>
+                <Button
+                  variant='ghost'
+                  size='icon'
+                  onClick={() => {
+                    void navigator.clipboard.writeText(depositAddress.address);
+                  }}
+                >
+                  <ClipboardIcon className='h-5 w-5' />
+                </Button>
+              </span>
+              <p className='font-mono'>{depositAddress.address}</p>
             </span>
-            <p className='font-mono'>{depositAddress.address}</p>
-          </span>
+          </div>
         </div>
       )}
     </section>

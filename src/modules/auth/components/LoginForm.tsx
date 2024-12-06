@@ -40,9 +40,9 @@ const LoginForm: FC<LoginFormProps> = ({ redirectTo }) => {
     onSubmit: async ({ email, password }) => {
       setSubmitting(true);
       const res = await login({ username: email, password });
-      setSubmitting(false);
       if ('detail' in res) {
         toast.error(res.detail);
+        setSubmitting(false);
 
         return;
       }

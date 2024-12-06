@@ -53,7 +53,10 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, loading, asChild = false, children, ...props }, ref) => {
+  (
+    { className, variant, size, loading, onClick, asChild = false, children, ...props },
+    ref,
+  ) => {
     const Comp = asChild ? Slot : 'button';
 
     return (
@@ -61,6 +64,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({ size, variant, className }))}
         ref={ref}
         {...props}
+        onClick={
+          onClick
+            ? (e) => {
+                if (loading) {
+                  return;
+                }
+                onClick(e);
+              }
+            : undefined
+        }
       >
         {loading ? (
           <CgSpinner className='animate-spin  text-zinc-900 size-5' />

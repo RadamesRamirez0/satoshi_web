@@ -2,6 +2,7 @@ import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { cva, VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 import { useState } from 'react';
+import { CgSpinner } from 'react-icons/cg';
 import { NumericFormat } from 'react-number-format';
 
 import { cn } from '@/modules/common/ui/lib/utils';
@@ -13,6 +14,7 @@ export interface InputProps
   state?: string;
   setState?: React.Dispatch<React.SetStateAction<string>>;
   decimals?: number;
+  loading?: boolean;
 }
 
 export const inputVariants = cva(
@@ -45,7 +47,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       autoComplete = 'off',
       numeric = false,
       decimals = 2,
-
+      loading = false,
       ...props
     },
     ref,
@@ -55,6 +57,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     if (numeric) {
       return (
         <NumericFormat
+          onChange={props.onChange}
           allowNegative={false}
           decimalScale={decimals}
           thousandSeparator
@@ -90,6 +93,22 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               }}
             />
           )}
+        </div>
+      );
+    }
+
+    if (loading) {
+      return (
+        <div className='relative'>
+          <input
+            type={type}
+            autoComplete={autoComplete}
+            className={cn(inputVariants({ error }), className)}
+            ref={ref}
+            {...props}
+          />
+
+          <CgSpinner className='animate-spin  text-zinc-100 size-5 absolute inset-y-0 inset-x-0 m-auto z-10' />
         </div>
       );
     }

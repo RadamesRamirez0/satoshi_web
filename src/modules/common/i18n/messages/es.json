@@ -141,7 +141,8 @@
     "subtitle": "Deposita fondos en tu cuenta Satoshi",
     "selectCurrency": "Seleccionar moneda",
     "network": "Red",
-    "address": "Dirección:"
+    "address": "Dirección:",
+    "instruction": "Deposita a la siguiente dirección, agregaremos el monto a tu wallet de Satoshi"
   },
   "Withdraw": {
     "title": "Retirar",
@@ -149,7 +150,10 @@
     "selectCurrency": "Seleccionar moneda",
     "network": "Red",
     "address": "Dirección",
-    "amount": "Monto"
+    "amount": "Monto",
+    "requestingWithdraw": "Solicitando retiro",
+    "successfullRequest": "Retiro solicitado correctamente",
+    "mainAction": "Solicitar Retiro"
   },
   "Combobox": {
     "noResults": "No se encontraron resultados"
@@ -232,7 +236,23 @@
   "P2PView": {
     "newAnnouncement": "Nuevo anuncio",
     "buy": "Compra",
-    "sell": "Venta"
+    "sell": "Venta",
+    "all": "Todos",
+    "disabledRefresh": "Desactivado",
+    "refresh": "{seconds} segundos",
+    "price": "Precio",
+    "minimum_order_size": "Mínimo orden",
+    "maximum_order_size": "Máximo orden",
+    "orderBy": "Ordenar por ",
+    "allPayments": "Todos los métodos",
+    "allBase": "Todas base",
+    "allQuote": "Todas quote",
+    "noAnnouncements": "Sin anuncios",
+    "loading": "Cargando anuncios",
+    "selectBase": "Selecciona base",
+    "selectQuote": "Selecciona quote",
+    "selectOrderType": "Selecciona tipo anuncio",
+    "myAnnouncements": "Mis anuncios"
   },
   "SelectPaymentMethod": {
     "title": "Selecciona el método de pago"
@@ -263,20 +283,20 @@
     "updatingAliasError": "Ocurrió un error al actualizar tu alias"
   },
   "PhoneOTP": {
-    "title": "Confirm your phone number",
-    "description": "We will send you a SMS with an OTP code to your number",
-    "skipLabel": "Do it later",
-    "phoneLabel": "Enter your phone number",
-    "sendAction": "Send OTP",
-    "otpLabel": "Enter the OTP code sent to your phone",
-    "sendAgain": "Send again"
+    "title": "Confirma tu número telefónico",
+    "description": "Te enviaremos un SMS con un código OTP a tu teléfono",
+    "skipLabel": "Hacer más tarde",
+    "phoneLabel": "Ingresa tu número telefónico",
+    "sendAction": "Enviar OTP",
+    "otpLabel": "Ingresa el código OTP enviado a tu teléfono",
+    "sendAgain": "Enviar de nuevo"
   },
   "EmailOTP": {
-    "title": "Confirm your email address",
-    "description": "We sent you an Email with an OTP code",
-    "skipLabel": "Do it later",
-    "sendAction": "Send OTP",
-    "otpLabel": "Enter the OTP code sent to your email",
-    "sendAgain": "Send again"
+    "title": "Confirmar tu correo electrónico",
+    "description": "Te enviamos un Email con un código OTP",
+    "skipLabel": "Hacer más tarde",
+    "sendAction": "Enviar OTP",
+    "otpLabel": "Ingresa el código OTP enviado a tu teléfono",
+    "sendAgain": "Enviar de nuevo"
   }
 }
