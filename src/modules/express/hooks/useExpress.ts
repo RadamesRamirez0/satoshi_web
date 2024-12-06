@@ -56,6 +56,7 @@ const useExpress = (): UseExpressValues => {
   const [fiatCurrencies, setFiatCurrencies] = useState<Currency[]>();
   const [cryptoCurrencies, setCryptoCurrencies] = useState<Currency[]>();
   const [paymentMethod, setPaymentMethod] = useState<string>();
+  const [lastModified, setLastModified] = useState<'pay' | 'receive'>('pay');
 
   const getData = async (values: PriceEstimationDTO) =>
     await expressRepository.getPriceEstimation({
@@ -65,6 +66,8 @@ const useExpress = (): UseExpressValues => {
     });
 
   const handlePay = (payAmount: string) => {
+    setLastModified('pay');
+
     if (!data?.price) {
       return;
     }
@@ -94,6 +97,7 @@ const useExpress = (): UseExpressValues => {
   };
 
   const handleReceive = (receiveAmount: string) => {
+    setLastModified('receive');
     if (!data?.price) {
       return;
     }
@@ -165,27 +169,18 @@ const useExpress = (): UseExpressValues => {
   }, [base, quote, orderType, pay, receive, paymentMethod]);
 
   useEffect(() => {
-    // const quote = orderType === 'buy' ? pay : receive;
-    // console.log(quote);
-    // const precision =
-    //   orderType === 'buy' ? payCurrency?.precision : receiveCurrency?.precision;
+    if (!data) {
+      return;
+    }
 
-    // const isError: boolean =
-    //   parseFloat(
-    //     Autonumeric.unformat(quote, {
-    //       decimalPlaces: precision,
-    //       allowDecimalPadding: 'floats',
-    //     }).toString(),
-    //   ) < parseFloat(data?.minimum_order_amount ?? '100') ||
-    //   parseFloat(
-    //     Autonumeric.unformat(quote, {
-    //       decimalPlaces: precision,
-    //       allowDecimalPadding: 'floats',
-    //     }).toString(),
-    //   ) > parseFloat(data?.maximum_order_amount ?? '2000');
+    if (lastModified === 'pay') {
+      handlePay(pay);
 
-    setIsErrorQuote(false);
-  }, [pay, receive]);
+      return;
+    }
+
+    handleReceive(receive);
+  }, [data]);
 
   useEffect(() => {
     setPay('');

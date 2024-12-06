@@ -19,7 +19,10 @@ const P2PView = async () => {
 
   return (
     <div>
-      <div className='flex justify-end w-full '>
+      <div className='flex justify-end w-full gap-3'>
+        <Button variant='link' asChild>
+          <Link href='/p2p/announcements/me'>{t('myAnnouncements')}</Link>
+        </Button>
         <Button asChild>
           <Link href='/p2p/announcements/create'>{t('newAnnouncement')}</Link>
         </Button>

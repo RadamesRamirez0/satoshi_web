@@ -3,9 +3,10 @@ import Image from 'next/image';
 import React from 'react';
 
 import { useRouter } from '@/modules/common/i18n/routing';
+import { Badge } from '@/modules/common/ui/components/badge';
 import { Button } from '@/modules/common/ui/components/button';
 import { cn } from '@/modules/common/ui/lib/utils';
-import { capitalizeSnakedWords } from '@/modules/common/utils/strings';
+import { capitalizeSnakedWords, capitalizeWords } from '@/modules/common/utils/strings';
 import { OrderType } from '@/modules/express/models/orderType';
 import { paymentsColors } from '@/modules/p2p/constants/paymentsColors';
 
@@ -163,14 +164,39 @@ export const TradeCell = React.forwardRef<HTMLTableCellElement, TradeCellProps>(
         {...props}
       >
         <Button
-          variant={announcementType === 'buy' ? 'green' : 'orange'}
+          variant={announcementType === 'sell' ? 'green' : 'orange'}
           className='font-bold'
           onClick={() => {}}
         >
-          {announcementType === 'buy' ? 'Buy TBTC' : 'Sell TBTC'}
+          {announcementType === 'sell' ? 'Buy TBTC' : 'Sell TBTC'}
         </Button>
       </td>
     );
   },
 );
 TradeCell.displayName = 'TradeCell';
+
+export type StatusCellProps = React.TdHTMLAttributes<HTMLTableCellElement>;
+
+export const StatusCell = React.forwardRef<HTMLTableCellElement, StatusCellProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <td
+        ref={ref}
+        className={cn(
+          'py-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] flex items-center px-2',
+          className,
+        )}
+        {...props}
+      >
+        <Badge
+          variant={children === 'open' ? 'default' : 'secondary'}
+          className='text-sm'
+        >
+          {capitalizeWords((children as string) || '').toString()}
+        </Badge>
+      </td>
+    );
+  },
+);
+StatusCell.displayName = 'StatusCell';

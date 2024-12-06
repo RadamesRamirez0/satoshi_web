@@ -234,7 +234,23 @@
   "P2PView": {
     "newAnnouncement": "New Announcement",
     "buy": "Buy",
-    "sell": "Sell"
+    "sell": "Sell",
+    "all": "All",
+    "disabledRefresh": "Disabled",
+    "refresh": "{seconds} seconds",
+    "price": "Price",
+    "minimum_order_size": "Min order size",
+    "maximum_order_size": "Max order size",
+    "orderBy": "Order by ",
+    "allPayments": "All methods",
+    "allBase": "All base",
+    "allQuote": "All quote",
+    "noAnnouncements": "No announcements",
+    "loading": "Loading announcements",
+    "selectBase": "Select base",
+    "selectQuote": "Select quote",
+    "selectOrderType": "Select order type",
+    "myAnnouncements": "My Announcements"
   },
   "SelectPaymentMethod": {
     "title": "Select Payment Method"
