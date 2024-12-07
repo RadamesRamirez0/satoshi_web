@@ -10,7 +10,7 @@ export const estimateBase = (quote: string, price: string, fee: string): string 
 
   const baseWithoutFee = base - base * parseFloat(fee);
 
-  return baseWithoutFee.toString();
+  return baseWithoutFee.toFixed(8).toString();
 };
 
 export const estimateQuote = (base: string, price: string, fee: string): string => {
@@ -23,7 +23,7 @@ export const estimateQuote = (base: string, price: string, fee: string): string 
 
   const quotePlusFee = quote + quote * parseFloat(fee);
 
-  return quotePlusFee.toString();
+  return quotePlusFee.toFixed(2).toString();
 };
 
 export const estimateFeeWithBase = (base: string, fee: string): string => {

@@ -237,6 +237,8 @@
     "newAnnouncement": "Nuevo anuncio",
     "buy": "Compra",
     "sell": "Venta",
+    "buyAction": "Comprar",
+    "sellAction": "Vender",
     "all": "Todos",
     "disabledRefresh": "Desactivado",
     "refresh": "{seconds} segundos",
@@ -252,7 +254,14 @@
     "selectBase": "Selecciona base",
     "selectQuote": "Selecciona quote",
     "selectOrderType": "Selecciona tipo anuncio",
-    "myAnnouncements": "Mis anuncios"
+    "myAnnouncements": "Mis anuncios",
+    "available": "Disponible",
+    "limits": "Límites",
+    "paymentDuration": "Duración pago",
+    "paymentMethod": "Método pago",
+    "updateOn": "Actualizando en ",
+    "payLabel": "Pagaré",
+    "receiveLabel": "Recibiré"
   },
   "SelectPaymentMethod": {
     "title": "Selecciona el método de pago"

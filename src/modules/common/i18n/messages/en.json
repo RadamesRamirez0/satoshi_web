@@ -239,6 +239,8 @@
     "newAnnouncement": "New Announcement",
     "buy": "Buy",
     "sell": "Sell",
+    "buyAction": "Buy",
+    "sellAction": "Sell",
     "all": "All",
     "disabledRefresh": "Disabled",
     "refresh": "{seconds} seconds",
@@ -254,7 +256,14 @@
     "selectBase": "Select base",
     "selectQuote": "Select quote",
     "selectOrderType": "Select order type",
-    "myAnnouncements": "My Announcements"
+    "myAnnouncements": "My Announcements",
+    "available": "Available",
+    "limits": "Limits",
+    "paymentDuration": "Payment Duration",
+    "paymentMethod": "Payment Method",
+    "updateOn": "Updating on ",
+    "payLabel": "I will pay",
+    "receiveLabel": "I will receive"
   },
   "SelectPaymentMethod": {
     "title": "Select Payment Method"

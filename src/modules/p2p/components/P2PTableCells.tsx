@@ -2,12 +2,13 @@ import { CheckIcon, ClockIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import React from 'react';
 
-import { useRouter } from '@/modules/common/i18n/routing';
 import { Badge } from '@/modules/common/ui/components/badge';
 import { Button } from '@/modules/common/ui/components/button';
+import { Dialog, DialogTrigger } from '@/modules/common/ui/components/dialog';
 import { cn } from '@/modules/common/ui/lib/utils';
 import { capitalizeSnakedWords, capitalizeWords } from '@/modules/common/utils/strings';
 import { OrderType } from '@/modules/express/models/orderType';
+import TakeAnnouncement from '@/modules/p2p/components/TakeAnnouncement';
 import { paymentsColors } from '@/modules/p2p/constants/paymentsColors';
 
 export interface AdvertiserCellProps
@@ -105,8 +106,8 @@ export const AvailableCell = React.forwardRef<HTMLTableCellElement, AvailableCel
         {available} {base.toUpperCase()}
       </p>
       <span className='flex gap-1'>
-        <p>{`$${minOrder} ${quote.toUpperCase()} -`}</p>
-        <p>{` $${maxOrder} ${quote.toUpperCase()}`}</p>
+        <p>{`$${minOrder} ${base.toUpperCase()} -`}</p>
+        <p>{` $${maxOrder} ${base.toUpperCase()}`}</p>
       </span>
     </td>
   ),
@@ -152,8 +153,6 @@ export interface TradeCellProps extends React.TdHTMLAttributes<HTMLTableCellElem
 
 export const TradeCell = React.forwardRef<HTMLTableCellElement, TradeCellProps>(
   ({ className, announcementId, announcementType, ...props }, ref) => {
-    const router = useRouter();
-
     return (
       <td
         ref={ref}
@@ -163,13 +162,17 @@ export const TradeCell = React.forwardRef<HTMLTableCellElement, TradeCellProps>(
         )}
         {...props}
       >
-        <Button
-          variant={announcementType === 'sell' ? 'green' : 'orange'}
-          className='font-bold'
-          onClick={() => {}}
-        >
-          {announcementType === 'sell' ? 'Buy TBTC' : 'Sell TBTC'}
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant={announcementType === 'sell' ? 'green' : 'orange'}
+              className='font-bold'
+            >
+              {announcementType === 'sell' ? 'Buy TBTC' : 'Sell TBTC'}
+            </Button>
+          </DialogTrigger>
+          <TakeAnnouncement announcementId={announcementId} />
+        </Dialog>
       </td>
     );
   },
