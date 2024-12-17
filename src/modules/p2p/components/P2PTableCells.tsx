@@ -171,7 +171,7 @@ export const TradeCell = React.forwardRef<HTMLTableCellElement, TradeCellProps>(
               {announcementType === 'sell' ? 'Buy TBTC' : 'Sell TBTC'}
             </Button>
           </DialogTrigger>
-          <TakeAnnouncement announcementId={announcementId} />
+          <TakeAnnouncement announcementId={announcementId} key={announcementId} />
         </Dialog>
       </td>
     );

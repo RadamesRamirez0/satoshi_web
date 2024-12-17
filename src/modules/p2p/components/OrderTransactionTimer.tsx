@@ -2,16 +2,19 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { cn } from '@/modules/common/ui/lib/utils';
 import parseTsToDate from '@/modules/common/utils/parseTsToDate';
 
 export interface OrderTransactionTimerProps {
   createdAt: string;
   timeToComplete: string;
+  small?: boolean;
 }
 
 const OrderTransactionTimer = ({
   createdAt,
   timeToComplete,
+  small = false,
 }: OrderTransactionTimerProps) => {
   const [timeLeft, setTimeLeft] = useState<Date>(new Date(0));
   const [minutes, setMinutes] = useState<string>('00');
@@ -58,7 +61,11 @@ const OrderTransactionTimer = ({
     return null;
   }
 
-  return <p className='text-primary text-2xl font-bold'>{`${minutes}:${seconds}`}</p>;
+  return (
+    <p
+      className={cn('text-primary text-2xl font-bold', small && 'text-sm')}
+    >{`${minutes}:${seconds}`}</p>
+  );
 };
 
 export default OrderTransactionTimer;

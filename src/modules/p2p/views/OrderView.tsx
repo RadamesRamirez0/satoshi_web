@@ -9,6 +9,7 @@ import Chat, { NewMessage } from '@/modules/common/shared-ui/components/Chat';
 import SimpleCard from '@/modules/common/shared-ui/components/simpleCard';
 import { Separator } from '@/modules/common/ui/components/separator';
 import { capitalizeSnakedWords } from '@/modules/common/utils/strings';
+import { toast } from '@/modules/common/utils/toast';
 import OrderAction from '@/modules/p2p/components/OrderAction';
 import OrderTransactionTimer from '@/modules/p2p/components/OrderTransactionTimer';
 import { Message } from '@/modules/p2p/models/message';
@@ -102,7 +103,9 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
       headers: {
         Authorization: `Bearer ${session.token}`,
       },
-    }).catch(() => false);
+    }).catch(() => {
+      return false;
+    });
 
     if (typeof res === 'boolean') {
       return false;
@@ -110,9 +113,15 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
 
     const json = (await res.json()) as SendMessageResponse;
 
+    if ('detail' in json) {
+      toast.error(json.detail as string);
+    }
+
     getMessages();
 
     if (json.error) {
+      toast.error(json.error);
+
       return false;
     }
 
@@ -140,6 +149,14 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
     return () => clearInterval(interval);
   }, [session?.token, order]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getOrder();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [session?.token]);
+
   if (order && 'detail' in order) {
     return <div>{order.detail}</div>;
   }
@@ -153,22 +170,35 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
   }
 
   const userType = order.maker_user_id === me.data.id ? 'maker' : 'taker';
-  const buying = userType === 'taker' && order.order_type === 'buy';
+  const buying =
+    (userType === 'taker' && order.order_type === 'buy') ||
+    (userType === 'maker' && order.order_type === 'sell');
 
   return (
     <div className='flex gap-6 justify-between'>
       <div>
         <span className='flex gap-1'>
           <h2 className='text-whiteBG text-2xl font-bold inline-flex items-center flex-wrap'>
-            {t(
-              order.status === 'pending'
-                ? 'title'
-                : order.status === 'waiting_seller_release'
-                  ? 'pendingRelease'
-                  : order.status === 'on_appeal'
-                    ? 'orderAppeal'
-                    : 'orderCompleted',
-            )}{' '}
+            {buying &&
+              t(
+                order.status === 'pending'
+                  ? 'title'
+                  : order.status === 'waiting_seller_release'
+                    ? 'pendingRelease'
+                    : order.status === 'on_appeal'
+                      ? 'orderAppeal'
+                      : 'orderCompleted',
+              )}
+            {!buying &&
+              t(
+                order.status === 'pending'
+                  ? 'titleSeller'
+                  : order.status === 'waiting_seller_release'
+                    ? 'pendingRelease'
+                    : order.status === 'on_appeal'
+                      ? 'orderAppeal'
+                      : 'orderCompleted',
+              )}
             <span className='inline-block ml-1'>
               {!['on_appeal', 'complete'].includes(order.status) && (
                 <OrderTransactionTimer
@@ -218,6 +248,12 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
             <p className='text-whiteBG/80 pb-2'>{t('notifySellerDescrption')}</p>
           </>
         )}
+        {buying && ['waiting_seller_release', 'pending'].includes(order.status) && (
+          <>
+            <h3 className='text-xl font-bold pt-4'>{t('pendingRelease')}</h3>
+            <p className='text-whiteBG/80 pb-2'>{t('pendingReleaseDesc')}</p>
+          </>
+        )}
         {!buying && order.status === 'waiting_seller_release' && (
           <>
             <h3 className='text-xl font-bold pt-4'>{t('step3selling')}</h3>
@@ -226,14 +262,12 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
         )}
 
         <span className='flex items-center gap-3'>
-          {buying && (
-            <OrderAction
-              buying={buying}
-              orderId={order.id}
-              status={order.status}
-              postSubmit={getOrder}
-            />
-          )}
+          <OrderAction
+            buying={buying}
+            orderId={order.id}
+            status={order.status}
+            postSubmit={getOrder}
+          />
         </span>
       </div>
       <Chat

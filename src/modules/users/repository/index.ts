@@ -3,6 +3,7 @@ import { addPaymentMethod } from '@/modules/users/repository/addPaymentMethod';
 import { confirmEmail } from '@/modules/users/repository/confirmEmail';
 import { confirmPhoneOtp } from '@/modules/users/repository/confirmPhoneOtp';
 import { getPaymentMethods } from '@/modules/users/repository/getPaymentMethods';
+import { myOrders } from '@/modules/users/repository/myOrders';
 import { requestEmailOtp } from '@/modules/users/repository/requestEmailOtp';
 import { requestPhoneOtp } from '@/modules/users/repository/requestPhoneOtp';
 import { requestWithdraw } from '@/modules/users/repository/requestWithdraw';
@@ -23,6 +24,7 @@ const repository = {
   requestPhoneOtp,
   confirmPhoneOtp,
   requestWithdraw,
+  myOrders,
 };
 
 export const usersRepository = createRepository(repository);

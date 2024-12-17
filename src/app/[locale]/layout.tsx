@@ -5,6 +5,8 @@ import { Toaster } from 'react-hot-toast';
 
 import '../globals.css';
 
+import ActiveOrderBanner from '@/modules/common/shared-ui/components/ActiveOrderBanner';
+
 export const metadata: Metadata = {
   title: 'Satoshi Payments',
   description: 'La forma más fácil de comprar cripto.',
@@ -37,6 +39,7 @@ export default async function LocaleLayout({
       </head>
       <body className='flex flex-col'>
         <NextIntlClientProvider messages={messages}>
+          <ActiveOrderBanner />
           {children}
           <Toaster position='top-center' />
         </NextIntlClientProvider>

@@ -239,7 +239,7 @@ const TakeAnnouncement = ({ announcementId }: TakeAnnouncementProps) => {
   }
 
   if (data && 'error' in data) {
-    return <DialogContent>asd</DialogContent>;
+    return <DialogContent>Error</DialogContent>;
   }
 
   const announcement = data as Announcement;
@@ -258,7 +258,7 @@ const TakeAnnouncement = ({ announcementId }: TakeAnnouncementProps) => {
           </article>
           <article className='flex gap-3 justify-between'>
             <p className='text-muted-foreground font-medium'>{t('limits')}</p>
-            <p className='font-bold'>{`$${announcement.minimum_order_size} ${announcement.quote.toUpperCase()} - ${announcement.maximum_order_size} ${announcement.quote.toUpperCase()}`}</p>
+            <p className='font-bold'>{`$${announcement.minimum_order_size} ${announcement.base.toUpperCase()} - ${announcement.maximum_order_size} ${announcement.base.toUpperCase()}`}</p>
           </article>
           <article className='flex gap-3 justify-between'>
             <p className='text-muted-foreground font-medium'>{t('paymentDuration')}</p>

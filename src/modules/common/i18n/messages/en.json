@@ -270,6 +270,7 @@
   },
   "OrderView": {
     "title": "Order Created, Pay the Seller within",
+    "titleSeller": "Order Created, Wait for Payment within",
     "orderId": "Order ID",
     "fiatAmount": "Fiat Amount",
     "price": "Price",
@@ -288,7 +289,12 @@
     "pendingRelease": "Pending Release",
     "orderCompleted": "Order Completed",
     "orderAppeal": "Order on Appeal",
-    "orderCanceled": "Order Canceled"
+    "orderCanceled": "Order Canceled",
+    "pendingReleaseDesc": "The seller will release the cryptocurrency. If the release is delayed, the transaction will be escalated to an appeal.",
+    "on_appeal": "On appeal",
+    "waiting_seller_release": "Waiting release",
+    "pending": "Pending",
+    "bannerTitle": "Active orders"
   },
   "UserMe": {
     "updatingAliasError": "An error ocurred updating your alias"

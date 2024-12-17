@@ -268,6 +268,7 @@
   },
   "OrderView": {
     "title": "Orden creada, paga al vendedor en",
+    "titleSeller": "Order creada, espera el pago en",
     "orderId": "ID de la orden",
     "fiatAmount": "Monto en fiat",
     "price": "Precio",
@@ -286,7 +287,12 @@
     "pendingRelease": "Liberación pendiente",
     "orderCompleted": "Orden Completada",
     "orderAppeal": "Orden en Apelación",
-    "orderCanceled": "Orden Cancelada"
+    "orderCanceled": "Orden Cancelada",
+    "pendingReleaseDesc": "El vendedor liberará la criptomoneda. Si la liberación se retrasa, la transacción se escalará a una apelación.",
+    "on_appeal": "En apelación",
+    "waiting_seller_release": "Esperando liberación",
+    "pending": "Pendiente",
+    "bannerTitle": "Órdenes activas"
   },
   "UserMe": {
     "updatingAliasError": "Ocurrió un error al actualizar tu alias"

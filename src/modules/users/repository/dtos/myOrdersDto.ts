@@ -1,4 +1,3 @@
-import { ApiResponse } from '@/modules/common/interfaces/apiResponse';
-import { Order } from '@/modules/p2p/views/P2PView';
+import { Order } from '@/modules/p2p/models/order';
 
-export type MyOrdersResponse = ApiResponse<Order[]> | { detail: string };
+export type MyOrdersResponse = Order[] | { detail: string };
