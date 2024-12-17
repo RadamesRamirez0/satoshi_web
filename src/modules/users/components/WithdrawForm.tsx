@@ -41,7 +41,7 @@ const WithdrawForm = () => {
     const res = await usersRepository
       .requestWithdraw({
         body: {
-          amount: 1,
+          amount: parseFloat(amount === '' ? '0' : amount),
           currency_id: currency.id,
           destination_address: depositAddress,
         },

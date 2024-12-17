@@ -58,6 +58,8 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
     quote,
     setPaymentMethod,
     paymentMethod,
+    userMethod,
+    setUserMethod,
   } = useExpressContext();
 
   return (
@@ -164,21 +166,23 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                     className='w-full text-lg py-6 h-min justify-start rounded-xl'
                     variant='outline'
                   >
-                    {paymentMethod
-                      ? capitalizeSnakedWords(paymentMethod)
-                      : t('selectPaymentMethod')}
+                    {(type === 'buy' && paymentMethod?.name) ?? t('selectPaymentMethod')}
+                    {(type === 'sell' &&
+                      userMethod?.id &&
+                      capitalizeSnakedWords(userMethod.payment_method_id)) ??
+                      t('selectPaymentMethod')}
                   </Button>
                 )}
               </DialogTrigger>
               {type === 'buy' && (
                 <SelectPaymentMethod
-                  onSubmit={(p) => setPaymentMethod(p.id)}
+                  onSubmit={(p) => setPaymentMethod(p)}
                   onClose={() => setSelectingPayment(false)}
                 />
               )}
               {type === 'sell' && (
                 <UserPaymentMethods
-                  onSubmit={(p) => setPaymentMethod(p.payment_method_id)}
+                  onSubmit={(p) => setUserMethod(p)}
                   onClose={() => setSelectingPayment(false)}
                   modal
                 />

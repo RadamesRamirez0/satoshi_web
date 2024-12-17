@@ -13,6 +13,8 @@ import { PriceEstimation } from '@/modules/express/models/priceEstimation';
 import { expressRepository } from '@/modules/express/repository';
 import { PriceEstimationDTO } from '@/modules/express/repository/dtos/priceEstimationDto';
 import { estimateBase, estimateQuote } from '@/modules/express/utils/estimateFiat';
+import { PaymentMethod } from '@/modules/p2p/models/paymentMethod';
+import { UserPaymentMethod } from '@/modules/users/models/userPaymentMethod';
 
 export interface UseExpressValues {
   data?: PriceEstimation;
@@ -34,8 +36,10 @@ export interface UseExpressValues {
   setReceiveCurrency: Dispatch<SetStateAction<Currency | undefined>>;
   base: string;
   quote: string;
-  paymentMethod?: string;
-  setPaymentMethod: Dispatch<SetStateAction<string | undefined>>;
+  paymentMethod?: PaymentMethod;
+  setPaymentMethod: Dispatch<SetStateAction<PaymentMethod | undefined>>;
+  userMethod?: UserPaymentMethod;
+  setUserMethod: Dispatch<SetStateAction<UserPaymentMethod | undefined>>;
 }
 
 export interface InitialExpressValues {
@@ -55,7 +59,8 @@ const useExpress = (): UseExpressValues => {
   const [base, setBase] = useState<string>('');
   const [fiatCurrencies, setFiatCurrencies] = useState<Currency[]>();
   const [cryptoCurrencies, setCryptoCurrencies] = useState<Currency[]>();
-  const [paymentMethod, setPaymentMethod] = useState<string>();
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>();
+  const [userMethod, setUserMethod] = useState<UserPaymentMethod>();
   const [lastModified, setLastModified] = useState<'pay' | 'receive'>('pay');
 
   const getData = async (values: PriceEstimationDTO) =>
@@ -147,7 +152,7 @@ const useExpress = (): UseExpressValues => {
       quote_currency: quote.toLowerCase(),
       order_type: orderType,
       amount_in_quote_currency: (orderType === 'buy' ? receive : pay) || undefined,
-      payment_method: paymentMethod ?? undefined,
+      payment_method: paymentMethod?.id ?? undefined,
     }).then((r) => {
       if (!r.data) {
         return;
@@ -242,6 +247,8 @@ const useExpress = (): UseExpressValues => {
     quote,
     paymentMethod,
     setPaymentMethod,
+    userMethod,
+    setUserMethod,
   };
 };
 

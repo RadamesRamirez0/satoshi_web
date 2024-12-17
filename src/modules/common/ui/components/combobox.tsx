@@ -79,6 +79,7 @@ function Combobox<T>({
                 className={cn(
                   'justify-between text-gray-400 text-base font-medium group h-[2.875rem]',
                   label && 'text-whiteBG/90 hover:text-whiteBG',
+                  open && 'bg-background',
                   triggerClassName,
                 )}
                 size={size}
@@ -93,7 +94,12 @@ function Combobox<T>({
                     (label ?? defaultLabel)
                   )}
                 </div>
-                <ChevronDownIcon className='size-5 ml-2 text-whiteBG/80 group-hover:text-whiteBG transition-colors' />
+                <ChevronDownIcon
+                  className={cn(
+                    'size-5 ml-2 text-whiteBG/80 group-hover:text-whiteBG transition-all',
+                    open && 'rotate-180',
+                  )}
+                />
               </Button>
             </PopoverTrigger>
             <PopoverContent
