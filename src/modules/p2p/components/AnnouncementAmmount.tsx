@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import HintText from '@/modules/common/ui/components/hintText';
@@ -8,6 +9,7 @@ import { useCreateAnnouncementContext } from '@/modules/p2p/contexts/CreateAnnou
 
 const AnnouncementAmmount = () => {
   const { formik } = useCreateAnnouncementContext();
+  const t = useTranslations('CreateAnnouncement');
 
   const { amount, base, quote } = formik.values;
 
@@ -15,11 +17,11 @@ const AnnouncementAmmount = () => {
     <div className='space-y-6 pb-4'>
       <span className='flex flex-col'>
         <Label className='text-lg' htmlFor='amount'>
-          Total Amount
+          {t('totalAmount')}
         </Label>
         <NumericInput
           id='amount'
-          placeholder='Enter the amount'
+          placeholder={t('amountPlaceholder')}
           className='w-full  md:w-[28rem]'
           value={amount}
           onValueChange={(v) => void formik.setFieldValue('amount', v.value)}
@@ -38,23 +40,23 @@ const AnnouncementAmmount = () => {
         </HintText>
       </span>
       <div>
-        <Label className='text-lg'>Order Limit</Label>
+        <Label className='text-lg'>{t('orderLimit')}</Label>
         <span className='flex flex-col md:flex-row items-center mt-2 md:gap-4'>
           <span className='relative w-full md:w-auto'>
             <Label className='text-base text-whiteBG/80' htmlFor='minimum_order_size'>
-              Minimum size
+              {t('minimum')}
             </Label>
             <NumericInput
               id='minimum_order_size'
               onBlur={formik.handleBlur}
-              placeholder='Enter the amount'
+              placeholder={t('amountPlaceholder')}
               className='w-full md:w-[12.5rem]'
               value={formik.values.minimum_order_size}
               onValueChange={(v) =>
                 void formik.setFieldValue('minimum_order_size', v.value)
               }
-              decimals={2}
-              trailingText={quote?.symbol.toUpperCase()}
+              decimals={8}
+              trailingText={base?.symbol.toUpperCase()}
             />
             <HintText
               variant='error'
@@ -72,19 +74,19 @@ const AnnouncementAmmount = () => {
           <p className='text-2xl font-bold pt-4 hidden md:flex'>~</p>
           <span className='relative w-full md:auto'>
             <Label className='text-base text-whiteBG/80' htmlFor='maximum_order_size'>
-              Maximum size
+              {t('maximum')}
             </Label>
             <NumericInput
               id='maximum_order_size'
               onBlur={formik.handleBlur}
-              placeholder='Enter the amount'
+              placeholder={t('amountPlaceholder')}
               className='md:w-[12.5rem]'
               value={formik.values.maximum_order_size}
               onValueChange={(v) =>
                 void formik.setFieldValue('maximum_order_size', v.value)
               }
-              decimals={2}
-              trailingText={quote?.symbol.toUpperCase()}
+              decimals={8}
+              trailingText={base?.symbol.toUpperCase()}
             />
             <HintText
               variant='error'

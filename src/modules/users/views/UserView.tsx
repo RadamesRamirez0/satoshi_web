@@ -18,7 +18,12 @@ const UserView = async () => {
 
   return (
     <div className='py-8 px-12 space-y-12'>
-      <UserMeAlias initialAlias={user.data.alias} email={user.data.email} />
+      <UserMeAlias
+        initialAlias={user.data.alias}
+        email={user.data.email}
+        referal={user.data.referal_code}
+        referalUses={user.data.available_invites}
+      />
       <DashboardVerificationSteps />
     </div>
   );

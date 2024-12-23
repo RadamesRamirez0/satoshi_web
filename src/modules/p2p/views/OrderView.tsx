@@ -234,7 +234,7 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
           </span>
           <span className='flex justify-between w-full font-bold'>
             <p className='text-whiteBG/80'>{t('price')}</p>
-            <p>{`${order.price} ${order.from_currency_id.toUpperCase()}`}</p>
+            <p>{`${order.price} ${(order.order_type === 'buy' ? order.from_currency_id : order.to_currency_id).toUpperCase()}`}</p>
           </span>
           <span className='flex justify-between w-full font-bold'>
             <p className='text-whiteBG/80'>{t('receiveQuantity')}</p>

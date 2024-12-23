@@ -8,4 +8,6 @@ export interface User {
   partner_id: string;
   kyc_level: number;
   alias: string;
+  referal_code: string;
+  available_invites: number;
 }

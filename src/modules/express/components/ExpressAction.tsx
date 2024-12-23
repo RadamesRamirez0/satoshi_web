@@ -53,7 +53,7 @@ export const ExpressAction = () => {
       });
   };
 
-  if (session?.user.email_is_verified && session.user.kyc_level === 1) {
+  if (session?.user.email_is_verified && session.user.kyc_level > 0) {
     return (
       <Button
         className='w-full rounded-xl'
@@ -99,9 +99,35 @@ export const ExpressAction = () => {
     );
   }
 
+  let redirectTo = `/express/?type=${orderType}`;
+  if (pay) {
+    redirectTo += `&pay=${pay}`;
+  }
+  if (receive) {
+    redirectTo += `&receive=${receive}`;
+  }
+  if (orderType === 'buy') {
+    if (payCurrency?.id) {
+      redirectTo += `&quote=${payCurrency.id}`;
+    }
+    if (receiveCurrency?.id) {
+      redirectTo += `&base=${receiveCurrency.id}`;
+    }
+  }
+  if (orderType === 'sell') {
+    if (payCurrency?.id) {
+      redirectTo += `&base=${payCurrency.id}`;
+    }
+    if (receiveCurrency?.id) {
+      redirectTo += `&quote=${receiveCurrency.id}`;
+    }
+  }
+
   return (
     <Button className='w-full rounded-xl' size='xl' asChild>
-      <Link href='/auth/login'>{t('loginSign')}</Link>
+      <Link href={`/auth/login?redirectTo=${encodeURIComponent(redirectTo)}`}>
+        {t('loginSign')}
+      </Link>
     </Button>
   );
 };

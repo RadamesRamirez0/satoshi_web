@@ -24,7 +24,6 @@ export const KycView = () => {
       accessToken={token}
       expirationHandler={getToken}
       onMessage={(type, payload) => {
-        console.log(type, payload);
         if (
           type === 'idCheck.onApplicantSubmitted' ||
           type === 'idCheck.onApplicantReviewComplete' ||

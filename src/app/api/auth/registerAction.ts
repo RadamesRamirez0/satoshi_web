@@ -32,7 +32,7 @@ export const register = async (values: RegisterDTO): Promise<RegisterResponse> =
   const loginRes = await login({ username: values.email, password: values.password });
 
   if ('detail' in loginRes) {
-    console.log(JSON.stringify(res));
+    // console.log(JSON.stringify(res));
 
     return { error: t('defaultError'), data: null };
   }

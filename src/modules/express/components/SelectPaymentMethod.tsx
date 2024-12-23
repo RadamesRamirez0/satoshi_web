@@ -23,7 +23,6 @@ const SelectPaymentMethod = ({ onClose, onSubmit }: SelectPaymentMethodProps) =>
       return;
     }
     void p2pRepository.paymentMethods({ token: session.token }).then((methods) => {
-      console.log(methods);
       if (methods.error || !methods.data) {
         return;
       }

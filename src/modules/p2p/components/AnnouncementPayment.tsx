@@ -1,4 +1,5 @@
 import { Cross1Icon, PlusIcon } from '@radix-ui/react-icons';
+import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 
 import { Badge } from '@/modules/common/ui/components/badge';
@@ -15,11 +16,12 @@ import UserPaymentMethods from '@/modules/users/components/UserPaymentMethods';
 const AnnouncementPayment = () => {
   const [selectPayment, setSelectPayment] = useState(false);
   const { formik } = useCreateAnnouncementContext();
+  const t = useTranslations('CreateAnnouncement');
 
   return (
     <div className='space-y-3'>
       <span className='flex flex-col'>
-        <Label className='text-lg mb-1'>Payment Method</Label>
+        <Label className='text-lg mb-1'>{t('paymentMethod')}</Label>
         {!formik.values.payment_method?.id && (
           <Dialog open={selectPayment} onOpenChange={setSelectPayment}>
             <UserPaymentMethods
@@ -30,7 +32,7 @@ const AnnouncementPayment = () => {
             <DialogTrigger asChild>
               <Button className='w-min font-bold items-center'>
                 <PlusIcon className='size-5  mr-2' />
-                Add
+                {t('addPaymentMethod')}
               </Button>
             </DialogTrigger>
           </Dialog>
@@ -69,7 +71,7 @@ const AnnouncementPayment = () => {
         )}
       </span>
       <span className='flex flex-col relative'>
-        <Label className='text-lg'>Payment Time Limit</Label>
+        <Label className='text-lg'>{t('paymentTimeLimit')}</Label>
         <Combobox
           align='start'
           id='base'
@@ -83,11 +85,11 @@ const AnnouncementPayment = () => {
           dropdownAsTriggerWidth
           size='input'
           defaultLabel='Select Time'
-          label={`${formik.values.maximum_time_for_transaction_completion / 60} minutes`}
+          label={`${formik.values.maximum_time_for_transaction_completion / 60} ${t('minutes')}`}
         >
           {[900, 1800, 2700, 3600].map((time) => (
             <ComboboxItem key={time} value={time}>
-              {time / 60} minutes
+              {time / 60} {t('minutes')}
             </ComboboxItem>
           ))}
         </Combobox>

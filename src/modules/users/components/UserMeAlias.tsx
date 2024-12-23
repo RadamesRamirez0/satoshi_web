@@ -5,7 +5,9 @@ import { useTranslations } from 'next-intl';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
-import { apiUrl, baseImage } from '@/modules/common/constants/env';
+import { apiUrl } from '@/modules/common/constants/env';
+import { ApiResponse } from '@/modules/common/interfaces/apiResponse';
+import Clipboard from '@/modules/common/shared-ui/components/Clipboard';
 import { Button } from '@/modules/common/ui/components/button';
 import { Input } from '@/modules/common/ui/components/input';
 import { toast } from '@/modules/common/utils/toast';
@@ -15,10 +17,14 @@ import { usersRepository } from '@/modules/users/repository';
 export interface UserMeAliasProps {
   initialAlias: string;
   email: string;
+  referal: string;
+  referalUses: number;
 }
 
-const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
+const UserMeAlias = ({ initialAlias, email, referal, referalUses }: UserMeAliasProps) => {
   const [alias, setAlias] = useState(initialAlias);
+  const [referralCode, setReferralCode] = useState(referal);
+  const [editingReferral, setEditingReferral] = useState(false);
   const [editing, setEditing] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [updatingPhoto, setUpdatingPhoto] = useState(false);
@@ -28,6 +34,31 @@ const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
 
   const session = useSession();
   const t = useTranslations('UserMe');
+
+  const handleUpdateReferral = async () => {
+    if (!session) {
+      return;
+    }
+
+    setUpdating(true);
+    const res = await usersRepository.updateReferral({
+      body: { new_referal_code: referralCode },
+      token: session.token,
+    });
+
+    if (!res.data?.referal_code_updated) {
+      setReferralCode(referal);
+
+      if (res.error === 'Referal code already in use. Please choose a different code.') {
+        toast.error(t('referralUsed'));
+      } else {
+        toast.error(t('defaultReferralError'));
+      }
+    }
+
+    setUpdating(false);
+    setEditingReferral(false);
+  };
 
   const handleUpdateAlias = async () => {
     if (!session) {
@@ -60,7 +91,7 @@ const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
     formData.append('file', file);
     formData.append('file_type', 'profile_picture');
 
-    await fetch(`${apiUrl}/v1/users/upload_file`, {
+    const res = await fetch(`${apiUrl}/v1/users/upload_file`, {
       method: 'POST',
       body: formData,
       headers: {
@@ -68,8 +99,13 @@ const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
       },
     }).catch(() => toast.error('Error uploading photo'));
 
+    if (!(typeof res === 'string')) {
+      const url = (await res.json()) as ApiResponse<{ image_url: string }>;
+      console.log(url);
+      setPhotoProfile(url.data?.image_url);
+    }
+
     setUpdatingPhoto(false);
-    setPhotoProfile(`${baseImage}${session.user.id}/profile_picture.jpg`);
     setFile(undefined);
   };
 
@@ -78,7 +114,7 @@ const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
   }, [file]);
 
   return (
-    <div className='flex items-start gap-4'>
+    <div className='flex  gap-4 items-start'>
       <section className='flex'>
         <button
           className='hover:opacity-80 transition-opacity group relative size-18 flex-1 shrink-0'
@@ -90,8 +126,11 @@ const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
             ref={inputRef}
             onChange={(e) => setFile(e.target.files?.[0])}
           />
-
-          <PhotoProfile key={photoProfile} className='w-[56px]' />
+          {updatingPhoto ? (
+            <div className='rounded-full size-[56px] bg-white animate-pulse' />
+          ) : (
+            <PhotoProfile key={photoProfile} className='w-[56px]' />
+          )}
 
           <Pencil1Icon className='absolute hidden p-3 text-primary peer-hover:block group-hover:block top-0 bottom-0 left-0 right-0 z-10 w-full h-full bg-black/60 rounded-full transition-all' />
         </button>
@@ -116,12 +155,54 @@ const UserMeAlias = ({ initialAlias, email }: UserMeAliasProps) => {
               className='h-auto w-auto p-2'
               onClick={() => void handleUpdateAlias()}
               disabled={updating}
+              loading={updating}
             >
               <CheckIcon className='size-5 ' />
             </Button>
           )}
         </span>
         <p className='text-lg font-medium text-gray-400'>{email}</p>
+      </section>
+      <section className='flex-1 flex justify-end  flex-col items-end'>
+        <article className='flex  items-center article'>
+          {!editingReferral && (
+            <Button
+              size='icon'
+              variant='ghost'
+              className='h-auto w-auto p-2'
+              onClick={() => setEditingReferral(true)}
+            >
+              <Pencil1Icon className='size-4' />
+            </Button>
+          )}
+          {editingReferral && (
+            <Button
+              size='icon'
+              className='h-auto w-auto p-2'
+              onClick={() => void handleUpdateReferral()}
+              disabled={updating}
+              loading={updating}
+            >
+              <CheckIcon className='size-5 ' />
+            </Button>
+          )}
+          <p className='text-sm font-bold text-whiteBG/70 mr-3'>{t('referalCode')}</p>
+
+          <span className='flex gap-2 items-center'>
+            {!editingReferral && <p className='font-mono font-medium'>{referralCode}</p>}
+            {editingReferral && (
+              <Input
+                value={referralCode}
+                onChange={(e) => setReferralCode(e.target.value)}
+              />
+            )}
+            <Clipboard text={referralCode} />
+          </span>
+        </article>
+        <article className='flex gap-3 items-center'>
+          <p className='text-sm font-bold text-whiteBG/70'>{t('remainingUses')}</p>
+          <p className='font-medium'>{referalUses}</p>
+        </article>
       </section>
     </div>
   );

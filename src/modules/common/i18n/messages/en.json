@@ -186,7 +186,7 @@
     "pricePlaceholder": "Price",
     "priceRequired": "You must enter a price",
     "amount": "Amount",
-    "amountPlaceholder": "Amount",
+    "amountPlaceholder": "Enter the amount",
     "amountRequired": "You must enter an amount",
     "create": "Create",
     "createSuccess": "Announcement created successfully",
@@ -206,7 +206,14 @@
     "previous": "Previous",
     "confirmation": "Are you sure?",
     "confirmationDescription": "You are about to create an announcement. Please review the information before proceeding.",
-    "variable": "Variable Price Margin"
+    "variable": "Variable Price Margin",
+    "minimum": "Minimum size",
+    "maximum": "Maximum size",
+    "totalAmount": "Total Amount",
+    "orderLimit": "Order Limit",
+    "addPaymentMethod": "Add",
+    "paymentTimeLimit": "Payment Time Limit",
+    "minutes": "minutes"
   },
   "UserPaymentMethods": {
     "title": "Select Payment Method",
@@ -273,9 +280,9 @@
     "title": "Buy Order Created, Pay the Seller within",
     "titleSeller": "Sell Order Created, Wait for Payment within",
     "orderId": "Order ID",
-    "fiatAmount": "Fiat Amount",
+    "fiatAmount": "You Pay",
     "price": "Price",
-    "receiveQuantity": "Receive Quantity",
+    "receiveQuantity": "You Receive",
     "step1": "Order Created",
     "step2": "Transfer the fiat amount",
     "step3buying": "Notify Seller",
@@ -299,7 +306,11 @@
     "bannerTitle": "Active orders"
   },
   "UserMe": {
-    "updatingAliasError": "An error ocurred updating your alias"
+    "updatingAliasError": "An error ocurred updating your alias",
+    "referalCode": "Referral code",
+    "remainingUses": "Remaining uses",
+    "referralUsed": "Referal code already in use. Please choose a different code.",
+    "defaultReferralError": "An error ocurred updating your referral code."
   },
   "PhoneOTP": {
     "title": "Confirm your phone number",
@@ -317,5 +328,8 @@
     "sendAction": "Send OTP",
     "otpLabel": "Enter the OTP code sent to your email",
     "sendAgain": "Send again"
+  },
+  "Clipboard": {
+    "copied": "Copied to clipboard"
   }
 }

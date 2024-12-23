@@ -62,6 +62,7 @@ const useExpress = (): UseExpressValues => {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>();
   const [userMethod, setUserMethod] = useState<UserPaymentMethod>();
   const [lastModified, setLastModified] = useState<'pay' | 'receive'>('pay');
+  const [paramsChecked, setParamsChecked] = useState<boolean>(false);
 
   const getData = async (values: PriceEstimationDTO) =>
     await expressRepository.getPriceEstimation({
@@ -71,6 +72,7 @@ const useExpress = (): UseExpressValues => {
     });
 
   const handlePay = (payAmount: string) => {
+    setPay(payAmount);
     setLastModified('pay');
 
     if (!data?.price) {
@@ -102,6 +104,7 @@ const useExpress = (): UseExpressValues => {
   };
 
   const handleReceive = (receiveAmount: string) => {
+    setReceive(receiveAmount);
     setLastModified('receive');
     if (!data?.price) {
       return;
@@ -167,6 +170,24 @@ const useExpress = (): UseExpressValues => {
   }, []);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    const initialOrderType = params.get('orderType') as OrderType | undefined;
+    const initialPay = params.get('pay');
+    const initialReceive = params.get('receive');
+
+    if (initialOrderType) {
+      setOrderType(initialOrderType);
+    }
+    if (initialPay) {
+      handlePay(initialPay);
+    }
+    if (initialReceive) {
+      handleReceive(initialReceive);
+    }
+  }, []);
+
+  useEffect(() => {
     fetchData();
 
     const intervalId = setInterval(fetchData, 15000);
@@ -189,12 +210,14 @@ const useExpress = (): UseExpressValues => {
   }, [data]);
 
   useEffect(() => {
+    if (!paramsChecked) {
+      return;
+    }
     setPay('');
     setReceive('');
   }, [orderType]);
 
   useEffect(() => {
-    setPay('');
     if (orderType === 'buy' && payCurrency) {
       setQuote(payCurrency.symbol);
     }
@@ -204,7 +227,6 @@ const useExpress = (): UseExpressValues => {
   }, [payCurrency]);
 
   useEffect(() => {
-    setReceive('');
     if (orderType === 'buy' && receiveCurrency) {
       setBase(receiveCurrency.symbol);
     }
@@ -217,14 +239,40 @@ const useExpress = (): UseExpressValues => {
     if (!fiatCurrencies || !cryptoCurrencies) {
       return;
     }
+    const params = new URLSearchParams(window.location.search);
+    const initialBase = params.get('base');
+    const initialQuote = params.get('quote');
+    if (initialBase) {
+      if (orderType === 'buy') {
+        setReceiveCurrency(cryptoCurrencies.find((c) => c.id === initialBase));
+      } else {
+        setPayCurrency(cryptoCurrencies.find((c) => c.id === initialBase));
+      }
+    }
+    if (initialQuote) {
+      if (orderType === 'buy') {
+        setPayCurrency(fiatCurrencies.find((c) => c.id === initialQuote));
+      } else {
+        setReceiveCurrency(fiatCurrencies.find((c) => c.id === initialQuote));
+      }
+    }
     if (orderType === 'buy') {
-      setPayCurrency(fiatCurrencies[0]);
-      setReceiveCurrency(cryptoCurrencies[0]);
+      if (!initialBase) {
+        setReceiveCurrency(cryptoCurrencies[0]);
+      }
+      if (!initialQuote) {
+        setPayCurrency(fiatCurrencies[0]);
+      }
     }
     if (orderType === 'sell') {
-      setPayCurrency(cryptoCurrencies[0]);
-      setReceiveCurrency(fiatCurrencies[0]);
+      if (!initialBase) {
+        setPayCurrency(cryptoCurrencies[0]);
+      }
+      if (!initialQuote) {
+        setReceiveCurrency(fiatCurrencies[0]);
+      }
     }
+    setParamsChecked(true);
   }, [fiatCurrencies, cryptoCurrencies, orderType]);
 
   return {

@@ -10,6 +10,7 @@ import { requestWithdraw } from '@/modules/users/repository/requestWithdraw';
 import { updateAlias } from '@/modules/users/repository/updateAlias';
 import { updatePassword } from '@/modules/users/repository/updatePassword';
 import { updatePhone } from '@/modules/users/repository/updatePhone';
+import { updateReferral } from '@/modules/users/repository/updateReferral';
 import { userMe } from '@/modules/users/repository/userMe';
 
 const repository = {
@@ -21,6 +22,7 @@ const repository = {
   getPaymentMethods,
   addPaymentMethod,
   updateAlias,
+  updateReferral,
   requestPhoneOtp,
   confirmPhoneOtp,
   requestWithdraw,

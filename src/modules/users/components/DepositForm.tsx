@@ -1,11 +1,11 @@
 'use client';
 
-import { ClipboardIcon } from '@radix-ui/react-icons';
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useRef, useState } from 'react';
 import { CgSpinner } from 'react-icons/cg';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
+import Clipboard from '@/modules/common/shared-ui/components/Clipboard';
 import { Button } from '@/modules/common/ui/components/button';
 import { Combobox } from '@/modules/common/ui/components/combobox';
 import { ComboboxItem } from '@/modules/common/ui/components/comboboxItem';
@@ -125,15 +125,7 @@ const DepositForm = () => {
             <span className='flex flex-col py-6'>
               <span className=' flex items-center gap-2'>
                 <p className='text-3xl font-bold'>{t('address')}</p>
-                <Button
-                  variant='ghost'
-                  size='icon'
-                  onClick={() => {
-                    void navigator.clipboard.writeText(depositAddress.address);
-                  }}
-                >
-                  <ClipboardIcon className='h-5 w-5' />
-                </Button>
+                <Clipboard text={depositAddress.address} />
               </span>
               <p className='font-mono'>{depositAddress.address}</p>
             </span>

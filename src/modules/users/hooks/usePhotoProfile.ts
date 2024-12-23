@@ -17,7 +17,6 @@ const usePhotoProfile = (userId?: string): [string | undefined, boolean] => {
     try {
       const url = await getPhoto(userId ?? session?.user.id ?? '');
 
-      console.log(url);
       if (!url) {
         return;
       }
