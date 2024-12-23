@@ -22,6 +22,9 @@ export const register = async (values: RegisterDTO): Promise<RegisterResponse> =
     if (res.error === 'Email already registered') {
       error = 'emailTakenError';
     }
+    if (res.error === 'A valid invitation code is required.') {
+      error = 'invitationError';
+    }
 
     return { error: t(error), data: null };
   }

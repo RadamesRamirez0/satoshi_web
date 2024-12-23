@@ -156,6 +156,7 @@ const MyAnnouncementsTable = ({ session }: MyAnnouncementsTableProps) => {
               <TableHead>Type</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Available/Order Limit</TableHead>
+              <TableHead>Payment Method</TableHead>
               <TableHead>Creation time</TableHead>
               <TableHead>Status</TableHead>
             </TableRow>

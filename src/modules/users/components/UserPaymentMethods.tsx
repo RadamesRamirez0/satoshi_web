@@ -1,6 +1,6 @@
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useTranslations } from 'next-intl';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
 import { Badge } from '@/modules/common/ui/components/badge';
@@ -13,6 +13,8 @@ import {
 } from '@/modules/common/ui/components/dialog';
 import { cn } from '@/modules/common/ui/lib/utils';
 import { capitalizeSnakedWords } from '@/modules/common/utils/strings';
+import { PaymentMethod } from '@/modules/p2p/models/paymentMethod';
+import { p2pRepository } from '@/modules/p2p/repository';
 import AddUserPaymentMethod from '@/modules/users/components/AddUserPaymentMethod';
 import {
   UserPaymentMethodsContext,
@@ -35,6 +37,20 @@ const UserPaymentMethods: FC<UserPaymentMethodsProps> = ({
   const Component = modal ? DialogContent : 'div';
   const t = useTranslations('UserPaymentMethods');
   const [openAdd, setOpenAdd] = useState(false);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>();
+
+  useEffect(() => {
+    if (!session?.token) {
+      return;
+    }
+
+    void p2pRepository.paymentMethods({ token: session.token }).then((methods) => {
+      if (methods.error || !methods.data) {
+        return;
+      }
+      setPaymentMethods(methods.data);
+    });
+  }, [session?.token]);
 
   if (!session?.token) {
     return null;
@@ -70,7 +86,8 @@ const UserPaymentMethods: FC<UserPaymentMethodsProps> = ({
                     )}
                   >
                     <Badge className='text-sm' variant='secondary'>
-                      {capitalizeSnakedWords(method.payment_method_id)}
+                      {paymentMethods?.find((p) => p.id === method.payment_method_id)
+                        ?.name ?? ''}
                     </Badge>
                     <div className='flex flex-col items-start w-full'>
                       {Object.entries(method.payment_method_data).map(([key, value]) => (

@@ -91,6 +91,7 @@
     "toastSuccess": "Cuenta creada exitosamente",
     "defaultError": "Ocurrió un error. Inténtalo de nuevo más tarde",
     "emailTakenError": "Correo ya registrado",
+    "invitationError": "Código de invitación inválido",
     "loginLabel": "Inicia sesión"
   },
   "Verification": {
@@ -267,8 +268,8 @@
     "title": "Selecciona el método de pago"
   },
   "OrderView": {
-    "title": "Orden creada, paga al vendedor en",
-    "titleSeller": "Order creada, espera el pago en",
+    "title": "Orden de compra creada, paga al vendedor en",
+    "titleSeller": "Orden de venta creada, espera el pago en",
     "orderId": "ID de la orden",
     "fiatAmount": "Monto en fiat",
     "price": "Precio",
@@ -284,7 +285,8 @@
     "cancelOrder": "Cancelar orden",
     "cryptoReleased": "Cripto liberado exitosamente",
     "notifySellerSuccess": "Vendedor notificado exitosamente",
-    "pendingRelease": "Liberación pendiente",
+    "pendingRelease": "Liberación de cripto pendiente por vendedor",
+    "pendingSellerRelease": "Liberación pendiente. Libera la cripto",
     "orderCompleted": "Orden Completada",
     "orderAppeal": "Orden en Apelación",
     "orderCanceled": "Orden Cancelada",

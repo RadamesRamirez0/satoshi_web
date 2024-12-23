@@ -37,7 +37,7 @@ export const ExpressAction = () => {
           order_type: orderType,
           from_currency_id: payCurrency?.id ?? '',
           to_currency_id: receiveCurrency?.id ?? '',
-          payment_method_id: paymentMethod,
+          payment_method_id: paymentMethod.id,
         },
       })
       .then((d) => {

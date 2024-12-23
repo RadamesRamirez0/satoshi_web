@@ -92,6 +92,7 @@
     "toastSuccess": "Succesfully created account",
     "defaultError": "An error ocurred. Try again later",
     "emailTakenError": "Email already registered",
+    "invitationError": "A valid invitation code is required.",
     "loginLabel": "Log In"
   },
   "Verification": {
@@ -269,8 +270,8 @@
     "title": "Select Payment Method"
   },
   "OrderView": {
-    "title": "Order Created, Pay the Seller within",
-    "titleSeller": "Order Created, Wait for Payment within",
+    "title": "Buy Order Created, Pay the Seller within",
+    "titleSeller": "Sell Order Created, Wait for Payment within",
     "orderId": "Order ID",
     "fiatAmount": "Fiat Amount",
     "price": "Price",
@@ -286,7 +287,8 @@
     "cancelOrder": "Cancel Order",
     "cryptoReleased": "Crypto released successfully",
     "notifySellerSuccess": "Notified seller successfully",
-    "pendingRelease": "Pending Release",
+    "pendingRelease": "Pending Crypto Release by Seller",
+    "pendingSellerRelease": "Pending Crypto Release. Release the crypto",
     "orderCompleted": "Order Completed",
     "orderAppeal": "Order on Appeal",
     "orderCanceled": "Order Canceled",

@@ -20,7 +20,7 @@ const HowToSection = () => {
           <CardContent className='space-y-6 pt-8 pb-12'>
             <Image
               src='/svg/buyStep1.svg'
-              alt='Step 1'
+              alt='Compra rápida de criptomonedas con Satoshi Payments Express paso 1'
               width={960}
               height={540}
               className='w-full'
@@ -33,7 +33,7 @@ const HowToSection = () => {
           <CardContent className='space-y-6 pt-8 pb-12'>
             <Image
               src='/svg/buyStep2.svg'
-              alt='Step 2'
+              alt='Compra rápida de criptomonedas con Satoshi Payments Express paso 2'
               width={960}
               height={540}
               className='w-full'
@@ -48,7 +48,7 @@ const HowToSection = () => {
           <CardContent className='space-y-6 pt-8 pb-12'>
             <Image
               src='/svg/buyStep3.svg'
-              alt='Step 3'
+              alt='Compra rápida de criptomonedas con Satoshi Payments Express paso 3'
               width={960}
               height={540}
               className='w-full'

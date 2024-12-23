@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
 import { TooltipWithIcon } from '@/modules/common/shared-ui/components/TooltipWithIcon';
@@ -15,11 +15,12 @@ import {
   TooltipProvider,
 } from '@/modules/common/ui/components/tooltip';
 import { TabsContent } from '@/modules/common/ui/components/widget-tabs';
-import { capitalizeSnakedWords } from '@/modules/common/utils/strings';
 import { ExpressAction } from '@/modules/express/components/ExpressAction';
 import SelectPaymentMethod from '@/modules/express/components/SelectPaymentMethod';
 import { useExpressContext } from '@/modules/express/contexts/ExpressContext';
 import { OrderType } from '@/modules/express/models/orderType';
+import { PaymentMethod } from '@/modules/p2p/models/paymentMethod';
+import { p2pRepository } from '@/modules/p2p/repository';
 import UserPaymentMethods from '@/modules/users/components/UserPaymentMethods';
 
 export interface BuySellContent {
@@ -28,6 +29,7 @@ export interface BuySellContent {
 
 export const BuySellContent: FC<BuySellContent> = ({ type }) => {
   const [selectingPayment, setSelectingPayment] = useState(false);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>();
   let payDecimals = 2;
   let receiveDecimals = 8;
 
@@ -37,6 +39,19 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
   }
 
   const session = useSession();
+
+  useEffect(() => {
+    if (!session?.token) {
+      return;
+    }
+
+    void p2pRepository.paymentMethods({ token: session.token }).then((methods) => {
+      if (methods.error || !methods.data) {
+        return;
+      }
+      setPaymentMethods(methods.data);
+    });
+  }, [session?.token]);
 
   const t = useTranslations('BuySell');
   const {
@@ -168,8 +183,8 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
                   >
                     {(type === 'buy' && paymentMethod?.name) ?? t('selectPaymentMethod')}
                     {(type === 'sell' &&
-                      userMethod?.id &&
-                      capitalizeSnakedWords(userMethod.payment_method_id)) ??
+                      paymentMethods?.find((p) => userMethod?.payment_method_id === p.id)
+                        ?.name) ??
                       t('selectPaymentMethod')}
                   </Button>
                 )}

@@ -237,7 +237,7 @@ export const P2PTable: FC = () => {
             {data.data.map(
               ({
                 amount,
-
+                user_id,
                 id,
                 maximum_time_for_transaction_completion,
                 maximum_order_size,
@@ -251,6 +251,7 @@ export const P2PTable: FC = () => {
               }) => (
                 <TableRow key={id}>
                   <AdvertiserCell
+                    announcerId={user_id}
                     username={user_alias}
                     transactionTime={maximum_time_for_transaction_completion}
                   />
@@ -263,7 +264,11 @@ export const P2PTable: FC = () => {
                     base={base}
                   />
                   <PaymentCell payments={[payment_method]} />
-                  <TradeCell announcementId={id} announcementType={type as OrderType} />
+                  <TradeCell
+                    announcementId={id}
+                    announcementType={type as OrderType}
+                    base={base}
+                  />
                 </TableRow>
               ),
             )}

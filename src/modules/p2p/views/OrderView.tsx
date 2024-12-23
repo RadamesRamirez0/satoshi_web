@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/dist/client/components/navigation';
 import { useTranslations } from 'next-intl';
 import React, { FC, useEffect, useState } from 'react';
 
@@ -29,6 +30,7 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
   const [me, setMe] = useState<UserMeResponse>();
   const [order, setOrder] = useState<GetOrderResponse>();
   const [messages, setMessages] = useState<Message[]>();
+  const navigate = useRouter();
 
   const getImage = async (
     messageId: string,
@@ -157,6 +159,16 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
     return () => clearInterval(interval);
   }, [session?.token]);
 
+  useEffect(() => {
+    if (!order || !session || 'detail' in order) {
+      return;
+    }
+
+    if (![order.maker_user_id, order.taker_user_id].includes(session.user.id)) {
+      navigate.replace('/');
+    }
+  }, [order, session]);
+
   if (order && 'detail' in order) {
     return <div>{order.detail}</div>;
   }
@@ -194,7 +206,7 @@ const OrderView: FC<OrderViewProps> = ({ id }) => {
                 order.status === 'pending'
                   ? 'titleSeller'
                   : order.status === 'waiting_seller_release'
-                    ? 'pendingRelease'
+                    ? 'pendingSellerRelease'
                     : order.status === 'on_appeal'
                       ? 'orderAppeal'
                       : 'orderCompleted',

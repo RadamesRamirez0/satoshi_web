@@ -149,12 +149,12 @@ const RegisterForm: FC<RegisterFormProps> = ({ redirectTo }) => {
               name='tos'
             />
             <span>
-              <Label htmlFor='tos' className='text-sm'>
+              <Label htmlFor='tos' className='text-sm flex items-center gap-0'>
                 {t('terms1')}
+                <Button asChild variant='link' className='p-0 ml-1'>
+                  <Link href='/terminos-y-condiciones'>{t('terms2')}</Link>
+                </Button>
               </Label>
-              <Button asChild variant='link'>
-                <Link href='/terms'>{t('terms2')}</Link>
-              </Button>
             </span>
             {touched.tos && errors.tos && (
               <HintText variant='error'>{errors.tos}</HintText>

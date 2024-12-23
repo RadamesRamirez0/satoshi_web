@@ -10,10 +10,12 @@ import { capitalizeSnakedWords, capitalizeWords } from '@/modules/common/utils/s
 import { OrderType } from '@/modules/express/models/orderType';
 import TakeAnnouncement from '@/modules/p2p/components/TakeAnnouncement';
 import { paymentsColors } from '@/modules/p2p/constants/paymentsColors';
+import PhotoProfile from '@/modules/users/components/PhotoProfile';
 
 export interface AdvertiserCellProps
   extends React.TdHTMLAttributes<HTMLTableCellElement> {
   username: string;
+  announcerId: string;
   // orders: string;
   // completion: string;
   // commendRate: string;
@@ -21,44 +23,46 @@ export interface AdvertiserCellProps
 }
 
 export const AdvertiserCell = React.forwardRef<HTMLTableCellElement, AdvertiserCellProps>(
-  ({ className, username, transactionTime, ...props }, ref) => (
-    <td
-      ref={ref}
-      className={cn(
-        'p-2 py-4 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] space-y-2',
-        className,
-      )}
-      {...props}
-    >
-      <div className='flex items-center gap-2'>
-        <div className='size-5 bg-white' />
-        <p className='font-medium text-lg'>{username}</p>
-        <CheckIcon className='w-4 h-4 text-primary' />
-      </div>
-      <Image
-        src='/svg/satoshi_logo.svg'
-        width={119}
-        height={31}
-        alt='Satoshi Logo'
-        className='w-24'
-      />
-      {/* <div className='flex items-center gap-2 font-medium text-sm'>
+  ({ className, username, announcerId, transactionTime, ...props }, ref) => {
+    return (
+      <td
+        ref={ref}
+        className={cn(
+          'p-2 py-4 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] space-y-2',
+          className,
+        )}
+        {...props}
+      >
+        <div className='flex items-center gap-2'>
+          <PhotoProfile userId={announcerId} className='size-10' />
+          <p className='font-medium text-lg'>{username}</p>
+          <CheckIcon className='w-4 h-4 text-primary' />
+        </div>
+        {/* <div className='flex items-center gap-2 font-medium text-sm'>
         <p>{`${orders} orders`}</p>
         <p>|</p>
         <p>{`${completion} completion`}</p>
-      </div> */}
-      <div className='flex items-center gap-2 text-sm font-medium'>
-        {/* <span className='flex items-center gap-2'>
+        </div> */}
+        <div className='flex items-center gap-2 text-sm font-medium'>
+          <Image
+            src='/svg/satoshi_logo.svg'
+            width={119}
+            height={31}
+            alt='Satoshi Logo'
+            className='w-24'
+          />
+          {/* <span className='flex items-center gap-2'>
           <FaThumbsUp className='size-3 ' />
           {commendRate}
         </span> */}
-        <span className='flex items-center gap-2'>
-          <ClockIcon className='size-3' />
-          {transactionTime / 60} min
-        </span>
-      </div>
-    </td>
-  ),
+          <span className='flex items-center gap-2'>
+            <ClockIcon className='size-3' />
+            {transactionTime / 60} min
+          </span>
+        </div>
+      </td>
+    );
+  },
 );
 AdvertiserCell.displayName = 'AdvertiserCell';
 
@@ -149,10 +153,11 @@ PaymentCell.displayName = 'PaymentCell';
 export interface TradeCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
   announcementId: string;
   announcementType: OrderType;
+  base: string;
 }
 
 export const TradeCell = React.forwardRef<HTMLTableCellElement, TradeCellProps>(
-  ({ className, announcementId, announcementType, ...props }, ref) => {
+  ({ className, announcementId, announcementType, base, ...props }, ref) => {
     return (
       <td
         ref={ref}
@@ -168,7 +173,9 @@ export const TradeCell = React.forwardRef<HTMLTableCellElement, TradeCellProps>(
               variant={announcementType === 'sell' ? 'green' : 'orange'}
               className='font-bold'
             >
-              {announcementType === 'sell' ? 'Buy TBTC' : 'Sell TBTC'}
+              {announcementType === 'sell'
+                ? `Compra ${base.toUpperCase()}`
+                : `Vende ${base.toUpperCase()}`}
             </Button>
           </DialogTrigger>
           <TakeAnnouncement announcementId={announcementId} key={announcementId} />

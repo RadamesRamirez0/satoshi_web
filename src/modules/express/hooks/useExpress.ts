@@ -152,7 +152,8 @@ const useExpress = (): UseExpressValues => {
       quote_currency: quote.toLowerCase(),
       order_type: orderType,
       amount_in_quote_currency: (orderType === 'buy' ? receive : pay) || undefined,
-      payment_method: paymentMethod?.id ?? undefined,
+      payment_method:
+        orderType === 'buy' ? paymentMethod?.id : userMethod?.payment_method_id,
     }).then((r) => {
       if (!r.data) {
         return;
@@ -171,7 +172,7 @@ const useExpress = (): UseExpressValues => {
     const intervalId = setInterval(fetchData, 15000);
 
     return () => clearInterval(intervalId);
-  }, [base, quote, orderType, pay, receive, paymentMethod]);
+  }, [base, quote, orderType, pay, receive, paymentMethod, userMethod]);
 
   useEffect(() => {
     if (!data) {

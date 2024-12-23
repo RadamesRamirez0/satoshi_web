@@ -45,7 +45,7 @@ const ForgotPasswordView = () => {
 
   return (
     <div className='flex justify-center items-center h-full'>
-      <Card className='w-[25rem]'>
+      <Card className='w-[26rem] md:px-4 md:py-6'>
         <CardHeader className='space-y-8'>
           <span className='flex gap-3 items-center'>
             <Link
@@ -59,7 +59,7 @@ const ForgotPasswordView = () => {
             </Link>
             <h1 className='text-xl font-black'>{t('title')}</h1>
           </span>
-          <p className='text-lg'>{t('description')}</p>
+          <p className='text-lg text-pretty'>{t('description')}</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={formik.handleSubmit}>
@@ -76,7 +76,12 @@ const ForgotPasswordView = () => {
             {formik.touched.email && formik.errors.email && (
               <HintText variant='error'>{t('emailError')}</HintText>
             )}
-            <Button type='submit' size='lg' className='w-full mt-8'>
+            <Button
+              type='submit'
+              size='lg'
+              className='w-full mt-8'
+              loading={formik.isSubmitting}
+            >
               {t('mainAction')}
             </Button>
           </form>
