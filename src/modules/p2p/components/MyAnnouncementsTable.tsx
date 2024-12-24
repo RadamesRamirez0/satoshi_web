@@ -29,6 +29,7 @@ import {
 } from '@/modules/common/ui/components/table';
 import parseTsToDate from '@/modules/common/utils/parseTsToDate';
 import { capitalizeWords } from '@/modules/common/utils/strings';
+import { toast } from '@/modules/common/utils/toast';
 import { Currency } from '@/modules/cripto/models/currency';
 import { criptoRepository } from '@/modules/cripto/repository';
 import { OrderType } from '@/modules/express/models/orderType';
@@ -50,19 +51,21 @@ const MyAnnouncementsTable = ({ session }: MyAnnouncementsTableProps) => {
   const [base, setBase] = useState<Currency>();
   const [quote, setQuote] = useState<Currency>();
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>();
+  const [actionLoading, setActionLoading] = useState(false);
   const t = useTranslations('P2PView');
+  const t2 = useTranslations('MyAnnouncements');
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['myAnnouncements', orderType, paymentMethod, quote, base, session],
     queryFn: () =>
-      p2pRepository.getAnnouncements({
+      p2pRepository.myAnnouncements({
         queryParams: {
           type: orderType,
           payment_method: paymentMethod?.id,
           quote: quote?.id,
           base: base?.id,
-          user_id: session.user.id,
         },
+        token: session.token,
       }),
   });
   const { data: currencies, isLoading: loadingCurrencies } = useQuery({
@@ -74,6 +77,76 @@ const MyAnnouncementsTable = ({ session }: MyAnnouncementsTableProps) => {
     queryKey: ['paymentMethods'],
     queryFn: () => p2pRepository.paymentMethods({}),
   });
+
+  const pauseAnnouncement = async (id: string) => {
+    if (!session.token) {
+      return;
+    }
+
+    setActionLoading(true);
+    const res = await p2pRepository.pauseAnnouncement({
+      token: session.token,
+      pathParams: { announcement_id: id },
+      body: undefined,
+    });
+
+    setActionLoading(false);
+    if (res.error) {
+      toast.error(res.error);
+
+      return;
+    }
+
+    toast.success(t2('announcementPaused'));
+
+    void refetch();
+  };
+  const resumeAnnouncement = async (id: string) => {
+    if (!session.token) {
+      return;
+    }
+
+    setActionLoading(true);
+    const res = await p2pRepository.resumeAnnouncement({
+      token: session.token,
+      pathParams: { announcement_id: id },
+      body: undefined,
+    });
+
+    if (res.error) {
+      toast.error(res.error);
+
+      return;
+    }
+    setActionLoading(false);
+
+    toast.success(t2('announcementActive'));
+    void refetch();
+  };
+
+  const closeAnnouncement = async (id: string) => {
+    if (!session.token) {
+      return;
+    }
+
+    setActionLoading(true);
+    const res = await p2pRepository.closeAnnouncement({
+      token: session.token,
+      pathParams: { announcement_id: id },
+      body: undefined,
+    });
+
+    setActionLoading(false);
+    if (res.error) {
+      toast.error(res.error);
+
+      return;
+    }
+
+    toast.success(t2('announcementClosed'));
+
+    void refetch();
+  };
 
   return (
     <>
@@ -161,12 +234,13 @@ const MyAnnouncementsTable = ({ session }: MyAnnouncementsTableProps) => {
           <Table className='w-full overflow-clip'>
             <TableHeader>
               <TableRow>
-                <TableHead>Type</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Available/Order Limit</TableHead>
-                <TableHead>Payment Method</TableHead>
-                <TableHead>Creation time</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead>{t2('type')}</TableHead>
+                <TableHead>{t('price')}</TableHead>
+                <TableHead>{t2('available')}</TableHead>
+                <TableHead>{t2('paymentMethod')}</TableHead>
+                <TableHead>{t2('creationTime')}</TableHead>
+                <TableHead>{t2('status')}</TableHead>
+                <TableHead>{t2('action')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -204,6 +278,35 @@ const MyAnnouncementsTable = ({ session }: MyAnnouncementsTableProps) => {
                     <PaymentCell payments={[payment_method]} />
                     <td>{parseTsToDate(creation_time).toLocaleString()}</td>
                     <StatusCell>{status}</StatusCell>
+                    <td className=''>
+                      <span className='flex gap-1.5'>
+                        {status === 'open' && (
+                          <Button
+                            variant='orange'
+                            onClick={() => void pauseAnnouncement(id)}
+                            loading={actionLoading}
+                          >
+                            Pausar
+                          </Button>
+                        )}
+                        {status === 'paused' && (
+                          <Button
+                            onClick={() => void resumeAnnouncement(id)}
+                            loading={actionLoading}
+                          >
+                            Activar
+                          </Button>
+                        )}
+                        {status !== 'closed' && (
+                          <Button
+                            variant='destructive'
+                            onClick={() => void closeAnnouncement(id)}
+                          >
+                            Cerrar
+                          </Button>
+                        )}
+                      </span>
+                    </td>
                   </TableRow>
                 ),
               )}

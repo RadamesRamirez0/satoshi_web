@@ -329,5 +329,17 @@
   },
   "Clipboard": {
     "copied": "Copiado a portapapeles"
+  },
+  "MyAnnouncements": {
+    "type": "Tipo",
+    "price": "Precio",
+    "available": "Disponible/Limite de orden",
+    "paymentMethod": "Método de pago",
+    "creationTime": "Fecha de creación",
+    "status": "Estado",
+    "action": "Acción",
+    "announcementClosed": "Anuncio cerrado",
+    "announcementPaused": "Anuncio pausado",
+    "announcementActive": "Anuncio activo"
   }
 }

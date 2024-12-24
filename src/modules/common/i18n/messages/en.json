@@ -331,5 +331,17 @@
   },
   "Clipboard": {
     "copied": "Copied to clipboard"
+  },
+  "MyAnnouncements": {
+    "type": "Type",
+    "price": "Price",
+    "available": "Available/Order Limit",
+    "paymentMethod": "Payment Method",
+    "creationTime": "Creation Time",
+    "status": "Status",
+    "action": "Action",
+    "announcementClosed": "Announcement closed",
+    "announcementPaused": "Announcement paused",
+    "announcementActive": "Announcement active"
   }
 }
