@@ -48,6 +48,13 @@ module.exports = {
     'no-console': 'off',
     camelcase: 'off',
     'no-use-before-define': 'off',
+    '@typescript-eslint/prefer-nullish-coalescing': 'warn',
+    '@typescript-eslint/no-unnecessary-condition': 'warn',
+    '@typescript-eslint/no-unsafe-assignment': 'warn',
+    '@typescript-eslint/no-unsafe-call': 'warn',
+    '@typescript-eslint/no-unsafe-member-access': 'warn',
+    'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-vars': 'warn',
     'jsx-a11y/anchor-is-valid': [
       'error',
       {

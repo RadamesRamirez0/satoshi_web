@@ -341,5 +341,55 @@
     "announcementClosed": "Anuncio cerrado",
     "announcementPaused": "Anuncio pausado",
     "announcementActive": "Anuncio activo"
+  },
+  "P2PTable": {
+    "advertisers": "Anunciantes",
+    "price": "Precio",
+    "availableOrderLimit": "Disponible/Limite de orden",
+    "payment": "Pago",
+    "trade": "Operar",
+    "vsMarket": "vs mercado",
+    "minOrder": "Orden Min",
+    "maxOrder": "Orden Max",
+    "instant": "instantáneo",
+    "orderBy": "Ordenar por"
+  },
+  "Express": {
+    "setPayAmount": "establecer cantidad_a_pagar",
+    "setSellAmount": "establecer cantidad_a_vender",
+    "calculateReceiving": "calcular recibido",
+    "rate": "tasa:",
+    "fee": "comisión:",
+    "status": "estado:",
+    "readyToTrade": "listo para operar",
+    "selectPaymentMethod": "seleccionar método de pago",
+    "terminalId": "satoshi-express",
+    "buy": "comprar",
+    "sell": "vender",
+    "executeAction": "ejecutar {action} {currency}",
+    "verifyEmail": "verificar email",
+    "verifyPhone": "verificar teléfono",
+    "verifyIdentity": "verificar identidad",
+    "loginRequired": "login requerido"
+  },
+  "Auth": {
+    "terminalLoginId": "satoshi-auth",
+    "terminalRegisterId": "satoshi-register",
+    "initializeSession": "inicializar_sesión",
+    "createUserAccount": "crear_cuenta_usuario",
+    "alreadyRegistered": "¿ya_registrado?",
+    "loginAction": "iniciar_sesión",
+    "registerAction": "registrarse",
+    "depositAction": "depositar"
+  },
+  "Languages": {
+    "english": "English",
+    "spanish": "Español",
+    "currentLang": "ES"
+  },
+  "Footer": {
+    "termsAndConditions": "Términos y condiciones del servicio",
+    "riskNotice": "Aviso de riesgo",
+    "legalDisclaimer": "El comercio de activos digitales conlleva un riesgo significativo y puede resultar en la pérdida de su capital invertido. No debe invertir más de lo que pueda permitirse perder y debe asegurarse de comprender completamente los riesgos involucrados. Antes de operar, considere su nivel de experiencia, objetivos de inversión y busque asesoramiento financiero independiente si es necesario. Es su responsabilidad determinar si tiene permitido usar los servicios de Satoshi según los requisitos legales de su país de residencia."
   }
 }

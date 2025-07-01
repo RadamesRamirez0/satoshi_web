@@ -54,47 +54,82 @@ export const ExpressAction = () => {
   };
 
   if (session?.user.email_is_verified && session.user.kyc_level > 0) {
+    const isDisabled =
+      !paymentMethod ||
+      !pay ||
+      !receive ||
+      !quote ||
+      pay === '0' ||
+      receive === '0' ||
+      pay === '' ||
+      receive === '';
+
     return (
       <Button
-        className='w-full rounded-xl'
+        className={`w-full rounded-xl font-mono text-sm transition-all duration-300 ${
+          orderType === 'buy'
+            ? 'bg-gradient-to-r from-primary to-emerald-500 hover:from-emerald-500 hover:to-primary text-black shadow-lg shadow-primary/20 hover:shadow-primary/30'
+            : 'bg-gradient-to-r from-red-500 to-orange-500 hover:from-orange-500 hover:to-red-500 text-white shadow-lg shadow-red-500/20 hover:shadow-red-500/30'
+        } ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:scale-[1.02]'}`}
         size='xl'
-        disabled={
-          !paymentMethod ||
-          !pay ||
-          !receive ||
-          !quote ||
-          pay === '0' ||
-          receive === '0' ||
-          pay === '' ||
-          receive === ''
-        }
+        disabled={isDisabled}
         onClick={() => createOrder()}
       >
-        {`${t(orderType === 'buy' ? 'buy' : 'sell')} ${base}`}
+        <span className='flex items-center gap-2'>
+          <span className='text-xs'>{'>'}</span>
+          {`execute ${orderType}_${base?.toLowerCase()}`}
+        </span>
       </Button>
     );
   }
 
   if (session?.user.email_is_verified === false) {
     return (
-      <Button className='w-full rounded-xl' variant='orange' size='xl' asChild>
-        <Link href='/users/me?verification=email'>{t('verifyEmail')}</Link>
+      <Button
+        className='w-full rounded-xl font-mono text-sm bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-yellow-500 hover:to-orange-500 text-black shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transition-all duration-300 hover:scale-[1.02]'
+        size='xl'
+        asChild
+      >
+        <Link href='/users/me?verification=email'>
+          <span className='flex items-center gap-2'>
+            <span className='text-xs'>{'>'}</span>
+            verify_email
+          </span>
+        </Link>
       </Button>
     );
   }
 
   if (session?.user.phone_number_is_verified === false) {
     return (
-      <Button className='w-full rounded-xl' variant='green' size='xl' asChild>
-        <Link href='/users/me?verification=phone'>{t('verifyPhone')}</Link>
+      <Button
+        className='w-full rounded-xl font-mono text-sm bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-teal-500 hover:to-emerald-500 text-white shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-[1.02]'
+        size='xl'
+        asChild
+      >
+        <Link href='/users/me?verification=phone'>
+          <span className='flex items-center gap-2'>
+            <span className='text-xs'>{'>'}</span>
+            verify_phone
+          </span>
+        </Link>
       </Button>
     );
   }
 
   if (session?.user.kyc_level === 0) {
     return (
-      <Button className='w-full rounded-xl' variant='blue' size='xl' asChild>
-        <Link href='/users/me/kyc'>{t('verifyIdentity')}</Link>
+      <Button
+        className='w-full rounded-xl font-mono text-sm bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02]'
+        size='xl'
+        asChild
+      >
+        <Link href='/users/me/kyc'>
+          <span className='flex items-center gap-2'>
+            <span className='text-xs'>{'>'}</span>
+            verify_identity
+          </span>
+        </Link>
       </Button>
     );
   }
@@ -124,9 +159,16 @@ export const ExpressAction = () => {
   }
 
   return (
-    <Button className='w-full rounded-xl' size='xl' asChild>
+    <Button
+      className='w-full rounded-xl font-mono text-sm bg-gradient-to-r from-zinc-700 to-zinc-600 hover:from-zinc-600 hover:to-zinc-500 text-white border border-zinc-500 hover:border-primary/50 shadow-lg shadow-zinc-700/20 hover:shadow-primary/20 transition-all duration-300 hover:scale-[1.02]'
+      size='xl'
+      asChild
+    >
       <Link href={`/auth/login?redirectTo=${encodeURIComponent(redirectTo)}`}>
-        {t('loginSign')}
+        <span className='flex items-center gap-2'>
+          <span className='text-xs'>{'>'}</span>
+          login_required
+        </span>
       </Link>
     </Button>
   );

@@ -2,18 +2,8 @@ import { useTranslations } from 'next-intl';
 import React, { FC, useEffect, useState } from 'react';
 
 import { useSession } from '@/modules/auth/hooks/useSession';
-import { TooltipWithIcon } from '@/modules/common/shared-ui/components/TooltipWithIcon';
-import { Button } from '@/modules/common/ui/components/button';
-import { Card, CardContent, CardFooter } from '@/modules/common/ui/components/card';
-import { Combobox } from '@/modules/common/ui/components/combobox';
-import { ComboboxItem } from '@/modules/common/ui/components/comboboxItem';
 import { Dialog, DialogTrigger } from '@/modules/common/ui/components/dialog';
 import { InputWidget } from '@/modules/common/ui/components/inputWidget';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-} from '@/modules/common/ui/components/tooltip';
 import { TabsContent } from '@/modules/common/ui/components/widget-tabs';
 import { ExpressAction } from '@/modules/express/components/ExpressAction';
 import SelectPaymentMethod from '@/modules/express/components/SelectPaymentMethod';
@@ -28,6 +18,7 @@ export interface BuySellContent {
 }
 
 export const BuySellContent: FC<BuySellContent> = ({ type }) => {
+  const expressT = useTranslations('Express');
   const [selectingPayment, setSelectingPayment] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>();
   let payDecimals = 2;
@@ -77,136 +68,143 @@ export const BuySellContent: FC<BuySellContent> = ({ type }) => {
     setUserMethod,
   } = useExpressContext();
 
+  // Mock data for demo
+  const mockData = {
+    price: type === 'buy' ? '43,285.50' : '43,195.75',
+    fee_percentage: '0.75',
+    minimum_order_amount: type === 'buy' ? '50' : '0.001',
+    maximum_order_amount: type === 'buy' ? '50,000' : '2.5',
+  };
+
+  const mockPayCurrency = payCurrency || {
+    symbol: type === 'buy' ? 'USD' : 'BTC',
+    name: type === 'buy' ? 'US Dollar' : 'Bitcoin',
+  };
+  const mockReceiveCurrency = receiveCurrency || {
+    symbol: type === 'buy' ? 'BTC' : 'USD',
+    name: type === 'buy' ? 'Bitcoin' : 'US Dollar',
+  };
+  const mockBase = base || 'BTC';
+  const mockQuote = quote || 'USD';
+  const mockPayValue = pay || (type === 'buy' ? '1,000.00' : '0.02315');
+  const mockReceiveValue = receive || (type === 'buy' ? '0.02315' : '1,000.47');
+  const mockPaymentMethod = paymentMethod || {
+    name: type === 'buy' ? 'Bank Transfer (ACH)' : 'Coinbase Wallet',
+  };
+
   return (
-    <TabsContent value={type}>
-      <Card className='border-none'>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
-          <CardContent className='space-y-3 relative '>
-            <InputWidget
-              id='pay'
-              label={t(type === 'buy' ? 'buyingSpend' : 'sellingSpend')}
-              value={pay}
-              decimals={payDecimals}
-              onChange={(e) => {
-                setPay(e.target.value);
-                void handlePay(e.target.value);
-              }}
-              error={type === 'buy' ? isErrorQuote : false}
-              placeholder={
-                type === 'sell' && data
-                  ? `Min ${data.minimum_order_amount} Max ${data.maximum_order_amount}`
-                  : ''
-              }
-            >
-              <Combobox
-                id='payCurrency'
-                dropDownClassName='w-full'
-                triggerClassName='absolute right-4 top-0 bottom-0 m-auto z-10'
-                onChange={setPayCurrency}
-                value={payCurrency}
-                align='end'
-                label={payCurrency?.symbol}
+    <TabsContent value={type} className='mt-0 space-y-0'>
+      <div className='space-y-4'>
+        {/* Terminal-style inputs */}
+        <div className='space-y-3 relative'>
+          {/* Command prompt for pay */}
+          <div className='space-y-2'>
+            <div className='font-mono text-xs text-zinc-500'>
+              <span className='text-primary'>{'>'}</span>{' '}
+              {type === 'buy' ? expressT('setPayAmount') : expressT('setSellAmount')}
+            </div>
+            <div className='bg-zinc-900/50 border-l-4 border-primary/50 p-3 rounded-r-lg'>
+              <InputWidget
+                id='pay'
+                label=''
+                value={mockPayValue}
+                decimals={payDecimals}
+                onChange={(e) => {
+                  setPay(e.target.value);
+                  void handlePay(e.target.value);
+                }}
+                error={type === 'buy' ? isErrorQuote : false}
+                placeholder={`Min ${mockData.minimum_order_amount} Max ${mockData.maximum_order_amount}`}
               >
-                {(type === 'buy' ? fiatCurrencies : cryptoCurrencies)?.map((c) => (
-                  <ComboboxItem key={c.id} value={c} subLabel={c.name}>
-                    {c.symbol}
-                  </ComboboxItem>
-                ))}
-              </Combobox>
-            </InputWidget>
-            <InputWidget
-              id='receive'
-              label={t('buyingReceive')}
-              value={receive}
-              decimals={receiveDecimals}
-              onChange={(e) => {
-                setReceive(e.target.value);
-                void handleReceive(e.target.value);
-              }}
-              placeholder={
-                type === 'buy' && data
-                  ? `Min ${data.minimum_order_amount} Max ${data.maximum_order_amount}`
-                  : ''
-              }
-              error={type === 'sell' ? isErrorQuote : false}
-            >
-              <Combobox
-                id='receiveCurrency'
-                dropDownClassName='w-full'
-                triggerClassName='absolute right-4 top-0 bottom-0 m-auto z-10'
-                onChange={setReceiveCurrency}
-                value={receiveCurrency}
-                label={receiveCurrency?.symbol}
-                align='end'
+                <div className='absolute right-2 top-1/2 transform -translate-y-1/2 z-10'>
+                  <span className='text-xs font-mono text-zinc-400 bg-zinc-800/50 px-2 py-1 rounded'>
+                    {mockPayCurrency.symbol}
+                  </span>
+                </div>
+              </InputWidget>
+            </div>
+          </div>
+
+          {/* Arrow indicator */}
+          <div className='flex justify-center'>
+            <div className='text-zinc-600 font-mono text-lg'>↓</div>
+          </div>
+
+          {/* Command prompt for receive */}
+          <div className='space-y-2'>
+            <div className='font-mono text-xs text-zinc-500'>
+              <span className='text-primary'>{'>'}</span> {expressT('calculateReceiving')}
+            </div>
+            <div className='bg-zinc-900/50 border-l-4 border-emerald-500/50 p-3 rounded-r-lg'>
+              <InputWidget
+                id='receive'
+                label=''
+                value={mockReceiveValue}
+                decimals={receiveDecimals}
+                onChange={(e) => {
+                  setReceive(e.target.value);
+                  void handleReceive(e.target.value);
+                }}
+                placeholder={`Min ${mockData.minimum_order_amount} Max ${mockData.maximum_order_amount}`}
+                error={type === 'sell' ? isErrorQuote : false}
               >
-                {(type === 'buy' ? cryptoCurrencies : fiatCurrencies)?.map((c) => (
-                  <ComboboxItem key={c.id} value={c} subLabel={c.name}>
-                    {c.symbol}
-                  </ComboboxItem>
-                ))}
-              </Combobox>
-            </InputWidget>
-          </CardContent>
-          <CardFooter className='flex-col items-start space-y-2 pt-20'>
-            <TooltipProvider>
-              {data?.price && (
-                <span className='flex gap-3 items-center'>
-                  <Tooltip>
-                    <TooltipWithIcon>{t('estimatedPrice')}</TooltipWithIcon>
-                    <TooltipContent>{t('estimatedPriceTooltip')}</TooltipContent>
-                  </Tooltip>
-                  <p className='font-bold'>{`1 ${base} ≈ ${data.price} ${quote}`}</p>
-                </span>
+                <div className='absolute right-2 top-1/2 transform -translate-y-1/2 z-10'>
+                  <span className='text-xs font-mono text-zinc-400 bg-zinc-800/50 px-2 py-1 rounded'>
+                    {mockReceiveCurrency.symbol}
+                  </span>
+                </div>
+              </InputWidget>
+            </div>
+          </div>
+        </div>
+
+        {/* Terminal output */}
+        <div className='bg-zinc-900/30 border border-zinc-700/50 rounded p-4 font-mono text-sm'>
+          <div className='text-zinc-400'>
+            <span className='text-zinc-600'>{expressT('rate')}</span> 1 {mockBase} ={' '}
+            <span className='text-primary'>{mockData.price}</span> {mockQuote}
+          </div>
+          <div className='text-zinc-400 mt-1'>
+            <span className='text-zinc-600'>{expressT('fee')}</span>{' '}
+            <span className='text-orange-400'>{mockData.fee_percentage}%</span>
+          </div>
+          <div className='text-zinc-400 mt-1'>
+            <span className='text-zinc-600'>{expressT('status')}</span>{' '}
+            <span className='text-emerald-400'>{expressT('readyToTrade')}</span>
+          </div>
+        </div>
+
+        {/* Terminal actions */}
+        <div className='space-y-3'>
+          <Dialog open={selectingPayment} onOpenChange={setSelectingPayment}>
+            <DialogTrigger asChild>
+              {session?.token && (
+                <div className='bg-zinc-900/50 border border-zinc-700/50 rounded p-3 hover:border-primary/30 transition-colors duration-200 cursor-pointer'>
+                  <div className='font-mono text-xs text-zinc-500 mb-1'>
+                    <span className='text-primary'>{'>'}</span>{' '}
+                    {expressT('selectPaymentMethod')}
+                  </div>
+                  <div className='text-zinc-300 text-sm'>{mockPaymentMethod.name}</div>
+                </div>
               )}
-              {data?.fee_percentage && (
-                <span className='flex gap-3 items-center pb-1'>
-                  <Tooltip>
-                    <TooltipWithIcon className='text-zinc-400'>
-                      {t('feeRate')}
-                    </TooltipWithIcon>
-                    <TooltipContent>{t('feeRateTooltip')}</TooltipContent>
-                    <p className='font-bold'>{data.fee_percentage}%</p>
-                  </Tooltip>
-                </span>
-              )}
-            </TooltipProvider>
-            <Dialog open={selectingPayment} onOpenChange={setSelectingPayment}>
-              <DialogTrigger asChild>
-                {session?.token && (
-                  <Button
-                    className='w-full text-lg py-6 h-min justify-start rounded-xl'
-                    variant='outline'
-                  >
-                    {(type === 'buy' && paymentMethod?.name) ?? t('selectPaymentMethod')}
-                    {(type === 'sell' &&
-                      paymentMethods?.find((p) => userMethod?.payment_method_id === p.id)
-                        ?.name) ??
-                      t('selectPaymentMethod')}
-                  </Button>
-                )}
-              </DialogTrigger>
-              {type === 'buy' && (
-                <SelectPaymentMethod
-                  onSubmit={(p) => setPaymentMethod(p)}
-                  onClose={() => setSelectingPayment(false)}
-                />
-              )}
-              {type === 'sell' && (
-                <UserPaymentMethods
-                  onSubmit={(p) => setUserMethod(p)}
-                  onClose={() => setSelectingPayment(false)}
-                  modal
-                />
-              )}
-            </Dialog>
-            <ExpressAction />
-          </CardFooter>
-        </form>
-      </Card>
+            </DialogTrigger>
+            {type === 'buy' && (
+              <SelectPaymentMethod
+                onSubmit={(p) => setPaymentMethod(p)}
+                onClose={() => setSelectingPayment(false)}
+              />
+            )}
+            {type === 'sell' && (
+              <UserPaymentMethods
+                onSubmit={(p) => setUserMethod(p)}
+                onClose={() => setSelectingPayment(false)}
+                modal
+              />
+            )}
+          </Dialog>
+          <ExpressAction />
+        </div>
+      </div>
     </TabsContent>
   );
 };
